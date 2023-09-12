@@ -64,6 +64,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         addDetails.isHidden = true
         setupKeyboardDismiss()
         styleViews()
+        print("ABC")
         addAnnotations()
         addDetailsTextView.textColor = UIColor.lightGray
         //homeSportBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
