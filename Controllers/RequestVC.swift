@@ -9,13 +9,17 @@ import UIKit
 
 class RequestVC: UIViewController {
     
+    //MARK: - Variables
     @IBOutlet weak var requestTableView: UITableView!
     @IBOutlet weak var pendingImage: UIButton!
     var isImageRotated = false
+    
+    //MARK: - Override func
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
+    
+    //MARK: - Actions
     @IBAction func requestBackButton(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
             vc.modalPresentationStyle = .fullScreen
@@ -34,6 +38,7 @@ class RequestVC: UIViewController {
     }
 }
 
+  //MARK: - TableView Extension
 extension RequestVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -59,6 +64,7 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+   //MARK: - UIView Extension
 extension UIView {
     func rotate180Degrees(duration: TimeInterval = 0.3) {
         UIView.animate(withDuration: duration) {

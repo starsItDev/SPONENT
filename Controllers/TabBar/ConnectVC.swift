@@ -9,11 +9,13 @@ import UIKit
 
 class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDelegate {
 
+    //MARK: - Variables
     @IBOutlet weak var connectTableView: UITableView!
     @IBOutlet weak var chatView: GradientView!
     @IBOutlet weak var chatTextField: UITextField!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ConnectVC>()
     
+    //MARK: - Override func
     override func viewDidLoad() {
         super.viewDidLoad()
         chatView.isHidden = true
@@ -22,17 +24,22 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         chatTextField.layer.borderColor = UIColor.black.cgColor
         self.navigationController?.navigationBar.isHidden = true
     }
+    
+    //MARK: - Helper functions
     func chatImageViewTapped(in cell: ConnectTableViewCell) {
             chatView.isHidden = false
         }
     func setupKeyboardDismiss() {
            textFieldDelegateHelper.configureTapGesture(for: view, in: self)
         }
+    
+    //MARK: - Actions
     @IBAction func chatCancelButton(_ sender: UIButton) {
         chatView.isHidden = true
     }
 }
 
+   //MARK: - Extension TableView
 extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
@@ -62,5 +69,4 @@ extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
 }

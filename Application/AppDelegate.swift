@@ -8,17 +8,41 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import CoreLocation
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
+    var window: UIWindow?
+    var locationManager = CLLocationManager()
+    var userLocation: CLLocation?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
         GMSServices.provideAPIKey("AIzaSyAa4XBFBGFJWSjcEdfCHniqmUOEPlKG0L0")
         GMSPlacesClient.provideAPIKey("AIzaSyBlfZiL0XCaYgADnu9O0lvRfGLUBo_s8HI")
+        if CLLocationManager.locationServicesEnabled() {
+                    locationManager.startUpdatingLocation()
+        }
         return true
     }
-
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+           if status == .authorizedWhenInUse {
+               locationManager.startUpdatingLocation()
+           }
+       }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+                self.userLocation = location
+            let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: 15)
+                  // detailMapView.camera = camera
+                   locationManager.stopUpdatingLocation()
+        }
+    }
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

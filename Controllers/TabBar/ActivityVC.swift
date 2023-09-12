@@ -9,14 +9,17 @@ import UIKit
 
 class ActivityVC: UIViewController {
 
+    //MARK: - Variables
     @IBOutlet weak var activityTableView: UITableView!
+    
+    //MARK: - Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-
     }
 }
 
+   //MARK: - Extension TableView
 extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
     
     func numberOfSections(in tableView: UITableView) -> Int {

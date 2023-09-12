@@ -9,7 +9,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate,                         CLLocationManagerDelegate{
+class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate {
     
     //MARK: - Variable
     @IBOutlet weak var homeTableView: UITableView!
@@ -36,7 +36,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     @IBOutlet weak var addDetailsTextView: UITextView!
     @IBOutlet weak var addDetailsLocation: UIView!
     @IBOutlet weak var addDetailsLocLabel: UILabel!
-    var locationManager = CLLocationManager()
+    //var locationManager = CLLocationManager()
     var selectedCoordinate: CLLocationCoordinate2D?
     var actions: [UIAlertAction] = []
     var selectedLocation: String?
@@ -223,10 +223,13 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             presentActionSheet(title: "Select Range", message: nil, actions: actions)
    }
     @IBAction func addDetailsLocBtn(_ sender: UIButton) {
-             if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+        if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController,
+               let userLocation = (UIApplication.shared.delegate as? AppDelegate)?.locationManager.location?.coordinate {
+                
+                detailController.userLocationCoordinate = userLocation
                    detailController.delegate = self
-                   detailController.setupLocationManager()
-                   locationManager.requestWhenInUseAuthorization()
+                   //detailController.setupLocationManager()
+                   //locationManager.requestWhenInUseAuthorization()
                    detailController.modalPresentationStyle = .fullScreen
                    detailController.isSearchBarHidden = false
                    detailController.areViewsHidden = true
@@ -272,14 +275,6 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 99
     }
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if let detailController = UIStoryboard(name: "Main", bundle:
-//        Bundle.main).instantiateViewController(withIdentifier: "DetailViewController")
-//        as? DetailViewController {
-//           detailController.modalPresentationStyle = .fullScreen
-//           self.present(detailController, animated: false, completion: nil)
-//         }
-//      }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
                let locationName = cell.homeTableLocation.text {

@@ -39,6 +39,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var selectedMarker: GMSMarker?
     var selectedRegion: GMSCoordinateBounds?
     var selectedLocationCoordinate: CLLocationCoordinate2D?
+    var userLocationCoordinate: CLLocationCoordinate2D?
     var selectedLocationInfo: (name: String, coordinate: CLLocationCoordinate2D)?
 
     //MARK: - Override Functions
@@ -63,9 +64,14 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             let marker = GMSMarker(position: coordinate)
             marker.title = locationInfo.name
             marker.map = detailMapView
-            let cameraUpdate = GMSCameraUpdate.setTarget(coordinate, zoom: 15)
-            detailMapView.animate(with: cameraUpdate)
+            let cameraUpdate = GMSCameraPosition.camera(withTarget: coordinate, zoom: 15)
+            detailMapView.camera = cameraUpdate
         }
+        if let userLocationCoordinate = userLocationCoordinate {
+            let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 15)
+            detailMapView.camera = camera
+        }
+       
   }
      override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
@@ -164,22 +170,22 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                self.dismiss(animated: true, completion: nil)
            }
        }
-    
-    func setupLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
    }
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-           locationManager.startUpdatingLocation()
-      }
-   }
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let userLocation = locations.last?.coordinate {
-            let camera = GMSCameraPosition.camera(withLatitude: userLocation.latitude, longitude: userLocation.longitude, zoom: 15)
-            detailMapView.camera = camera
-            locationManager.stopUpdatingLocation()
-          }
-      }
-  }
+//    func setupLocationManager() {
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        locationManager.requestWhenInUseAuthorization()
+//   }
+//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+//        if status == .authorizedWhenInUse {
+//           locationManager.startUpdatingLocation()
+//      }
+//   }
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        if let userLocation = locations.last?.coordinate {
+//            let camera = GMSCameraPosition.camera(withLatitude: userLocation.latitude, longitude: userLocation.longitude, zoom: 15)
+//            detailMapView.camera = camera
+//            locationManager.stopUpdatingLocation()
+//          }
+//      }
+//  }

@@ -909,6 +909,7 @@
                         <outlet property="genderLabel" destination="Fj1-QJ-e1v" id="fqr-jw-BWh"/>
                         <outlet property="genderView" destination="Gxv-kB-x3C" id="3d0-As-5er"/>
                         <outlet property="imageView" destination="1Ic-ce-05b" id="ejM-JX-DXD"/>
+                        <outlet property="locationLabel" destination="EJi-7a-CWC" id="Bhs-te-4nS"/>
                         <outlet property="locationView" destination="Vft-I0-PPm" id="4Ub-MS-vER"/>
                         <outlet property="nameView" destination="2wJ-cG-Hag" id="KYm-x2-DUL"/>
                         <outlet property="passwdView" destination="LCd-Hs-kUp" id="Bde-lx-hpx"/>

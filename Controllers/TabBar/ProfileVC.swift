@@ -70,9 +70,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             break
         }
     }
-    func setupKeyboardDismiss() {
-        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
-    }
     @IBAction func profileSettingButton(_ sender: UIButton) {
         if settingStackView.isHidden {
             settingStackView.isHidden = false
@@ -104,5 +101,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func updateOkButton(_ sender: UIButton) {
+    }
+    
+    //MARK: - Helper Functions
+    func setupKeyboardDismiss() {
+        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
 }
