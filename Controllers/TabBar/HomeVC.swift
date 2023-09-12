@@ -289,19 +289,18 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
                            return
             }
             if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                detailController.modalPresentationStyle = .fullScreen
+                //detailController.modalPresentationStyle = .fullScreen
                  self.selectedMarker?.map = nil
                  self.selectedMarker = nil
                  detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
                  detailController.delegate = self
-                self.present(detailController, animated: false, completion: {
                  cell.accessoryView = nil
-                let camera = GMSCameraPosition.camera(withLatitude: locationCoordinate.latitude, longitude: locationCoordinate.longitude, zoom: 15)
-                    detailController.detailMapView.moveCamera(GMSCameraUpdate.setCamera(camera))
-                       })
+//                 let camera = GMSCameraPosition.camera(withLatitude: locationCoordinate.latitude,                  longitude: locationCoordinate.longitude, zoom: 15)
+                  // detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
+                self.navigationController?.pushViewController(detailController, animated: false)
                    }
                }
            }
            tableView.deselectRow(at: indexPath, animated: true)
-       }
+     }
 }

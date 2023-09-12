@@ -101,8 +101,8 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     }
     @IBAction func requestToJoinBtn(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RequestVC") as? RequestVC {
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: false)
+            //vc.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(vc, animated: false)
         }
     }
     
