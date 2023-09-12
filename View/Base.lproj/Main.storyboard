@@ -2296,11 +2296,6 @@
                             <constraint firstItem="vwB-Ul-6aE" firstAttribute="top" secondItem="y8J-j8-8uk" secondAttribute="bottom" id="xhW-72-VyK"/>
                             <constraint firstItem="pUQ-NE-BMp" firstAttribute="bottom" secondItem="e3G-5Q-2l7" secondAttribute="bottom" id="yJl-t1-zSx"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="pUQ-NE-BMp"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="Q8q-7r-zU8"/>
                     <connections>
