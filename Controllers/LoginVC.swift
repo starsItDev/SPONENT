@@ -41,75 +41,57 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     func apiCall() {
         guard let username = EmailTextField.text, !username.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
-            showAlert(title: "Alert", message: "Please enter both username and password")
+            showAlert(title: "Alert", message: "Please enter both Email and Password")
             return
         }
-
         let parameters = [
             "email" : username,
             "password": password
-        ] as Dictionary<String, Any>
+        ]
+        // Create the multipart form data request body
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = ""
+        for (key, value) in parameters {
+            body += "--\(boundary)\r\n"
+            body += "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n"
+            body += "\(value)\r\n"
+        }
 
-        do {
-            let postData = try JSONSerialization.data(withJSONObject: parameters)
-            let endpoint = APIConstants.Endpoints.login
-            let urlString = APIConstants.baseURL + endpoint
+        let endpoint = APIConstants.Endpoints.login
+        let urlString = APIConstants.baseURL + endpoint
 
-            guard let url = URL(string: urlString) else {
-                showAlert(title: "Alert", message: "Invalid URL")
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body.data(using: .utf8)
+        URLSession.shared.dataTask(with: request) { _, response, error in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                }
                 return
             }
-
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.httpBody = postData
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-            URLSession.shared.dataTask(with: request) { data, response, error in
-                guard let data = data, error == nil else {
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
-                    }
-                    return
-                }
-
-                do {
-                    if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                        print("Response JSON: \(json)")
-
-                        if let code = json["code"] as? Int, code == 201,
-                           let body = json["body"] as? [String: Any],
-                           let message = body["message"] as? String {
-                            // Handle the specific error message returned by the API
-                            DispatchQueue.main.async {
-                                self.showAlert(title: "Alert", message: message)
-                            }
-                        } else if let status = json["Status"] as? Bool, status {
-                            DispatchQueue.main.async {
-                                if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-                                    tabBarController.modalPresentationStyle = .fullScreen
-                                    self.present(tabBarController, animated: false, completion: nil)
-                                }
-                            }
-                        } else {
-                            DispatchQueue.main.async {
-                                self.showAlert(title: "Alert", message: "Invalid username or password")
-                            }
+            if let httpResponse = response as? HTTPURLResponse {
+                DispatchQueue.main.async {
+                    if httpResponse.statusCode == 200 {
+                        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+                            tabBarController.modalPresentationStyle = .fullScreen
+                            self.present(tabBarController, animated: false, completion: nil)
                         }
-                    }
-                } catch {
-                    print("Error parsing JSON: \(error)")
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Error", message: "Failed to parse server response.")
+                    } else {
+                        // HTTP status code is not 200, show an alert for the error
+                        self.showAlert(title: "Invalid Email or Password", message: "Server returned an error with status code \(httpResponse.statusCode)")
                     }
                 }
-            }.resume()
-        } catch {
-            print("Error creating JSON data: \(error)")
-            showAlert(title: "Error", message: "Failed to create JSON data.")
-        }
-    }
+            }
+        }.resume()
 
+    }
     //MARK: - Actions
     @IBAction func loginButton(_ sender: UIButton) {
         apiCall()
