@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
+		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
+		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
 		E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD02AA99F23001422CE /* SignUpVC.swift */; };
 		E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */; };
 		E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		E00B8BD02AA99F23001422CE /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAgeTableViewCell.swift; sourceTree = "<group>"; };
 		E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardDismiss.swift; sourceTree = "<group>"; };
@@ -87,6 +91,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		76D5C5F02AB06B2800C6E4DC /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				76D5C5F32AB06B5C00C6E4DC /* Constants */,
+				76D5C5F12AB06B4000C6E4DC /* Networking */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		76D5C5F12AB06B4000C6E4DC /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				76D5C5F62AB06BA500C6E4DC /* APIManger.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		76D5C5F32AB06B5C00C6E4DC /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				76D5C5F42AB06B8500C6E4DC /* Constant.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		E0AA26C92A8642DF002CDACA /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +150,7 @@
 		E0B664C12A84FEEA00537CAE = {
 			isa = PBXGroup;
 			children = (
+				76D5C5F02AB06B2800C6E4DC /* Services */,
 				E0B664E62A84FF7C00537CAE /* Application */,
 				E0B664E12A84FF2500537CAE /* Extensions */,
 				E0B664E52A84FF6A00537CAE /* Models */,
@@ -289,10 +319,12 @@
 				E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */,
 				E0DD3C712AAEFF7D00D8A205 /* RequestVC.swift in Sources */,
 				E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */,
+				76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */,
 				E0DF66D52A95EF70006BFBFE /* BorderStyle.swift in Sources */,
 				E0DF66D72A95F1C8006BFBFE /* UITapGesture.swift in Sources */,
 				E0B664CE2A84FEEA00537CAE /* AppDelegate.swift in Sources */,
 				E0DD3C6F2AAEFF5600D8A205 /* RequestTableViewCell.swift in Sources */,
+				76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */,
 				E0B664EA2A85009200537CAE /* GradientColour.swift in Sources */,
 				E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */,
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
