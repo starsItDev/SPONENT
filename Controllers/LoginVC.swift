@@ -85,7 +85,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                         }
                     } else {
                         // HTTP status code is not 200, show an alert for the error
-                        self.showAlert(title: "Invalid Email or Password", message: "Server returned an error with status code \(httpResponse.statusCode)")
+                        self.showAlert(title: "Error", message: "Invalid Email or Password")
                     }
                 }
             }
