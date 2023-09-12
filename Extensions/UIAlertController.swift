@@ -24,3 +24,22 @@ extension UIViewController {
         present(alertController, animated: true, completion: nil)
     }
 }
+
+extension UIViewController {
+    func showAlert(title: String?,
+                   message: String?,
+                   preferredStyle: UIAlertController.Style = .alert,
+                   actions: [UIAlertAction] = [],
+                   completion: (() -> Void)? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+        
+        actions.forEach { alertController.addAction($0) }
+        
+        if actions.isEmpty {
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alertController.addAction(okAction)
+        }
+        
+        present(alertController, animated: true, completion: completion)
+    }
+}

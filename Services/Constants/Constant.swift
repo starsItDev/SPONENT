@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIConstants {
-    static let baseURL = "https://playwithmeapp.com"
+    static let baseURL = "https://playwithmeapp.com/api"
     
     struct Endpoints {
         static let login = "/app/login"

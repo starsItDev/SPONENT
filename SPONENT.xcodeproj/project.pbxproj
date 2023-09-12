@@ -10,6 +10,7 @@
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
+		76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */; };
 		E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD02AA99F23001422CE /* SignUpVC.swift */; };
 		E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */; };
 		E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
+		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		E00B8BD02AA99F23001422CE /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAgeTableViewCell.swift; sourceTree = "<group>"; };
 		E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardDismiss.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				76D5C5F62AB06BA500C6E4DC /* APIManger.swift */,
+				76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */,
 				E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */,
 				E0DD3C6D2AAEF15400D8A205 /* ActivityTableViewCell.swift in Sources */,
+				76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */,
 				E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */,
 				E0DD3C712AAEFF7D00D8A205 /* RequestVC.swift in Sources */,
 				E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */,
