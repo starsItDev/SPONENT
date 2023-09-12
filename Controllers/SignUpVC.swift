@@ -29,6 +29,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let textFieldDelegateHelper = TextFieldDelegateHelper<SignUpVC>()
     let genders = ["Any", "Male", "Female"]
     let categories = ["Cricket", "Baseball", "Golf", "Hockey", "Martial Arts"]
+    let items = ["bag"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
