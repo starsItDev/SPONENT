@@ -171,21 +171,3 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
            }
        }
    }
-//    func setupLocationManager() {
-//        locationManager.delegate = self
-//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//        locationManager.requestWhenInUseAuthorization()
-//   }
-//    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-//        if status == .authorizedWhenInUse {
-//           locationManager.startUpdatingLocation()
-//      }
-//   }
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        if let userLocation = locations.last?.coordinate {
-//            let camera = GMSCameraPosition.camera(withLatitude: userLocation.latitude, longitude: userLocation.longitude, zoom: 15)
-//            detailMapView.camera = camera
-//            locationManager.stopUpdatingLocation()
-//          }
-//      }
-//  }
