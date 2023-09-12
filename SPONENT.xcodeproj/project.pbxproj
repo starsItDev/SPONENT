@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD02AA99F23001422CE /* SignUpVC.swift */; };
 		E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */; };
 		E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */; };
@@ -74,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */,
 				E0AB64602A9F0CB200F4F299 /* GoogleMaps in Frameworks */,
 				E0AB64642A9F0CB200F4F299 /* GoogleMapsCore in Frameworks */,
 				E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */,
@@ -220,6 +222,7 @@
 				E0AB64632A9F0CB200F4F299 /* GoogleMapsCore */,
 				E0AB64652A9F0CB200F4F299 /* GoogleMapsM4B */,
 				E0AB64672A9F0CB200F4F299 /* GooglePlaces */,
+				76D5C5ED2AB069DA00C6E4DC /* Kingfisher */,
 			);
 			productName = SPONENT;
 			productReference = E0B664CA2A84FEEA00537CAE /* SPONENT.app */;
@@ -251,6 +254,7 @@
 			mainGroup = E0B664C12A84FEEA00537CAE;
 			packageReferences = (
 				E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
+				76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = E0B664CB2A84FEEA00537CAE /* Products */;
 			projectDirPath = "";
@@ -522,6 +526,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/YAtechnologies/GoogleMaps-SP.git";
@@ -533,6 +545,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		76D5C5ED2AB069DA00C6E4DC /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		E0AB645F2A9F0CB200F4F299 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;
