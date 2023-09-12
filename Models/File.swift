@@ -6,3 +6,6 @@
 //
 
 import Foundation
+struct name {
+   var a = ""
+}
