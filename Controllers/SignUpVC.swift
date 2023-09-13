@@ -47,10 +47,17 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         setupTapGesture(for: favCategoryView, action: #selector(showSportActionSheet))
         setupTapGesture(for: signUpIMageView, action: #selector(showImagePicker))
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
+                let latitude = userLocation.coordinate.latitude
+                let longitude = userLocation.coordinate.longitude
+                print("Latitude: \(latitude), Longitude: \(longitude)")
                 let geocoder = CLGeocoder()
                 geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
                     if let placemark = placemarks?.first {
-                       self.locationLabel.text = placemark.locality
+                        if let locality = placemark.locality {
+                            self.locationLabel.text = locality
+                        } else {
+                            self.locationLabel.text = "\(latitude), \(longitude)"
+                    }
                 }
             }
         }
