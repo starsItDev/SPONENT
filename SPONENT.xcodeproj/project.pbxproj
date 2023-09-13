@@ -43,6 +43,7 @@
 		E0DF66D52A95EF70006BFBFE /* BorderStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DF66D42A95EF70006BFBFE /* BorderStyle.swift */; };
 		E0DF66D72A95F1C8006BFBFE /* UITapGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DF66D62A95F1C8006BFBFE /* UITapGesture.swift */; };
 		E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DF66D82A95F266006BFBFE /* UIAlertController.swift */; };
+		E0FCE59C2AB1E98A0010D419 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = E0FCE59B2AB1E98A0010D419 /* MessageKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,7 @@
 				76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */,
 				E0AB64602A9F0CB200F4F299 /* GoogleMaps in Frameworks */,
 				E0AB64642A9F0CB200F4F299 /* GoogleMapsCore in Frameworks */,
+				E0FCE59C2AB1E98A0010D419 /* MessageKit in Frameworks */,
 				E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */,
 				E0AB64682A9F0CB200F4F299 /* GooglePlaces in Frameworks */,
 				E0AB64622A9F0CB200F4F299 /* GoogleMapsBase in Frameworks */,
@@ -262,6 +264,7 @@
 				E0AB64652A9F0CB200F4F299 /* GoogleMapsM4B */,
 				E0AB64672A9F0CB200F4F299 /* GooglePlaces */,
 				76D5C5ED2AB069DA00C6E4DC /* Kingfisher */,
+				E0FCE59B2AB1E98A0010D419 /* MessageKit */,
 			);
 			productName = SPONENT;
 			productReference = E0B664CA2A84FEEA00537CAE /* SPONENT.app */;
@@ -294,6 +297,7 @@
 			packageReferences = (
 				E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
 				76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				E0FCE59A2AB1E98A0010D419 /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = E0B664CB2A84FEEA00537CAE /* Products */;
 			projectDirPath = "";
@@ -586,6 +590,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		E0FCE59A2AB1E98A0010D419 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -618,6 +630,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;
 			productName = GooglePlaces;
+		};
+		E0FCE59B2AB1E98A0010D419 /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0FCE59A2AB1E98A0010D419 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
