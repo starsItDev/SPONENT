@@ -19,13 +19,17 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var favCategoryView: UIView!
     @IBOutlet weak var aboutView: UIView!
     @IBOutlet weak var locationView: UIView!
-    @IBOutlet weak var ageLabel: UILabel!
-    @IBOutlet weak var genderLabel: UILabel!
-    @IBOutlet weak var favCategoryLabel: UILabel!
     @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var signUpIMageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var ageLabel: UILabel!
+    @IBOutlet weak var genderLabel: UILabel!
+    @IBOutlet weak var favCategoryLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var nameTxtField: UITextField!
+    @IBOutlet weak var emailTxtField: UITextField!
+    @IBOutlet weak var passWordTxtField: UITextField!
+    @IBOutlet weak var aboutMeTxtField: UITextField!
     var actions: [UIAlertAction] = []
     var tapGestureRecognizer: UITapGestureRecognizer?
     let textFieldDelegateHelper = TextFieldDelegateHelper<SignUpVC>()
