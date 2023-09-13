@@ -57,6 +57,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                   if let placemark = placemarks?.first {
                      if let locality = placemark.locality {
                         self.locationLabel.text = locality
+                        self.locationLabel.textColor = .black
                     } else {
                         self.locationLabel.text = "\(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)"
                     }
