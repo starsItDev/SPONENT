@@ -51,8 +51,20 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
         setupTapGesture(for: favCategoryView, action: #selector(showSportActionSheet))
         setupTapGesture(for: signUpIMageView, action: #selector(showImagePicker))
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
+                let geocoder = CLGeocoder()
+                geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+                  if let placemark = placemarks?.first {
+                     if let locality = placemark.locality {
+                        self.locationLabel.text = locality
+                    } else {
+                        self.locationLabel.text = "\(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)"
+                    }
+                }
+            }
+        }
+       NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+       NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     func apiCall() {
         // Check if userLocation is available
