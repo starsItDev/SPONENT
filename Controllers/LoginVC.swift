@@ -12,11 +12,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     //MARK: - Variable
     @IBOutlet weak var EmailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
     @IBOutlet weak var forgotTextField: UITextField!
     @IBOutlet weak var forgotPasswordView: GradientView!
     let textFieldDelegateHelper = TextFieldDelegateHelper<LoginVC>()
-
     //MARK: - Override Func
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +54,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             body += "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n"
             body += "\(value)\r\n"
         }
-
         let endpoint = APIConstants.Endpoints.login
         let urlString = APIConstants.baseURL + endpoint
 
@@ -64,7 +61,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             showAlert(title: "Alert", message: "Invalid URL")
             return
         }
-
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
@@ -84,13 +80,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             self.present(tabBarController, animated: false, completion: nil)
                         }
                     } else {
-                        // HTTP status code is not 200, show an alert for the error
                         self.showAlert(title: "Error", message: "Invalid Email or Password")
                     }
                 }
             }
         }.resume()
-
     }
     //MARK: - Actions
     @IBAction func loginButton(_ sender: UIButton) {
