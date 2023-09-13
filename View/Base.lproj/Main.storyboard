@@ -887,6 +887,7 @@
                         <outlet property="nameView" destination="2wJ-cG-Hag" id="KYm-x2-DUL"/>
                         <outlet property="passWordTxtField" destination="hET-sN-vwg" id="cYc-be-HP7"/>
                         <outlet property="passwdView" destination="LCd-Hs-kUp" id="Bde-lx-hpx"/>
+                        <outlet property="scrollView" destination="P5B-b1-38T" id="OB6-uq-nt6"/>
                         <outlet property="signUpIMageView" destination="qvj-kK-ugz" id="3NT-eR-IQ6"/>
                         <outlet property="signUpView" destination="Km8-i4-idJ" id="1GE-4q-7mA"/>
                     </connections>
