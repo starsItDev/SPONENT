@@ -84,8 +84,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             print(data)
                             let body = json["body"] as? Dictionary<String, Any>
                             let userId = body?["user_id"] as? String
+                            let apikey = body?["apikey"] as? String
                             UserDefaults.standard.set(userId, forKey: "userID")
-                            //                            print(userId)
+                            UserDefaults.standard.set(apikey, forKey: "apikey")
+//                                                        print(apikey)
                             DispatchQueue.main.async {
                                 if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
                                     tabBarController.modalPresentationStyle = .fullScreen
