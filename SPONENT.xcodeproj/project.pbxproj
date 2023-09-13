@@ -32,6 +32,8 @@
 		E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664EB2A8500B500537CAE /* CornerRadius.swift */; };
 		E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */; };
 		E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */; };
+		E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */; };
+		E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */; };
 		E0DAA1882A8CD069001F72EF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DAA1872A8CD069001F72EF /* DetailViewController.swift */; };
 		E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DD3C6A2AAEE24800D8A205 /* ActivityVC.swift */; };
 		E0DD3C6D2AAEF15400D8A205 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */; };
@@ -65,6 +67,8 @@
 		E0B664EB2A8500B500537CAE /* CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectVC.swift; sourceTree = "<group>"; };
 		E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectTableViewCell.swift; sourceTree = "<group>"; };
+		E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
+		E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
 		E0DAA1872A8CD069001F72EF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E0DD3C6A2AAEE24800D8A205 /* ActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityVC.swift; sourceTree = "<group>"; };
 		E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 				E0AA26CA2A864361002CDACA /* HomeVC.swift */,
 				E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */,
 				E0DD3C6A2AAEE24800D8A205 /* ActivityVC.swift */,
+				E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */,
 				E0AD40702A8CF150007576C3 /* ProfileVC.swift */,
 			);
 			path = TabBar;
@@ -145,6 +150,7 @@
 				E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */,
 				E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */,
 				E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */,
+				E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */,
 				E0DD3C6E2AAEFF5600D8A205 /* RequestTableViewCell.swift */,
 			);
 			path = TableView;
@@ -323,6 +329,7 @@
 				E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */,
 				E0DD3C712AAEFF7D00D8A205 /* RequestVC.swift in Sources */,
 				E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */,
+				E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */,
 				76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */,
 				E0DF66D52A95EF70006BFBFE /* BorderStyle.swift in Sources */,
 				E0DF66D72A95F1C8006BFBFE /* UITapGesture.swift in Sources */,
@@ -336,6 +343,7 @@
 				E0AA26CB2A864361002CDACA /* HomeVC.swift in Sources */,
 				E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */,
 				E0DF66D32A95D150006BFBFE /* MapPlaces.swift in Sources */,
+				E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */,
 				E0B664D02A84FEEA00537CAE /* SceneDelegate.swift in Sources */,
 				E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */,
 				E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */,
