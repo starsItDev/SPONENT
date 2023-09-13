@@ -10,7 +10,6 @@ import CoreLocation
 
 class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    
     //MARK: - Variables
     @IBOutlet weak var ageView: UIView!
     @IBOutlet weak var genderView: UIView!
@@ -23,7 +22,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
     @IBOutlet weak var favCategoryLabel: UILabel!
-    @IBOutlet weak var ageTableView: UITableView!
     @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var signUpIMageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
@@ -31,16 +29,16 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     var actions: [UIAlertAction] = []
     var tapGestureRecognizer: UITapGestureRecognizer?
     let textFieldDelegateHelper = TextFieldDelegateHelper<SignUpVC>()
+    let ages = ["Age 17", "Age 18", "Age 19", "Age 20", "Age 21", "Age 22", "Age 23", "Age 24", "Age 25", "Age 26", "Age 27", "Age 28", "Age 29", "Age 30", "Age 31", "Age 32", "Age 33", "Age 34", "Age 35", "Age 36", "Age 37", "Age 38", "Age 39", "Age 40", "Age 41", "Age 42", "Age 43", "Age 44", "Age 45", "Age 46", "Age 47", "Age 48", "Age 49", "Age 50", "Age 51", "Age 52", "Age 53", "Age 54", "Age 55"]
     let genders = ["Any", "Male", "Female"]
     let categories = ["Cricket", "Baseball", "Golf", "Hockey", "Martial Arts"]
     
     //MARK: - Override func
     override func viewDidLoad() {
         super.viewDidLoad()
-        ageTableView.isHidden = true
         styleViews()
         setupKeyboardDismiss()
-        setupTapGesture(for: ageView, action: #selector(showAgeTableView))
+        setupTapGesture(for: ageView, action: #selector(showAgeActionSheet))
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
         setupTapGesture(for: favCategoryView, action: #selector(showSportActionSheet))
         setupTapGesture(for: signUpIMageView, action: #selector(showImagePicker))
@@ -48,7 +46,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 let geocoder = CLGeocoder()
                 geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
                     if let placemark = placemarks?.first {
-                        self.locationLabel.text = placemark.locality
+                       self.locationLabel.text = placemark.locality
                 }
             }
         }
@@ -64,35 +62,38 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         favCategoryView.applyBorder()
         aboutView.applyBorder()
         locationView.applyBorder()
-     }
-    @objc func showAgeTableView() {
-        if ageTableView.isHidden == true {
-            ageTableView.isHidden = false
-        } else {
-            ageTableView.isHidden = true
-        }
     }
     func setupKeyboardDismiss() {
            textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
+    @objc func showAgeActionSheet() {
+         actions.removeAll()
+         for age in ages {
+            let action = UIAlertAction(title: age, style: .default) { [weak self ] _ in
+            self?.ageLabel.text = age
+         }
+         actions.append(action)
+      }
+         presentActionSheet(title: "Select age", message: nil, actions: actions)
+   }
     @objc func showGenderActionSheet() {
          actions.removeAll()
          for gender in genders {
             let actionTwo = UIAlertAction(title: gender, style: .default) { [weak self] _ in
             self?.genderLabel.text = gender
-        }
+         }
          actions.append(actionTwo)
-     }
+      }
          presentActionSheet(title: "Select Gender", message: nil, actions: actions)
-  }
+   }
     @objc func showSportActionSheet() {
          actions.removeAll()
         for category in categories {
             let actionOne = UIAlertAction(title: category, style: .default) { [weak self] _ in
             self?.favCategoryLabel.text = category
-        }
+         }
          actions.append(actionOne)
-     }
+      }
         presentActionSheet(title: "Select Category", message: nil, actions: actions)
     }
     @objc func showImagePicker() {
@@ -106,40 +107,17 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
              imageView.image = selectedImage
         }
             picker.dismiss(animated: true, completion: nil)
-        }
+    }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             picker.dismiss(animated: true, completion: nil)
-        }
+    }
     
     //MARK: - Actions
     @IBAction func signUpForwardButton(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
-        }
-    }
-}
-
-extension SignUpVC: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 83
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! SignUpAgeTableViewCell
-        if indexPath.row == 0 {
-            cell.cellAgeLabel?.text = "Select age"
-        } else {
-            let age = indexPath.row + 17
-            cell.cellAgeLabel?.text = "\(age)"
-        }
-        return cell
-    }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row != 0 {
-            let selectedAge = indexPath.row + 17
-            ageLabel.text = "\(selectedAge)"
-        }
-        ageTableView.isHidden = true
-    }
-}
+         }
+     }
+ }
 
