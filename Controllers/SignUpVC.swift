@@ -46,23 +46,100 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
         setupTapGesture(for: favCategoryView, action: #selector(showSportActionSheet))
         setupTapGesture(for: signUpIMageView, action: #selector(showImagePicker))
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
-                let latitude = userLocation.coordinate.latitude
-                let longitude = userLocation.coordinate.longitude
-                print("Latitude: \(latitude), Longitude: \(longitude)")
-                let geocoder = CLGeocoder()
-                geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-                    if let placemark = placemarks?.first {
-                        if let locality = placemark.locality {
-                            self.locationLabel.text = locality
-                        } else {
-                            self.locationLabel.text = "\(latitude), \(longitude)"
+    }
+    func apiCall() {
+        // Check if userLocation is available
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+              let userLocation = appDelegate.userLocation,
+              let name = nameTxtField.text, !name.isEmpty,
+              let email = emailTxtField.text, !email.isEmpty,
+              let password = passWordTxtField.text, !password.isEmpty,
+              let age = ageLabel.text, !age.isEmpty,
+              let gender = genderLabel.text, !gender.isEmpty,
+              let aboutMe = aboutMeTxtField.text, !aboutMe.isEmpty,
+              let categoryID = favCategoryLabel.text,
+              let location = locationLabel.text, !location.isEmpty
+        else {
+            showAlert(title: "Alert", message: "Please fill in all required fields")
+            return
+        }
+
+        let latitude = userLocation.coordinate.latitude
+        let longitude = userLocation.coordinate.longitude
+
+        let endpoint = APIConstants.Endpoints.signup
+        let urlString = APIConstants.baseURL + endpoint
+
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        // Create the multipart form data request body
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        var body = Data()
+
+        // Append text fields
+        let textFields = [
+            "name": name,
+            "email": email,
+            "password": password,
+            "age": age,
+            "gender": gender,
+            "aboutMe": aboutMe,
+            "category_id": categoryID,
+            "location[latitude]": String(latitude),
+            "location[longitude]": String(longitude),
+            "location[location]": location
+        ]
+
+        for (key, value) in textFields {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
+
+        // Append image
+        if let image = imageView.image, let imageData = image.jpegData(compressionQuality: 0.7) {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"photo.jpg\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+            body.append(imageData)
+            body.append("\r\n".data(using: .utf8)!)
+        }
+
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+
+        request.httpBody = body
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                }
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse {
+                DispatchQueue.main.async {
+                    if httpResponse.statusCode == 200 {
+                        print("OKKKKK")
+                        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+                            vc.modalPresentationStyle = .fullScreen
+                            self.present(vc, animated: false)
+                         }
+                    } else {
+                        self.showAlert(title: "Error", message: "Invalid Email or Password")
                     }
                 }
             }
-        }
+        }.resume()
     }
-    
     //MARK: - Helper functions
     func styleViews() {
         ageView.applyBorder()
@@ -125,10 +202,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     
     //MARK: - Actions
     @IBAction func signUpForwardButton(_ sender: UIButton) {
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: false)
-         }
+        apiCall()
      }
  }
 
