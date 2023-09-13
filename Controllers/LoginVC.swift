@@ -19,10 +19,10 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSetUp()
-  }
+    }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-           return .portrait
-  }
+        return .portrait
+    }
     
     //MARK: - HelperFuntions
     func setupKeyboardDismiss() {
@@ -56,7 +56,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }
         let endpoint = APIConstants.Endpoints.login
         let urlString = APIConstants.baseURL + endpoint
-
+        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -65,35 +65,52 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = body.data(using: .utf8)
-        URLSession.shared.dataTask(with: request) { _, response, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 DispatchQueue.main.async {
                     self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
                 }
                 return
             }
-            if let httpResponse = response as? HTTPURLResponse {
-                DispatchQueue.main.async {
+            guard let data = data else {
+                print("Data not received.")
+                return
+            }
+            do{
+                if let httpResponse = response as? HTTPURLResponse {
                     if httpResponse.statusCode == 200 {
-                        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-                            tabBarController.modalPresentationStyle = .fullScreen
-                            self.present(tabBarController, animated: false, completion: nil)
+                        if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                            print(httpResponse)
+                            print(data)
+                            let body = json["body"] as? Dictionary<String, Any>
+                            let userId = body?["user_id"] as? String
+                            UserDefaults.standard.set(userId, forKey: "userID")
+                            //                            print(userId)
+                            DispatchQueue.main.async {
+                                if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+                                    tabBarController.modalPresentationStyle = .fullScreen
+                                    self.present(tabBarController, animated: false, completion: nil)
+                                }
+                            }
                         }
                     } else {
                         self.showAlert(title: "Error", message: "Invalid Email or Password")
                     }
                 }
             }
+            catch {
+                print("Error parsing JSON: \(error)")
+            }
         }.resume()
     }
     //MARK: - Actions
     @IBAction func loginButton(_ sender: UIButton) {
         apiCall()
-}
+    }
     @IBAction func loginAsGuestButton(_ sender: Any) {
-       if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-                tabBarController.modalPresentationStyle = .fullScreen
-                self.present(tabBarController, animated: false, completion: nil)
+        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+            tabBarController.modalPresentationStyle = .fullScreen
+            self.present(tabBarController, animated: false, completion: nil)
         }
     }
     @IBAction func signUpButton(_ sender: UIButton) {
