@@ -24,6 +24,14 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var newPasswordField: UITextField!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
     
+    @IBOutlet weak var imgProfileView: UIImageView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var ageLabel: UILabel!
+    @IBOutlet weak var genderLabel: UILabel!
+    @IBOutlet weak var sportNameLabel: UILabel!
+    @IBOutlet weak var loctionLabel: UILabel!
+    @IBOutlet weak var aboutMeLabel: UILabel!
+    
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
