@@ -30,7 +30,9 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var emailTxtField: UITextField!
     @IBOutlet weak var passWordTxtField: UITextField!
     @IBOutlet weak var aboutMeTxtField: UITextField!
+    @IBOutlet weak var scrollView: UIScrollView!
     var actions: [UIAlertAction] = []
+    var activeTextField: UITextField?
     var tapGestureRecognizer: UITapGestureRecognizer?
     let textFieldDelegateHelper = TextFieldDelegateHelper<SignUpVC>()
     let ages = ["Age 17", "Age 18", "Age 19", "Age 20", "Age 21", "Age 22", "Age 23", "Age 24", "Age 25", "Age 26", "Age 27", "Age 28", "Age 29", "Age 30", "Age 31", "Age 32", "Age 33", "Age 34", "Age 35", "Age 36", "Age 37", "Age 38", "Age 39", "Age 40", "Age 41", "Age 42", "Age 43", "Age 44", "Age 45", "Age 46", "Age 47", "Age 48", "Age 49", "Age 50", "Age 51", "Age 52", "Age 53", "Age 54", "Age 55"]
@@ -41,11 +43,16 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     override func viewDidLoad() {
         super.viewDidLoad()
         styleViews()
+        emailTxtField.delegate = self
+        passWordTxtField.delegate = self
+        aboutMeTxtField.delegate = self
         setupKeyboardDismiss()
         setupTapGesture(for: ageView, action: #selector(showAgeActionSheet))
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
         setupTapGesture(for: favCategoryView, action: #selector(showSportActionSheet))
         setupTapGesture(for: signUpIMageView, action: #selector(showImagePicker))
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     func apiCall() {
         // Check if userLocation is available
@@ -159,6 +166,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
          for age in ages {
             let action = UIAlertAction(title: age, style: .default) { [weak self ] _ in
             self?.ageLabel.text = age
+            self?.ageLabel.textColor = .black
          }
          actions.append(action)
       }
@@ -169,6 +177,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
          for gender in genders {
             let actionTwo = UIAlertAction(title: gender, style: .default) { [weak self] _ in
             self?.genderLabel.text = gender
+            self?.genderLabel.textColor = .black
          }
          actions.append(actionTwo)
       }
@@ -179,6 +188,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         for category in categories {
             let actionOne = UIAlertAction(title: category, style: .default) { [weak self] _ in
             self?.favCategoryLabel.text = category
+            self?.favCategoryLabel.textColor = .black
          }
          actions.append(actionOne)
       }
@@ -199,10 +209,37 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             picker.dismiss(animated: true, completion: nil)
     }
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
+            scrollView.contentInset = contentInsets
+            scrollView.scrollIndicatorInsets = contentInsets
+            if let activeField = activeTextField {
+            let rect = activeField.convert(activeField.bounds, to: scrollView)
+            scrollView.scrollRectToVisible(rect, animated: true)
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
     
     //MARK: - Actions
     @IBAction func signUpForwardButton(_ sender: UIButton) {
         apiCall()
      }
+ }
+
+extension SignUpVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeTextField = nil
+    }
  }
 
