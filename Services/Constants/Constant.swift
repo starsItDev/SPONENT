@@ -15,6 +15,7 @@ struct APIConstants {
         static let signup = "/app/signup"
         static let appUser = "/app/user"
         static let resetPassword = "/app/password/reset"
+        
         static let logout = "/app/logout"
         static let updatePassword = "/app/user/password"
         static let userUpdateProfile = "/app/user/update"

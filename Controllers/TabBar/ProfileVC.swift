@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileVC: UIViewController, UITextFieldDelegate {
-
+    
     //MARK: - Variable
     @IBOutlet weak var profileScrollView: UIScrollView!
     @IBOutlet weak var profileView: UIView!
@@ -38,7 +39,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         uiSetUp()
         apiCall()
     }
-//MARK: - API CAllING
+    //MARK: - API CAllING
     func apiCall() {
         let endpoint = APIConstants.Endpoints.appUser
         var urlString = APIConstants.baseURL + endpoint
@@ -52,7 +53,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         }
         
         var request = URLRequest(url: url)
-        request.addValue("2d3a86715b724bdd7502e86cdda2eef8", forHTTPHeaderField: "authorizuser")
+        if let apikey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apikey, forHTTPHeaderField: "authorizuser")
+        }
         request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -67,7 +70,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         
         task.resume()
     }
-
+    
     func updateUI(with responseData: Data) {
         do {
             if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
@@ -79,17 +82,11 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                     self.genderLabel.text = body["gender"] as? String
                     self.loctionLabel.text = body["location"] as? String
                     self.aboutMeLabel.text = body["about_me"] as? String
-                    
+                    self.sportNameLabel.text = body["category_name"] as? String
                     if let avatarURLString = body["avatar"] as? String,
                        let avatarURL = URL(string: avatarURLString) {
-                        DispatchQueue.global().async {
-                            if let data = try? Data(contentsOf: avatarURL),
-                               let image = UIImage(data: data) {
-                                DispatchQueue.main.async {
-                                    self.imgProfileView.image = image
-                                }
-                            }
-                        }
+                        // Use Kingfisher to load and cache the image
+                        self.imgProfileView.kf.setImage(with: avatarURL)
                     }
                 }
             }
@@ -98,8 +95,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             // Handle the JSON parsing error as needed
         }
     }
-
- 
+    
+    
     //MARK: - Actions
     @IBAction func profileSegmentControl(_ sender: UISegmentedControl) {
         switch profileSegmentController.selectedSegmentIndex {
@@ -147,6 +144,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func signOutButton(_ sender: UIButton) {
+        UserDefaults.standard.set("", forKey: "userID")
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)

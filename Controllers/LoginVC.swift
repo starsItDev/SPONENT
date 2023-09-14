@@ -87,7 +87,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                             let apikey = body?["apikey"] as? String
                             UserDefaults.standard.set(userId, forKey: "userID")
                             UserDefaults.standard.set(apikey, forKey: "apikey")
-//                                                        print(apikey)
+                                                        print(apikey)
                             DispatchQueue.main.async {
                                 if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
                                     tabBarController.modalPresentationStyle = .fullScreen
@@ -106,6 +106,58 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         }.resume()
     }
     //MARK: - Actions
+    @IBAction func forgotOkayButton(_ sender: UIButton) {
+        guard let forget = forgotTextField.text, !forget.isEmpty else {
+            showAlert(title: "Alert", message: "Please enter Email")
+            return
+        }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        
+        let parameters = [
+            ("email", forget, "text")
+        ]
+        
+        for (key, value, _) in parameters {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
+        
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        let endpoint = APIConstants.Endpoints.resetPassword
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("ci_session=5108c3896d21bcd6f8b4b7cd61f7a4472b9b0546", forHTTPHeaderField: "Cookie")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("\(body.count)", forHTTPHeaderField: "Content-Length")
+        request.httpBody = body
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let data = data {
+                if let responseString = String(data: data, encoding: .utf8) {
+                    print("Response: \(responseString)")
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Password Reset", message: "Please login to your email to get new passowrd.")
+                        self.forgotPasswordView.isHidden = true
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+
     @IBAction func loginButton(_ sender: UIButton) {
         apiCall()
     }
