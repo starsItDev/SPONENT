@@ -42,8 +42,9 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource{
         return 99
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ChatVC") as? ChatVC {
-            self.navigationController?.pushViewController(vc, animated: false)
-        }
-    }
-}
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewVC") as? ChatViewVC {
+            navigationController?.pushViewController(chatViewController, animated: true)
+          }
+      }
+  }
