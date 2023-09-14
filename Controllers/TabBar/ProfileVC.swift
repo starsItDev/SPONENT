@@ -35,22 +35,71 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        profileSegmentView.isHidden = false
-        profileActivityView.isHidden = true
-        profileFollowerView.isHidden = true
-        profileFollowingView.isHidden = true
-        settingStackView.isHidden = true
-        changePasswordView.isHidden = true
-        oldPasswordField.layer.cornerRadius = 5
-        oldPasswordField.layer.borderWidth = 1.0
-        oldPasswordField.layer.borderColor = UIColor.black.cgColor
-        newPasswordField.layer.cornerRadius = 5
-        newPasswordField.layer.borderWidth = 1.0
-        newPasswordField.layer.borderColor = UIColor.black.cgColor
-        setupKeyboardDismiss()
-        self.navigationController?.navigationBar.isHidden = true
+        uiSetUp()
+        apiCall()
+    }
+//MARK: - API CAllING
+    func apiCall() {
+        let endpoint = APIConstants.Endpoints.appUser
+        var urlString = APIConstants.baseURL + endpoint
+        
+        if let userId = UserDefaults.standard.string(forKey: "userID") {
+            urlString += "?id=" + userId
+        }
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.addValue("2d3a86715b724bdd7502e86cdda2eef8", forHTTPHeaderField: "authorizuser")
+        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error)")
+                // Handle the error as needed
+            } else if let data = data {
+                // Handle the API response here
+                self.updateUI(with: data)
+            }
+        }
+        
+        task.resume()
     }
 
+    func updateUI(with responseData: Data) {
+        do {
+            if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+               let body = jsonObject["body"] as? [String: Any] {
+                
+                DispatchQueue.main.async {
+                    self.nameLabel.text = body["name"] as? String
+                    self.ageLabel.text = body["age"] as? String
+                    self.genderLabel.text = body["gender"] as? String
+                    self.loctionLabel.text = body["location"] as? String
+                    self.aboutMeLabel.text = body["about_me"] as? String
+                    
+                    if let avatarURLString = body["avatar"] as? String,
+                       let avatarURL = URL(string: avatarURLString) {
+                        DispatchQueue.global().async {
+                            if let data = try? Data(contentsOf: avatarURL),
+                               let image = UIImage(data: data) {
+                                DispatchQueue.main.async {
+                                    self.imgProfileView.image = image
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Error parsing JSON: \(error)")
+            // Handle the JSON parsing error as needed
+        }
+    }
+
+ 
     //MARK: - Actions
     @IBAction func profileSegmentControl(_ sender: UISegmentedControl) {
         switch profileSegmentController.selectedSegmentIndex {
@@ -110,8 +159,23 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func updateOkButton(_ sender: UIButton) {
     }
-    
     //MARK: - Helper Functions
+    func uiSetUp(){
+        profileSegmentView.isHidden = false
+        profileActivityView.isHidden = true
+        profileFollowerView.isHidden = true
+        profileFollowingView.isHidden = true
+        settingStackView.isHidden = true
+        changePasswordView.isHidden = true
+        oldPasswordField.layer.cornerRadius = 5
+        oldPasswordField.layer.borderWidth = 1.0
+        oldPasswordField.layer.borderColor = UIColor.black.cgColor
+        newPasswordField.layer.cornerRadius = 5
+        newPasswordField.layer.borderWidth = 1.0
+        newPasswordField.layer.borderColor = UIColor.black.cgColor
+        setupKeyboardDismiss()
+        self.navigationController?.navigationBar.isHidden = true
+    }
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
