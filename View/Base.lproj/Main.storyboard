@@ -3067,40 +3067,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xFO-m8-EVc">
-                                <rect key="frame" x="0.0" y="810" width="414" height="52"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dxp-Ae-N4Z">
-                                        <rect key="frame" x="334" y="2" width="78" height="48"/>
-                                        <color key="backgroundColor" red="0.14186787745733803" green="0.54945227112432926" blue="0.24740138797350023" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="78" id="SNV-6m-fzr"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="SEND"/>
-                                    </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  Send Message" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="diC-V5-TtL">
-                                        <rect key="frame" x="2" y="2" width="332" height="48"/>
-                                        <color key="backgroundColor" red="0.84006649413614309" green="0.84195969984678465" blue="0.87084976350418242" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="systemCyanColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" secondItem="dxp-Ae-N4Z" secondAttribute="trailing" constant="2" id="4AP-ZA-Q3l"/>
-                                    <constraint firstItem="diC-V5-TtL" firstAttribute="leading" secondItem="xFO-m8-EVc" secondAttribute="leading" constant="2" id="FXA-rK-kHk"/>
-                                    <constraint firstItem="diC-V5-TtL" firstAttribute="top" secondItem="xFO-m8-EVc" secondAttribute="top" constant="2" id="Jdz-8y-JZh"/>
-                                    <constraint firstAttribute="bottom" secondItem="dxp-Ae-N4Z" secondAttribute="bottom" constant="2" id="S1f-IP-Ghg"/>
-                                    <constraint firstAttribute="bottom" secondItem="diC-V5-TtL" secondAttribute="bottom" constant="2" id="WcO-1Q-0pA"/>
-                                    <constraint firstItem="dxp-Ae-N4Z" firstAttribute="leading" secondItem="diC-V5-TtL" secondAttribute="trailing" id="poV-xc-hv8"/>
-                                    <constraint firstAttribute="height" constant="52" id="pzK-ul-Q6I"/>
-                                    <constraint firstItem="dxp-Ae-N4Z" firstAttribute="top" secondItem="xFO-m8-EVc" secondAttribute="top" constant="2" id="vRX-Dt-bsh"/>
-                                </constraints>
-                            </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUd-vf-KYh">
-                                <rect key="frame" x="0.0" y="85" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="804"/>
                                 <connections>
                                     <segue destination="tiR-1A-4rA" kind="embed" id="giM-hq-HkW"/>
                                 </connections>
@@ -3109,16 +3077,13 @@
                         <viewLayoutGuide key="safeArea" id="MKa-Ub-mMc"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="bUd-vf-KYh" firstAttribute="top" secondItem="WMX-Bi-ynM" secondAttribute="bottom" id="Auk-JD-I86"/>
+                            <constraint firstItem="bUd-vf-KYh" firstAttribute="top" secondItem="WMX-Bi-ynM" secondAttribute="bottom" constant="7" id="Auk-JD-I86"/>
                             <constraint firstAttribute="trailing" secondItem="bUd-vf-KYh" secondAttribute="trailing" id="IZj-9y-ytX"/>
-                            <constraint firstItem="xFO-m8-EVc" firstAttribute="top" secondItem="bUd-vf-KYh" secondAttribute="bottom" id="Kfv-Ja-0lH"/>
                             <constraint firstItem="WMX-Bi-ynM" firstAttribute="top" secondItem="uzy-hF-RnM" secondAttribute="top" id="PxJ-wL-hpH"/>
-                            <constraint firstItem="xFO-m8-EVc" firstAttribute="leading" secondItem="uzy-hF-RnM" secondAttribute="leading" id="a0D-Xw-Abm"/>
                             <constraint firstAttribute="trailing" secondItem="WMX-Bi-ynM" secondAttribute="trailing" id="aNt-Yl-EBK"/>
                             <constraint firstItem="bUd-vf-KYh" firstAttribute="leading" secondItem="uzy-hF-RnM" secondAttribute="leading" id="h8y-do-htt"/>
-                            <constraint firstItem="MKa-Ub-mMc" firstAttribute="bottom" secondItem="xFO-m8-EVc" secondAttribute="bottom" id="nhp-mR-GrH"/>
+                            <constraint firstAttribute="bottom" secondItem="bUd-vf-KYh" secondAttribute="bottom" id="lAm-P8-gEj"/>
                             <constraint firstItem="WMX-Bi-ynM" firstAttribute="leading" secondItem="uzy-hF-RnM" secondAttribute="leading" id="qt6-Il-hTM"/>
-                            <constraint firstAttribute="trailing" secondItem="xFO-m8-EVc" secondAttribute="trailing" id="rQC-Rb-jKa"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -3657,7 +3622,7 @@
             <objects>
                 <viewController storyboardIdentifier="ChatVC" id="tiR-1A-4rA" customClass="ChatVC" customModule="SPONENT" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="shq-Su-p2B">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="4gc-iO-OYi"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -3707,9 +3672,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemCyanColor">
-            <color red="0.19607843137254902" green="0.67843137254901964" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray2Color">
             <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
