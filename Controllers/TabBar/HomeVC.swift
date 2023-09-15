@@ -45,9 +45,9 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     private var loadingView: UIView?
     var selectedMarker: GMSMarker?
     let textFieldDelegateHelper = TextFieldDelegateHelper<HomeVC>()
-    let sports = ["Cricket", "Baseball", "Golf", "Hockey", "Martial Arts"]
+    var sports: [Category] = []
+    var ages: [Agetype] = []
     let randomGenders = ["Any", "Male", "Female"]
-    let randomAges = ["Any", "Teen Age", "20-90", "30-39", "40-49", "50-59", "60+"]
     let randomParticipants = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
                      "14", "More than 15", "Team"]
     let randomSkills = ["Any", "Expert", "Perfect", "Middle", "Average"]
@@ -59,12 +59,20 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        apiCall { [weak self] result in
+               switch result {
+               case .success(let categoriesModel):
+                   self?.sports = categoriesModel.body.categories
+                   self?.ages = categoriesModel.body.agetypes
+               case .failure(let error):
+                   print("API call error: \(error)")
+               }
+           }
         homeView.isHidden = false
         homeMapView.isHidden = true
         addDetails.isHidden = true
         setupKeyboardDismiss()
         styleViews()
-        print("ABC")
         addAnnotations()
         addDetailsTextView.textColor = UIColor.lightGray
         //homeSportBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
@@ -77,18 +85,55 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         #selector(showParticipantActionSheet))
         setupTapGesture(for: skillView, action: #selector(showSkillActionSheet))
   }
+    //MARK: - API Calling
+    func apiCall(completion: @escaping (Result<CategoriesModel, Error>) -> Void) {
+        let endpoint = APIConstants.Endpoints.categories
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url, timeoutInterval: 30)
+        request.addValue("ci_session=ecb2cacef693dd7c6e5068c41a6d248b91904385", forHTTPHeaderField: "Cookie")
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data received", code: 1, userInfo: nil)))
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let categoriesModel = try decoder.decode(CategoriesModel.self, from: data)
+                completion(.success(categoriesModel))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        
+        task.resume()
+    }
 
     //MARK: - HelperFuntions
     @objc func showSportActionSheet() {
-         actions.removeAll()
-         for sport in sports {
-            let actionOne = UIAlertAction(title: sport, style: .default) { [weak self] _ in
-            self?.sportTypeLabel.text = sport
+        actions.removeAll()
+        for sport in sports {
+            let actionOne = UIAlertAction(title: sport.title, style: .default) { [weak self] _ in
+                self?.sportTypeLabel.text = sport.title
+            }
+            actions.append(actionOne)
         }
-         actions.append(actionOne)
-     }
         presentActionSheet(title: "Select Sport Type", message: nil, actions: actions)
-  }
+    }
+
     @objc func showGenderActionSheet() {
          actions.removeAll()
          for gender in randomGenders {
@@ -100,15 +145,16 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
          presentActionSheet(title: "Select Gender", message: nil, actions: actions)
   }
     @objc func showAgeActionSheet() {
-         actions.removeAll()
-         for age in randomAges {
-            let action = UIAlertAction(title: age, style: .default) { [weak self ] _ in
-            self?.ageLabel.text = age
+        actions.removeAll()
+        for ageType in ages {
+            let action = UIAlertAction(title: ageType.title, style: .default) { [weak self ] _ in
+                self?.ageLabel.text = ageType.title
+            }
+            actions.append(action)
         }
-         actions.append(action)
-     }
-         presentActionSheet(title: "Select age", message: nil, actions: actions)
-  }
+        presentActionSheet(title: "Select age", message: nil, actions: actions)
+    }
+
     @objc func showParticipantActionSheet() {
          actions.removeAll()
          for player in randomParticipants {
@@ -247,7 +293,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
       }
   }
 
-     //MARK: - Extension TableaView
+//MARK: - Extension TableaView
 extension HomeVC: UITableViewDataSource, UITableViewDelegate{
     
     func numberOfSections(in tableView: UITableView) -> Int {

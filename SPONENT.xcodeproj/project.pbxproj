@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		761825072AB435D70018073E /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761825062AB435D70018073E /* Categories.swift */; };
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		761825062AB435D70018073E /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 			isa = PBXGroup;
 			children = (
 				E0DF66D22A95D14F006BFBFE /* MapPlaces.swift */,
+				761825062AB435D70018073E /* Categories.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				E0DD3C6F2AAEFF5600D8A205 /* RequestTableViewCell.swift in Sources */,
 				76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */,
 				E0B664EA2A85009200537CAE /* GradientColour.swift in Sources */,
+				761825072AB435D70018073E /* Categories.swift in Sources */,
 				E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */,
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
 				E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */,
