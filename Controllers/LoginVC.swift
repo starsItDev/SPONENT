@@ -162,6 +162,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         apiCall()
     }
     @IBAction func loginAsGuestButton(_ sender: Any) {
+        UserDefaults.standard.set("", forKey: "userID")
+        UserDefaults.standard.set("", forKey: "apikey")
         if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
             tabBarController.modalPresentationStyle = .fullScreen
             self.present(tabBarController, animated: false, completion: nil)

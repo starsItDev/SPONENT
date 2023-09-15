@@ -145,6 +145,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func signOutButton(_ sender: UIButton) {
         UserDefaults.standard.set("", forKey: "userID")
+        UserDefaults.standard.set("", forKey: "apikey")
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
