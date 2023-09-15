@@ -8,6 +8,10 @@
 import UIKit
 import Kingfisher
 
+protocol ProfileDelegate: AnyObject {
+    func didTapUserProfileSettingButton()
+}
+
 class ProfileVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - Variable
@@ -23,8 +27,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var changePasswordView: GradientView!
     @IBOutlet weak var oldPasswordField: UITextField!
     @IBOutlet weak var newPasswordField: UITextField!
-    let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
-    
+    @IBOutlet weak var userSettingStackView: UIStackView!
     @IBOutlet weak var imgProfileView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var ageLabel: UILabel!
@@ -32,6 +35,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var sportNameLabel: UILabel!
     @IBOutlet weak var loctionLabel: UILabel!
     @IBOutlet weak var aboutMeLabel: UILabel!
+    let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
+    weak var delegate: ProfileDelegate?
     
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -130,6 +135,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         } else {
             settingStackView.isHidden = true
         }
+        delegate?.didTapUserProfileSettingButton()
     }
     @IBAction func editProfileButton(_ sender: UIButton) {
         if let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
@@ -165,6 +171,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         profileFollowerView.isHidden = true
         profileFollowingView.isHidden = true
         settingStackView.isHidden = true
+        userSettingStackView.isHidden = true
         changePasswordView.isHidden = true
         oldPasswordField.layer.cornerRadius = 5
         oldPasswordField.layer.borderWidth = 1.0

@@ -18,6 +18,7 @@ class ChatViewVC: UIViewController {
     //MARK: - Actions
     @IBAction func userProfileButton(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+            vc.delegate = self
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -29,3 +30,19 @@ class ChatViewVC: UIViewController {
          }
      }
  }
+
+  //MARK: - Extension ProfileDelegate
+ extension ChatViewVC: ProfileDelegate {
+    func didTapUserProfileSettingButton() {
+        if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
+            if profileVC.userSettingStackView.isHidden {
+                profileVC.userSettingStackView.isHidden = false
+                profileVC.settingStackView.isHidden = true
+            } else {
+                profileVC.userSettingStackView.isHidden = true
+                profileVC.settingStackView.isHidden = true
+            }
+       }
+   }
+ }
+
