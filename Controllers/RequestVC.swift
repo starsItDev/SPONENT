@@ -22,7 +22,8 @@ class RequestVC: UIViewController {
     //MARK: - Actions
     @IBAction func requestBackButton(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-            self.navigationController?.pushViewController(vc, animated: false)        }
+            self.navigationController?.pushViewController(vc, animated: false)
+        }
     }
     @IBAction func pendingButton(_ sender: UIButton) {
         isImageRotated.toggle()

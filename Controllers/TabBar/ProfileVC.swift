@@ -37,7 +37,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var aboutMeLabel: UILabel!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
     weak var delegate: ProfileDelegate?
-    
+    let updateSignUpVC = UpdateSignUpVC()
+
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,7 +76,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         
         task.resume()
     }
-    
     func updateUI(with responseData: Data) {
         do {
             if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
@@ -90,17 +90,14 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                     self.sportNameLabel.text = body["category_name"] as? String
                     if let avatarURLString = body["avatar"] as? String,
                        let avatarURL = URL(string: avatarURLString) {
-                        // Use Kingfisher to load and cache the image
                         self.imgProfileView.kf.setImage(with: avatarURL)
                     }
                 }
             }
         } catch {
             print("Error parsing JSON: \(error)")
-            // Handle the JSON parsing error as needed
         }
     }
-    
     
     //MARK: - Actions
     @IBAction func profileSegmentControl(_ sender: UISegmentedControl) {
@@ -138,7 +135,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         delegate?.didTapUserProfileSettingButton()
     }
     @IBAction func editProfileButton(_ sender: UIButton) {
-        if let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
+        if let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "UpdateSignUpVC") as? UpdateSignUpVC {
             controller.modalPresentationStyle = .fullScreen
             self.present(controller, animated: false)
         }
