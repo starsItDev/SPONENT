@@ -124,10 +124,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 DispatchQueue.main.async {
                     if httpResponse.statusCode == 200 {
                         print("Update Successful")
-                        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
-                            vc.modalPresentationStyle = .fullScreen
-                            self.present(vc, animated: false)
-                        }
+                        self.dismiss(animated: false, completion: nil)
                             } else {
                         self.showAlert(title: "Error", message: "Failed to update profile")
                     }
@@ -135,6 +132,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }.resume()
     }
+  
     func styleViews() {
         updateAgeView.applyBorder()
         updateGenderView.applyBorder()
@@ -221,7 +219,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     @IBAction func forwardButton(_ sender: UIButton) {
         apiCall()
-        dismiss(animated: false, completion: nil)
     }
 }
 
