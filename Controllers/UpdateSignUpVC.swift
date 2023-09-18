@@ -53,85 +53,85 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
        
-    //MARK: - Helper functions
-    func apiCall(){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-              let userlocation = appDelegate.userLocation,
-              let name = updateNameField.text, !name.isEmpty,
-              let email = updateEmailField.text, !email.isEmpty,
-              let password = updatePasswdField.text, !password.isEmpty,
-              let age = updateAgeLabel.text, !age.isEmpty,
-              let gender = updateGenderLabel.text, !gender.isEmpty,
-              let aboutMe = updateAboutField.text, !aboutMe.isEmpty,
-              let categoryID = updateCategoryLabel.text, !categoryID.isEmpty,
-              let location = updateLocationLabel.text, !location.isEmpty
-        else {
-                showAlert(title: "Alert", message: "Please fill in all required fields")
-                return
-            }
-        let latitude = userlocation.coordinate.latitude
-        let longitude = userlocation.coordinate.longitude
-        
-        let endpoint = APIConstants.Endpoints.userUpdateProfile
-        let urlString = APIConstants.baseURL + endpoint
-        
-        guard let url = URL(string: urlString) else {
-            showAlert(title: "Alert", message: "Invalid URL")
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let boundary = "Boundary-\(UUID().uuidString)"
-           request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
-        var body = Data()
-        let textFields = [
-                "name": name,
-                "email": email,
-                "password": password,
-                "age": age,
-                "gender": gender,
-                "aboutMe": aboutMe,
-                "category_id": categoryID,
-                "location[latitude]": String(latitude),
-                "location[longitude]": String(longitude),
-                "location[location]": location
-            ]
-        for (key, value) in textFields {
-                body.append("--\(boundary)\r\n".data(using: .utf8)!)
-                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
-                body.append("\(value)\r\n".data(using: .utf8)!)
-            }
-        if let image = updateImage.image, let imageData = image.jpegData(compressionQuality: 0.7) {
-                body.append("--\(boundary)\r\n".data(using: .utf8)!)
-                body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"photo.jpg\"\r\n".data(using: .utf8)!)
-                body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
-                body.append(imageData)
-                body.append("\r\n".data(using: .utf8)!)
-            }
-            body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        
-        request.httpBody = body
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                  DispatchQueue.main.async {
-                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
-                    }
-                return
-            }
-        if let httpResponse = response as? HTTPURLResponse {
-                DispatchQueue.main.async {
-                    if httpResponse.statusCode == 200 {
-                        print("Update Successful")
-                        self.dismiss(animated: false, completion: nil)
-                            } else {
-                        self.showAlert(title: "Error", message: "Failed to update profile")
-                    }
-                }
-            }
-        }.resume()
-    }
+//    //MARK: - Helper functions
+//    func apiCall(){
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+//              let userlocation = appDelegate.userLocation,
+//              let name = updateNameField.text, !name.isEmpty,
+//              let email = updateEmailField.text, !email.isEmpty,
+//              let password = updatePasswdField.text, !password.isEmpty,
+//              let age = updateAgeLabel.text, !age.isEmpty,
+//              let gender = updateGenderLabel.text, !gender.isEmpty,
+//              let aboutMe = updateAboutField.text, !aboutMe.isEmpty,
+//              let categoryID = updateCategoryLabel.text, !categoryID.isEmpty,
+//              let location = updateLocationLabel.text, !location.isEmpty
+//        else {
+//                showAlert(title: "Alert", message: "Please fill in all required fields")
+//                return
+//            }
+//        let latitude = userlocation.coordinate.latitude
+//        let longitude = userlocation.coordinate.longitude
+//
+//        let endpoint = APIConstants.Endpoints.userUpdateProfile
+//        let urlString = APIConstants.baseURL + endpoint
+//
+//        guard let url = URL(string: urlString) else {
+//            showAlert(title: "Alert", message: "Invalid URL")
+//            return
+//        }
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "POST"
+//
+//        let boundary = "Boundary-\(UUID().uuidString)"
+//           request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+//
+//        var body = Data()
+//        let textFields = [
+//                "name": name,
+//                "email": email,
+//                "password": password,
+//                "age": age,
+//                "gender": gender,
+//                "aboutMe": aboutMe,
+//                "category_id": categoryID,
+//                "location[latitude]": String(latitude),
+//                "location[longitude]": String(longitude),
+//                "location[location]": location
+//            ]
+//        for (key, value) in textFields {
+//                body.append("--\(boundary)\r\n".data(using: .utf8)!)
+//                body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+//                body.append("\(value)\r\n".data(using: .utf8)!)
+//            }
+//        if let image = updateImage.image, let imageData = image.jpegData(compressionQuality: 0.7) {
+//                body.append("--\(boundary)\r\n".data(using: .utf8)!)
+//                body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"photo.jpg\"\r\n".data(using: .utf8)!)
+//                body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+//                body.append(imageData)
+//                body.append("\r\n".data(using: .utf8)!)
+//            }
+//            body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+//
+//        request.httpBody = body
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            guard error == nil else {
+//                  DispatchQueue.main.async {
+//                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+//                    }
+//                return
+//            }
+//        if let httpResponse = response as? HTTPURLResponse {
+//                DispatchQueue.main.async {
+//                    if httpResponse.statusCode == 200 {
+//                        print("Update Successful")
+//                        self.dismiss(animated: false, completion: nil)
+//                            } else {
+//                        self.showAlert(title: "Error", message: "Failed to update profile")
+//                    }
+//                }
+//            }
+//        }.resume()
+//    }
   
     func styleViews() {
         updateAgeView.applyBorder()
@@ -218,7 +218,8 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         dismiss(animated: false, completion: nil)
     }
     @IBAction func forwardButton(_ sender: UIButton) {
-        apiCall()
+        //apiCall()
+        dismiss(animated: false, completion: nil)
     }
 }
 
