@@ -49,6 +49,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         // Create the multipart form data request body
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = ""
+        
         for (key, value) in parameters {
             body += "--\(boundary)\r\n"
             body += "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n"
@@ -65,43 +66,41 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         request.httpMethod = "POST"
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         request.httpBody = body.data(using: .utf8)
+        
         URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                guard error == nil else {
                     self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                    return
                 }
-                return
-            }
-            guard let data = data else {
-                print("Data not received.")
-                return
-            }
-            do{
-                if let httpResponse = response as? HTTPURLResponse {
-                    if httpResponse.statusCode == 200 {
-                        if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
-                            print(httpResponse)
-                            print(data)
-                            let body = json["body"] as? Dictionary<String, Any>
-                            let userId = body?["user_id"] as? String
-                            let apikey = body?["apikey"] as? String
-                            UserDefaults.standard.set(userId, forKey: "userID")
-                            UserDefaults.standard.set(apikey, forKey: "apikey")
-                                                        print(apikey)
-                            DispatchQueue.main.async {
-                                if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-                                    tabBarController.modalPresentationStyle = .fullScreen
-                                    self.present(tabBarController, animated: false, completion: nil)
+                guard let data = data else {
+                    print("Data not received.")
+                    return
+                }
+                do {
+                    if let httpResponse = response as? HTTPURLResponse {
+                        if httpResponse.statusCode == 200 {
+                            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                                let body = json["body"] as? [String: Any]
+                                if let userId = body?["user_id"] as? String,
+                                   let apikey = body?["apikey"] as? String {
+                                    UserDefaults.standard.set(userId, forKey: "userID")
+                                    UserDefaults.standard.set(apikey, forKey: "apikey")
+                                    print(apikey)
+                                    
+                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+                                        tabBarController.modalPresentationStyle = .fullScreen
+                                        self.present(tabBarController, animated: false, completion: nil)
+                                    }
                                 }
                             }
+                        } else {
+                            self.showAlert(title: "Error", message: "Invalid Email or Password")
                         }
-                    } else {
-                        self.showAlert(title: "Error", message: "Invalid Email or Password")
                     }
+                } catch {
+                    print("Error parsing JSON: \(error)")
                 }
-            }
-            catch {
-                print("Error parsing JSON: \(error)")
             }
         }.resume()
     }

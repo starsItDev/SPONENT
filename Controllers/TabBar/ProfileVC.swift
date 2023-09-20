@@ -160,7 +160,95 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func updateOkButton(_ sender: UIButton) {
+        if let oldPassword = oldPasswordField.text,
+           let newPassword = newPasswordField.text {
+            
+            let parameters = [
+                [
+                    "key": "newPassword",
+                    "value": newPassword,
+                    "type": "text"
+                ],
+                [
+                    "key": "oldPassword",
+                    "value": oldPassword,
+                    "type": "text"
+                ]
+            ]
+            
+            // Create the multipart form data request body
+            let boundary = "Boundary-\(UUID().uuidString)"
+            var body = Data()
+            
+            for param in parameters {
+                if let disabled = param["disabled"] as? Bool, disabled {
+                    continue
+                }
+                let paramName = param["key"] as! String
+                let paramType = param["type"] as! String
+                
+                body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
+                
+                if paramType == "text" {
+                    let paramValue = param["value"] as! String
+                    body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
+                } else {
+                    if let paramSrc = param["src"] as? String {
+                        do {
+                            let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc))
+                            body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
+                            body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
+                            body.append(fileData)
+                            body.append("\r\n".data(using: .utf8)!)
+                        } catch {
+                            print("Error reading file: \(error)")
+                            // Handle the error as needed
+                        }
+                    }
+                }
+            }
+            
+            body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+            
+            let endpoint = APIConstants.Endpoints.updatePassword
+            let urlString = APIConstants.baseURL + endpoint
+            
+            guard let url = URL(string: urlString) else {
+                showAlert(title: "Alert", message: "Invalid URL")
+                return
+            }
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+            request.httpBody = body
+            
+            if let apikey = UserDefaults.standard.string(forKey: "apikey") {
+                request.addValue(apikey, forHTTPHeaderField: "authorizuser")
+            }
+            
+            request.addValue("ci_session=5f00cf86613afada367b19f16bfcef515914c5a7", forHTTPHeaderField: "Cookie")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("Error: \(error)")
+                    // Handle the error as needed
+                } else if let data = data {
+                    print(String(data: data, encoding: .utf8)!)
+                }
+            }
+            
+            task.resume()
+            
+        } else {
+            // Handle cases where one or both text fields are empty
+            // For example, show an alert to inform the user to fill in both fields.
+            showAlert(title: "Alert", message: "Please fill in both old and new passwords.")
+        }
     }
+
+
     //MARK: - Helper Functions
     func uiSetUp(){
         profileSegmentView.isHidden = false
