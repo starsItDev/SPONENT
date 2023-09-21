@@ -137,7 +137,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     @objc func showGenderActionSheet() {
          actions.removeAll()
          for gender in randomGenders {
-            let actionTwo = UIAlertAction(title: gender, style: .default) { [weak self] _ in
+             let actionTwo = UIAlertAction(title: gender, style: .default) { [weak self] _ in
             self?.genderLabel.text = gender
         }
          actions.append(actionTwo)

@@ -7,6 +7,7 @@
 
 import UIKit
 import MessageKit
+import InputBarAccessoryView
 
   //MARK: - Structures
 struct User: SenderType {
@@ -21,7 +22,7 @@ struct User: SenderType {
 }
 
     //MARK: - Class ChatVC
-class ChatVC: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate,                       MessagesDisplayDelegate {
+class ChatVC: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate,                       MessagesDisplayDelegate, InputBarAccessoryViewDelegate {
     
     //MARK: - Variables
      let user: User = User(senderId: "user1", displayName: "Guest")
@@ -39,6 +40,7 @@ class ChatVC: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate
         messagesCollectionView.reloadData()
         messagesCollectionView.scrollToLastItem(animated: true)
         addRandomMessages()
+        messageInputBar.delegate = self
     }
     //MARK: - Helper Functions
     func addRandomMessages() {
@@ -67,7 +69,24 @@ class ChatVC: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return receivedMessages.count
     }
-} 
+    func backgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        if message.sender.senderId == user.senderId {
+            return UIColor.orange
+        } else {
+            return UIColor.init(red: 0, green: 0, blue: 2, alpha: 0.3)
+        }
+    }
+    func messageBackgroundColor(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> UIColor {
+        return backgroundColor(for: message, at: indexPath, in: messagesCollectionView)
+    }
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+            let newMessage = Message(sender: user, messageId: UUID().uuidString, sentDate: Date(), kind: .text(text))
+            messages.append(newMessage)
+            messagesCollectionView.reloadData()
+            inputBar.inputTextView.text = ""
+            messagesCollectionView.scrollToLastItem(animated: true)
+    }
+}
 
     //MARK: - Class SizeCalculator
 class MessageSizeCalculator: TextMessageSizeCalculator {

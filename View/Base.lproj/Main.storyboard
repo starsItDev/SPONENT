@@ -425,14 +425,14 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cillian-murphy-oppenheimer" translatesAutoresizingMaskIntoConstraints="NO" id="1Ic-ce-05b">
-                                                        <rect key="frame" x="32" y="12" width="130" height="130"/>
+                                                        <rect key="frame" x="29.5" y="12" width="135" height="135"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="130" id="6Be-aH-pif"/>
-                                                            <constraint firstAttribute="height" constant="130" id="alK-rm-oeH"/>
+                                                            <constraint firstAttribute="width" constant="135" id="6Be-aH-pif"/>
+                                                            <constraint firstAttribute="height" constant="135" id="alK-rm-oeH"/>
                                                         </constraints>
                                                         <userDefinedRuntimeAttributes>
                                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <real key="value" value="75"/>
+                                                                <real key="value" value="67.5"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </imageView>
@@ -3742,9 +3742,9 @@
                                                 </constraints>
                                                 <segments>
                                                     <segment title="Profile"/>
-                                                    <segment title="Activity(0)"/>
-                                                    <segment title="Followers(0)"/>
-                                                    <segment title="Following(0)"/>
+                                                    <segment title="Activity"/>
+                                                    <segment title="Followers"/>
+                                                    <segment title="Following"/>
                                                 </segments>
                                                 <color key="selectedSegmentTintColor" red="0.93719279769999997" green="0.93688493969999997" blue="0.95765799279999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <connections>
@@ -3798,7 +3798,7 @@
                                                                 </constraints>
                                                                 <imageReference key="image" image="ic_favourite_sport_new" symbolScale="small"/>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-1I-TOv">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-1I-TOv">
                                                                 <rect key="frame" x="45" y="0.0" width="4.5" height="40"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
@@ -3820,7 +3820,7 @@
                                                                 </constraints>
                                                                 <imageReference key="image" image="ic_gender_new" symbolScale="small"/>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIw-y0-vcj">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AIw-y0-vcj">
                                                                 <rect key="frame" x="45" y="0.0" width="4.5" height="40"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>

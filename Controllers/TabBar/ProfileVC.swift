@@ -50,6 +50,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         apiCall()
+        tabsApiCall()
     }
     //MARK: - API CAllING
     func apiCall() {
@@ -82,6 +83,32 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         
         task.resume()
     }
+    func tabsApiCall(){
+        let endpoint = APIConstants.Endpoints.tabsCount
+        let urlString = APIConstants.baseURL + endpoint
+        
+//        if let userId = UserDefaults.standard.string(forKey: "userID") {
+//            urlString += "?id=" + userId
+//        }
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        if let apiKey = UserDefaults.standard.string(forKey: "apiKey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let data = data {
+                self.updateCounters(with: data)
+         }
+      }
+        task.resume()
+    }
     func updateUI(with responseData: Data) {
         do {
             if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
@@ -95,20 +122,35 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                     self.aboutMeLabel.text = body["about_me"] as? String
                     self.sportNameLabel.text = body["category_name"] as? String
                     if let avatarURLString = body["avatar"] as? String,
-                               let avatarURL = URL(string: avatarURLString.replacingOccurrences(of: "http://", with: "https://")) {
-                                
-                                // Use Kingfisher to load and display the image
+                        let avatarURL = URL(string: avatarURLString.replacingOccurrences(of: "http://", with: "https://")) {
                         self.imgProfileView.kf.setImage(with: avatarURL, placeholder: UIImage(named: "placeholderImage"), options: nil, completionHandler: { result in
-                                    switch result {
-                                    case .success(let value):
-                                        // Image loaded successfully
-                                        print("Image loaded successfully: \(value.image)")
-                                    case .failure(let error):
-                                        // Handle image loading failure
-                                        print("Error loading image: \(error)")
-                                    }
-                                })
+                        switch result {
+                            case .success(let value):
+                                print("Image loaded successfully: \(value.image)")
+                            case .failure(let error):
+                                print("Error loading image: \(error)")
+                            }
+                        })
                     }
+                }
+            }
+        } catch {
+            print("Error parsing JSON: \(error)")
+        }
+    }
+    func updateCounters(with responseData: Data) {
+        do {
+            if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+               let body = jsonObject["body"] as? [String: Any] {
+                DispatchQueue.main.async {
+                    let activitiesCount = body["activities"] as? Int ?? 0
+                    let followersCount = body["followers"] as? Int ?? 0
+                    let followingCount = body["followings"] as? Int ?? 0
+                    
+                    self.profileSegmentController.setTitle("Activities: \(activitiesCount)", forSegmentAt: 1)
+                    self.profileSegmentController.setTitle("Followers: \(followersCount)", forSegmentAt: 2)
+                    self.profileSegmentController.setTitle("Following: \(followingCount)", forSegmentAt: 3)
+
                 }
             }
         } catch {

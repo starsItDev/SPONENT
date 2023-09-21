@@ -16,15 +16,14 @@ struct APIConstants {
         static let appUser = "/app/user"
         static let resetPassword = "/app/password/reset"
         static let logout = "/app/logout"
+        static let tabsCount = "/app/user/tabs"
         static let updatePassword = "/app/user/password"
-        
         static let userUpdateProfile = "/app/user/update"
         static let userReport = "/app/user/report"
         static let blockUser = "/app/user/block"
-        static let uderUnblock = "/app/user/unblock"
+        static let userUnblock = "/app/user/unblock"
         static let friendshipAdd = "/app/friendship/add"
         static let friendshipLeave = "/app/friendship/leave"
-
         static let categories = "/app/categories"
     }
 }
