@@ -16,8 +16,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var updateAgeView: UIView!
     @IBOutlet weak var updateGenderView: UIView!
     @IBOutlet weak var updateNameView: UIView!
-    @IBOutlet weak var updateEmailView: UIView!
-    @IBOutlet weak var updatePasswdView: UIView!
     @IBOutlet weak var updateCategoryView: UIView!
     @IBOutlet weak var updateAboutView: UIView!
     @IBOutlet weak var updateLocactionView: UIView!
@@ -26,8 +24,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var updateCategoryLabel: UILabel!
     @IBOutlet weak var updateLocationLabel: UILabel!
     @IBOutlet weak var updateNameField: UITextField!
-    @IBOutlet weak var updateEmailField: UITextField!
-    @IBOutlet weak var updatePasswdField: UITextField!
     @IBOutlet weak var updateAboutField: UITextField!
     @IBOutlet weak var updateScrollView: UIScrollView!
     var actions: [UIAlertAction] = []
@@ -35,15 +31,13 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     var tapGestureRecognizer: UITapGestureRecognizer?
     let textFieldDelegateHelper = TextFieldDelegateHelper<UpdateSignUpVC>()
     let Updateages = ["Age 17", "Age 18", "Age 19", "Age 20", "Age 21", "Age 22", "Age 23", "Age 24", "Age 25", "Age 26", "Age 27", "Age 28", "Age 29", "Age 30", "Age 31", "Age 32", "Age 33", "Age 34", "Age 35", "Age 36", "Age 37", "Age 38", "Age 39", "Age 40", "Age 41", "Age 42", "Age 43", "Age 44", "Age 45", "Age 46", "Age 47", "Age 48", "Age 49", "Age 50", "Age 51", "Age 52", "Age 53", "Age 54", "Age 55"]
-    let Updategenders = ["Any", "Male", "Female"]
+    let Updategenders = ["Male", "Female"]
     let Updatecategories = ["Cricket", "Baseball", "Golf", "Hockey", "Martial Arts"]
        
     //MARK: - Override Fuction
     override func viewDidLoad() {
         super.viewDidLoad()
         styleViews()
-        updateEmailField.delegate = self
-        updatePasswdField.delegate = self
         updateAboutField.delegate = self
         setupKeyboardDismiss()
         setupTapGesture(for: updateAgeView, action: #selector(showAgeActionSheet))
@@ -72,8 +66,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
               let userlocation = appDelegate.userLocation,
               let name = updateNameField.text, !name.isEmpty,
-              let email = updateEmailField.text, !email.isEmpty,
-              let password = updatePasswdField.text, !password.isEmpty,
               let age = updateAgeLabel.text, !age.isEmpty,
               let gender = updateGenderLabel.text, !gender.isEmpty,
               let aboutMe = updateAboutField.text, !aboutMe.isEmpty,
@@ -105,8 +97,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         var body = Data()
         let textFields = [
                 "name": name,
-                "email": email,
-                "password": password,
                 "age": age,
                 "gender": gender,
                 "aboutMe": aboutMe,
@@ -154,8 +144,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         updateAgeView.applyBorder()
         updateGenderView.applyBorder()
         updateNameView.applyBorder()
-        updateEmailView.applyBorder()
-        updatePasswdView.applyBorder()
         updateCategoryView.applyBorder()
         updateAboutView.applyBorder()
         updateLocactionView.applyBorder()

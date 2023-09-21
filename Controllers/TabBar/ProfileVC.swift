@@ -27,8 +27,11 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var changePasswordView: GradientView!
     @IBOutlet weak var oldPasswordField: UITextField!
     @IBOutlet weak var newPasswordField: UITextField!
+    @IBOutlet weak var confirmPasswordField: UITextField!
     @IBOutlet weak var userSettingStackView: UIStackView!
     @IBOutlet weak var imgProfileView: UIImageView!
+    @IBOutlet weak var profileBackButton: UIButton!
+    @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var ageLabel: UILabel!
     @IBOutlet weak var genderLabel: UILabel!
@@ -43,6 +46,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSetUp()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         apiCall()
     }
     //MARK: - API CAllING
@@ -89,8 +95,19 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                     self.aboutMeLabel.text = body["about_me"] as? String
                     self.sportNameLabel.text = body["category_name"] as? String
                     if let avatarURLString = body["avatar"] as? String,
-                       let avatarURL = URL(string: avatarURLString) {
-                        self.imgProfileView.kf.setImage(with: avatarURL)
+                               let avatarURL = URL(string: avatarURLString.replacingOccurrences(of: "http://", with: "https://")) {
+                                
+                                // Use Kingfisher to load and display the image
+                        self.imgProfileView.kf.setImage(with: avatarURL, placeholder: UIImage(named: "placeholderImage"), options: nil, completionHandler: { result in
+                                    switch result {
+                                    case .success(let value):
+                                        // Image loaded successfully
+                                        print("Image loaded successfully: \(value.image)")
+                                    case .failure(let error):
+                                        // Handle image loading failure
+                                        print("Error loading image: \(error)")
+                                    }
+                                })
                     }
                 }
             }
@@ -142,8 +159,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func changePasswordButton(_ sender: UIButton) {
         if changePasswordView.isHidden {
-            changePasswordView.isHidden = false
-            settingStackView.isHidden = true
+                changePasswordView.isHidden = false
+                settingStackView.isHidden = true
         }
     }
     @IBAction func signOutButton(_ sender: UIButton) {
@@ -155,96 +172,99 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func updateCancelButton(_ sender: UIButton) {
-        if changePasswordView.isHidden == false {
+        if !changePasswordView.isHidden {
             changePasswordView.isHidden = true
         }
     }
+
     @IBAction func updateOkButton(_ sender: UIButton) {
         if let oldPassword = oldPasswordField.text,
-           let newPassword = newPasswordField.text {
+           let newPassword = newPasswordField.text,
+           let confirmPassword = confirmPasswordField.text {
             
-            let parameters = [
-                [
-                    "key": "newPassword",
-                    "value": newPassword,
-                    "type": "text"
-                ],
-                [
-                    "key": "oldPassword",
-                    "value": oldPassword,
-                    "type": "text"
+            if oldPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty {
+                showAlert(title: "Alert", message: "Please fill in all text fields.")
+            } else {
+                let parameters = [
+                    [
+                        "key": "newPassword",
+                        "value": newPassword,
+                        "type": "text"
+                    ],
+                    [
+                        "key": "oldPassword",
+                        "value": oldPassword,
+                        "type": "text"
+                    ]
                 ]
-            ]
-            
-            // Create the multipart form data request body
-            let boundary = "Boundary-\(UUID().uuidString)"
-            var body = Data()
-            
-            for param in parameters {
-                if let disabled = param["disabled"] as? Bool, disabled {
-                    continue
-                }
-                let paramName = param["key"] as! String
-                let paramType = param["type"] as! String
                 
-                body.append("--\(boundary)\r\n".data(using: .utf8)!)
-                body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
+                // Create the multipart form data request body
+                let boundary = "Boundary-\(UUID().uuidString)"
+                var body = Data()
                 
-                if paramType == "text" {
-                    let paramValue = param["value"] as! String
-                    body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
-                } else {
-                    if let paramSrc = param["src"] as? String {
-                        do {
-                            let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc))
-                            body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
-                            body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
-                            body.append(fileData)
-                            body.append("\r\n".data(using: .utf8)!)
-                        } catch {
-                            print("Error reading file: \(error)")
-                            // Handle the error as needed
+                for param in parameters {
+                    if let disabled = param["disabled"] as? Bool, disabled {
+                        continue
+                    }
+                    let paramName = param["key"] as! String
+                    let paramType = param["type"] as! String
+                    
+                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
+                    body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
+                    
+                    if paramType == "text" {
+                        let paramValue = param["value"] as! String
+                        body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
+                    } else {
+                        if let paramSrc = param["src"] as? String {
+                            do {
+                                let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc))
+                                body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
+                                body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
+                                body.append(fileData)
+                                body.append("\r\n".data(using: .utf8)!)
+                            } catch {
+                                print("Error reading file: \(error)")
+                            }
                         }
                     }
                 }
-            }
-            
-            body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-            
-            let endpoint = APIConstants.Endpoints.updatePassword
-            let urlString = APIConstants.baseURL + endpoint
-            
-            guard let url = URL(string: urlString) else {
-                showAlert(title: "Alert", message: "Invalid URL")
-                return
-            }
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-            request.httpBody = body
-            
-            if let apikey = UserDefaults.standard.string(forKey: "apikey") {
-                request.addValue(apikey, forHTTPHeaderField: "authorizuser")
-            }
-            
-            request.addValue("ci_session=5f00cf86613afada367b19f16bfcef515914c5a7", forHTTPHeaderField: "Cookie")
-            
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let error = error {
-                    print("Error: \(error)")
-                    // Handle the error as needed
-                } else if let data = data {
-                    print(String(data: data, encoding: .utf8)!)
+                
+                body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+                
+                let endpoint = APIConstants.Endpoints.updatePassword
+                let urlString = APIConstants.baseURL + endpoint
+                
+                guard let url = URL(string: urlString) else {
+                    showAlert(title: "Alert", message: "Invalid URL")
+                    return
                 }
+                
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+                request.httpBody = body
+                
+                if let apikey = UserDefaults.standard.string(forKey: "apikey") {
+                    request.addValue(apikey, forHTTPHeaderField: "authorizuser")
+                }
+                
+                request.addValue("ci_session=5f00cf86613afada367b19f16bfcef515914c5a7", forHTTPHeaderField: "Cookie")
+                
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let error = error {
+                        print("Error: \(error)")
+                    } else if let data = data {
+                        print(String(data: data, encoding: .utf8)!)
+                    DispatchQueue.main.async {
+                            self.changePasswordView.isHidden = true
+                        }
+                    }
+                }
+                task.resume()
             }
-            
-            task.resume()
-            
         } else {
-            // Handle cases where one or both text fields are empty
-            // For example, show an alert to inform the user to fill in both fields.
-            showAlert(title: "Alert", message: "Please fill in both old and new passwords.")
+            showAlert(title: "Alert", message: "Please fill in all text fields.")
         }
     }
 
@@ -258,12 +278,17 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         settingStackView.isHidden = true
         userSettingStackView.isHidden = true
         changePasswordView.isHidden = true
+        followButton.isHidden = true
+        profileBackButton.isHidden = true
         oldPasswordField.layer.cornerRadius = 5
         oldPasswordField.layer.borderWidth = 1.0
-        oldPasswordField.layer.borderColor = UIColor.black.cgColor
+        oldPasswordField.layer.borderColor = UIColor.gray.cgColor
         newPasswordField.layer.cornerRadius = 5
         newPasswordField.layer.borderWidth = 1.0
-        newPasswordField.layer.borderColor = UIColor.black.cgColor
+        newPasswordField.layer.borderColor = UIColor.gray.cgColor
+        confirmPasswordField.layer.cornerRadius = 5
+        confirmPasswordField.layer.borderWidth = 1.0
+        confirmPasswordField.layer.borderColor = UIColor.gray.cgColor
         setupKeyboardDismiss()
         self.navigationController?.navigationBar.isHidden = true
     }

@@ -37,7 +37,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let textFieldDelegateHelper = TextFieldDelegateHelper<SignUpVC>()
     let ages = ["Age 17", "Age 18", "Age 19", "Age 20", "Age 21", "Age 22", "Age 23", "Age 24", "Age 25", "Age 26", "Age 27", "Age 28", "Age 29", "Age 30", "Age 31", "Age 32", "Age 33", "Age 34", "Age 35", "Age 36", "Age 37", "Age 38", "Age 39", "Age 40", "Age 41", "Age 42", "Age 43", "Age 44", "Age 45", "Age 46", "Age 47", "Age 48", "Age 49", "Age 50", "Age 51", "Age 52", "Age 53", "Age 54", "Age 55"]
     let genders = ["Any", "Male", "Female"]
-    let categories = ["Cricket", "Baseball", "Golf", "Hockey", "Martial Arts"]
+    var categories: [Category] = []
     
     //MARK: - Override func
     override func viewDidLoad() {
@@ -51,6 +51,14 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
         setupTapGesture(for: favCategoryView, action: #selector(showSportActionSheet))
         setupTapGesture(for: signUpIMageView, action: #selector(showImagePicker))
+        apiCalltwo { [weak self] result in
+               switch result {
+               case .success(let categoriesModel):
+                   self?.categories = categoriesModel.body.categories
+               case .failure(let error):
+                   print("API call error: \(error)")
+               }
+           }
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
                 let geocoder = CLGeocoder()
                 geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
@@ -66,6 +74,41 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         }
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    //MARK: - API Calling
+    func apiCalltwo(completion: @escaping (Result<CategoriesModel, Error>) -> Void) {
+        let endpoint = APIConstants.Endpoints.categories
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
+            return
+        }
+        
+        var request = URLRequest(url: url, timeoutInterval: 30)
+        request.addValue("ci_session=ecb2cacef693dd7c6e5068c41a6d248b91904385", forHTTPHeaderField: "Cookie")
+        request.httpMethod = "GET"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+        
+            guard let data = data else {
+                completion(.failure(NSError(domain: "No data received", code: 1, userInfo: nil)))
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let categoriesModel = try decoder.decode(CategoriesModel.self, from: data)
+                completion(.success(categoriesModel))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
     }
     func apiCall() {
         // Check if userLocation is available
@@ -199,8 +242,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @objc func showSportActionSheet() {
          actions.removeAll()
         for category in categories {
-            let actionOne = UIAlertAction(title: category, style: .default) { [weak self] _ in
-            self?.favCategoryLabel.text = category
+            let actionOne = UIAlertAction(title: category.title, style: .default) { [weak self] _ in
+                self?.favCategoryLabel.text = category.title
             self?.favCategoryLabel.textColor = .black
          }
          actions.append(actionOne)
