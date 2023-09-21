@@ -42,13 +42,12 @@ class ChatVC: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate
         addRandomMessages()
         messageInputBar.delegate = self
     }
+    
     //MARK: - Helper Functions
     func addRandomMessages() {
         let message1 = Message(sender: user, messageId: "1", sentDate: Date(), kind: .text("Hello, how are you?"))
         let message2 = Message(sender: opponent, messageId: "2", sentDate: Date(), kind: .text("I'm good, thanks!"))
-        let message3 = Message(sender: user, messageId: "3", sentDate: Date(), kind: .text("Hey"))
-        let message4 = Message(sender: opponent, messageId: "4", sentDate: Date(), kind: .text("Are you up for tonight?"))
-        messages.append(contentsOf: [message1, message2, message3, message4])
+        messages.append(contentsOf: [message1, message2])
         receivedMessages = messages
         messagesCollectionView.reloadData()
     }
@@ -82,18 +81,9 @@ class ChatVC: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
             let newMessage = Message(sender: user, messageId: UUID().uuidString, sentDate: Date(), kind: .text(text))
             messages.append(newMessage)
+            receivedMessages = messages
             messagesCollectionView.reloadData()
             inputBar.inputTextView.text = ""
             messagesCollectionView.scrollToLastItem(animated: true)
     }
 }
-
-    //MARK: - Class SizeCalculator
-class MessageSizeCalculator: TextMessageSizeCalculator {
-    override func messageContainerSize(for message: MessageType, at indexPath: IndexPath) -> CGSize {
-        var size = super.messageContainerSize(for: message, at: indexPath)
-        size.width += 100
-               size.height += 40
-        return size
-     }
-  }

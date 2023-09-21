@@ -37,6 +37,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     @IBAction func chatCancelButton(_ sender: UIButton) {
         chatView.isHidden = true
     }
+    
 }
 
    //MARK: - Extension TableView
@@ -66,7 +67,26 @@ extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         chatView.isHidden = true
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+            vc.delegate = self
+            vc.isProfileBackButtonHidden = false
+            vc.isFollowButtonHidden = false
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+}
+
+  //MARK: - Extension ProfileDelegate
+  extension ConnectVC: ProfileDelegate {
+      
+    func didTapUserProfileSettingButton() {
+       if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
+           if profileVC.userSettingStackView.isHidden {
+              profileVC.userSettingStackView.isHidden = false
+              profileVC.settingStackView.isHidden = true
+           } else {
+              profileVC.userSettingStackView.isHidden = true
+              profileVC.settingStackView.isHidden = true
+          }
+       }
+   }
 }

@@ -19,6 +19,8 @@ class ChatViewVC: UIViewController {
     @IBAction func userProfileButton(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
             vc.delegate = self
+            vc.isProfileBackButtonHidden = false
+            vc.isFollowButtonHidden = false
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -42,7 +44,7 @@ class ChatViewVC: UIViewController {
                 profileVC.userSettingStackView.isHidden = true
                 profileVC.settingStackView.isHidden = true
             }
-       }
-   }
+        }
+     }
  }
 

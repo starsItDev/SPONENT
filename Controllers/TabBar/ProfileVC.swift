@@ -39,8 +39,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var loctionLabel: UILabel!
     @IBOutlet weak var aboutMeLabel: UILabel!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
-    weak var delegate: ProfileDelegate?
+    var delegate: ProfileDelegate?
     let updateSignUpVC = UpdateSignUpVC()
+    var isProfileBackButtonHidden = true
+    var isFollowButtonHidden = true
 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -74,9 +76,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error: \(error)")
-                // Handle the error as needed
             } else if let data = data {
-                // Handle the API response here
                 self.updateUI(with: data)
             }
         }
@@ -309,7 +309,18 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             showAlert(title: "Alert", message: "Please fill in all text fields.")
         }
     }
-
+    
+    @IBAction func followButton(_ sender: UIButton) {
+        if followButton.currentTitle == "Follow" {
+            followButton.setTitle("Unfollow", for: .normal)
+        } else {
+            followButton.setTitle("Follow", for: .normal)
+        }
+    }
+    @IBAction func ProfileBackButton(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
 
     //MARK: - Helper Functions
     func uiSetUp(){
@@ -320,8 +331,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         settingStackView.isHidden = true
         userSettingStackView.isHidden = true
         changePasswordView.isHidden = true
-        followButton.isHidden = true
-        profileBackButton.isHidden = true
+        profileBackButton.isHidden = isProfileBackButtonHidden
+        followButton.isHidden = isFollowButtonHidden
         oldPasswordField.layer.cornerRadius = 5
         oldPasswordField.layer.borderWidth = 1.0
         oldPasswordField.layer.borderColor = UIColor.gray.cgColor
