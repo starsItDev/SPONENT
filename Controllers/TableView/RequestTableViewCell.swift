@@ -13,7 +13,7 @@ class RequestTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        requestView.layer.borderWidth = 0.5
+        requestView.layer.borderWidth = 0.8
         requestView.layer.borderColor = UIColor.lightGray.cgColor
 //        requestView.layer.shadowColor = UIColor.black.cgColor
 //        requestView.layer.shadowOpacity = 0.2
