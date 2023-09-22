@@ -32,7 +32,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         setupKeyboardDismiss()
         forgotTextField.layer.cornerRadius = 5
         forgotTextField.layer.borderWidth = 1.0
-        forgotTextField.layer.borderColor = UIColor.black.cgColor
+        forgotTextField.layer.borderColor = UIColor.lightGray.cgColor
         forgotPasswordView.isHidden = true
     }
     // MARK: - POST API Calling
