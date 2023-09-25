@@ -12,39 +12,17 @@ class ActivityVC: UIViewController {
     //MARK: - Variables
     @IBOutlet weak var activityTableView: UITableView!
     @IBOutlet weak var activitySegmentController: UISegmentedControl!
-
     @IBOutlet weak var lineView: UIView!
+    
     //MARK: - Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
-        let whiteImage = UIImage(ciImage: .white)
-        activitySegmentController.setBackgroundImage(whiteImage, for: .normal, barMetrics: .default)
-       
-        moveLineToSegment(0)
-
     }
+    
     @IBAction func activitySegmentControl(_ sender: UISegmentedControl) {
-        let selectedSegmentIndex = sender.selectedSegmentIndex
-              moveLineToSegment(selectedSegmentIndex)
     }
-    func moveLineToSegment(_ segmentIndex: Int) {
-        let segmentTitle = activitySegmentController.titleForSegment(at: segmentIndex) ?? ""
-               
-               // Calculate the width needed to cover the title
-               let font = activitySegmentController.titleTextAttributes(for: .normal)?[NSAttributedString.Key.font] as? UIFont
-               let titleWidth = (segmentTitle as NSString).size(withAttributes: [NSAttributedString.Key.font: font ?? UIFont.systemFont(ofSize: 17)]).width
-               
-               // Calculate the line's new position and width
-               let segmentWidth = activitySegmentController.frame.width / CGFloat(activitySegmentController.numberOfSegments)
-               let lineCenterX = CGFloat(segmentIndex) * segmentWidth + segmentWidth / 2
-               
-               UIView.animate(withDuration: 0.2) {
-                   self.lineView.center.x = lineCenterX
-                   self.lineView.frame.size.width = titleWidth // Adjust the width
-               }
-           }
-  
+
 }
 
    //MARK: - Extension TableView
