@@ -21,6 +21,7 @@ class ActivityVC: UIViewController {
     }
     
     @IBAction func activitySegmentControl(_ sender: UISegmentedControl) {
+        
     }
 
 }

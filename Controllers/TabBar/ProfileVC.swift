@@ -136,6 +136,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             }
         } catch {
             print("Error parsing JSON: \(error)")
+            print("Error 2")
         }
     }
     func updateCounters(with responseData: Data) {
