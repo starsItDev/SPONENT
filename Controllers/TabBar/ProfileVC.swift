@@ -86,16 +86,12 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     func tabsApiCall(){
         let endpoint = APIConstants.Endpoints.tabsCount
         let urlString = APIConstants.baseURL + endpoint
-        
-//        if let userId = UserDefaults.standard.string(forKey: "userID") {
-//            urlString += "?id=" + userId
-//        }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
         }
         var request = URLRequest(url: url)
-        if let apiKey = UserDefaults.standard.string(forKey: "apiKey") {
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
         request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
