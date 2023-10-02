@@ -36,6 +36,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     @IBOutlet weak var addDetailsTextView: UITextView!
     @IBOutlet weak var addDetailsLocation: UIView!
     @IBOutlet weak var addDetailsLocLabel: UILabel!
+    @IBOutlet weak var datePicker: UIDatePicker!
     //var locationManager = CLLocationManager()
     var selectedCoordinate: CLLocationCoordinate2D?
     var actions: [UIAlertAction] = []
@@ -44,6 +45,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     var placess: [GMSMarker] = []
     private var loadingView: UIView?
     var selectedMarker: GMSMarker?
+    var selectedLocationLatitude: Double?
+    var selectedLocationLongitude: Double?
     let textFieldDelegateHelper = TextFieldDelegateHelper<HomeVC>()
     var sports: [Category] = []
     var ages: [Agetype] = []
@@ -121,7 +124,117 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         
         task.resume()
     }
+    func CreateActivityAPICall(){
+        
+      guard let categoryID = sportTypeLabel.text, !categoryID.isEmpty,
+            let selectedDateAndTime = datePicker?.date,
+            let activity = addDetailsActivity.text, !activity.isEmpty,
+            let description = addDetailsTextView.text, !description.isEmpty,
+            let gender = genderLabel.text, !gender.isEmpty,
+            let startAge = ageLabel.text, !startAge.isEmpty,
+            let endAge = ageLabel.text, !endAge.isEmpty,
+            let participantNumber = participantLabel.text, !participantNumber.isEmpty,
+            let skill = skillLabel.text, !skill.isEmpty,
+            let location = addDetailsLocLabel.text, !location.isEmpty,
+            let latitude = selectedLocationLatitude,
+            let longitude = selectedLocationLongitude
+        else {
+            showAlert(title: "Alert", message: "Please fill in all required fields")
+            return
+        }
+        
+        let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let date = dateFormatter.string(from: selectedDateAndTime)
+            dateFormatter.dateFormat = "HH:mm:ss"
+            let time = dateFormatter.string(from: selectedDateAndTime)
+        
+            print("Date: \(date)")
+            print("Time: \(time)")
+        
+        var ageLabelText = ""
+        if startAge == "Any" && endAge == "Teen Age" {
+            ageLabelText = "Any Teen Age"
+        } else {
+            ageLabelText = "\(startAge) - \(endAge)"
+        }
 
+        let endpoint = APIConstants.Endpoints.createActivity
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        var body = Data()
+
+        let textFields = [
+                "categoryId": categoryID,
+                "date": date,
+                "time": time,
+                "activity": activity,
+                "description": description,
+                "number": participantNumber,
+                "startAge": startAge,
+                "endAge": endAge,
+                "skill": skill,
+                "gender": gender,
+                "location[latitude]": String(latitude),
+                "location[longitude]": String(longitude),
+                "location[location]": location
+            ]
+        
+        for (key, value) in textFields {
+            if let keyData = "--\(boundary)\r\n".data(using: .utf8),
+               let dispositionData = "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8),
+               let valueData = "\(value)\r\n".data(using: .utf8) {
+                body.append(keyData)
+                body.append(dispositionData)
+                body.append(valueData)
+            }
+        }
+        if let ageLabelTextData = "--\(boundary)\r\nContent-Disposition: form-data; name=\"ageLabelText\"\r\n\r\n\(ageLabelText)\r\n".data(using: .utf8) {
+            body.append(ageLabelTextData)
+        }
+        if let boundaryData = "--\(boundary)--\r\n".data(using: .utf8) {
+            body.append(boundaryData)
+        }
+        request.httpBody = body
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            guard error == nil else {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                }
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse {
+                DispatchQueue.main.async {
+                    if httpResponse.statusCode == 200 {
+                        print("OKKKKK")
+                        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                            //vc.modalPresentationStyle = .fullScreen
+                            self.present(vc, animated: false)
+                         }
+                    } else {
+                        self.showAlert(title: "Error", message: "Failed")
+                    }
+                }
+            }
+        }.resume()
+        
+    }
+    
     //MARK: - HelperFuntions
     @objc func showSportActionSheet() {
         actions.removeAll()
@@ -206,6 +319,13 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
          addDetailsLocLabel.text = locationName
          selectedLocation = locationName
          homeSegmentController.selectedSegmentIndex = 2
+         let geocoder = CLGeocoder()
+            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+                if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
+                    self?.selectedLocationLatitude = locationCoordinate.latitude
+                    self?.selectedLocationLongitude = locationCoordinate.longitude
+                }
+            }
          dismiss(animated: true, completion: nil)
     }
     func showLoadingView() {
@@ -221,7 +341,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     }
     func setupKeyboardDismiss() {
            textFieldDelegateHelper.configureTapGesture(for: view, in: self)
-       }
+    }
+    
     
     //MARK: - Actions
     @IBAction func homeSegmentControl(_ sender: UISegmentedControl) {
@@ -291,7 +412,10 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                  self.present(detailController, animated: false, completion: nil)
           }
       }
-  }
+    @IBAction func addDetailDoneButton(_ sender: UIButton) {
+        CreateActivityAPICall()
+    }
+}
 
 //MARK: - Extension TableaView
 extension HomeVC: UITableViewDataSource, UITableViewDelegate{
