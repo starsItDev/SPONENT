@@ -26,6 +26,7 @@ struct APIConstants {
         static let friendshipLeave = "/app/friendship/leave"
         static let categories = "/app/categories"
         static let createActivity = "/app/activity/create"
+        static let activityMine = "/app/activity/mine"
     }
 }
 

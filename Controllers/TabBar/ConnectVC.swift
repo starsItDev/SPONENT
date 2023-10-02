@@ -28,6 +28,8 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     //MARK: - Helper functions
     func chatImageViewTapped(in cell: ConnectTableViewCell) {
             chatView.isHidden = false
+        print("abc")
+
         }
     func setupKeyboardDismiss() {
            textFieldDelegateHelper.configureTapGesture(for: view, in: self)
