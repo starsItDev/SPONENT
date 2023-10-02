@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		761825072AB435D70018073E /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761825062AB435D70018073E /* Categories.swift */; };
+		769569B52AC5900300A99725 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 769569B42AC5900300A99725 /* SocketIO */; };
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
@@ -95,6 +96,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */,
+				769569B52AC5900300A99725 /* SocketIO in Frameworks */,
 				E0AB64602A9F0CB200F4F299 /* GoogleMaps in Frameworks */,
 				E0AB64642A9F0CB200F4F299 /* GoogleMapsCore in Frameworks */,
 				E0FCE59C2AB1E98A0010D419 /* MessageKit in Frameworks */,
@@ -277,6 +279,7 @@
 				E0AB64672A9F0CB200F4F299 /* GooglePlaces */,
 				76D5C5ED2AB069DA00C6E4DC /* Kingfisher */,
 				E0FCE59B2AB1E98A0010D419 /* MessageKit */,
+				769569B42AC5900300A99725 /* SocketIO */,
 			);
 			productName = SPONENT;
 			productReference = E0B664CA2A84FEEA00537CAE /* SPONENT.app */;
@@ -310,6 +313,7 @@
 				E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */,
 				76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				E0FCE59A2AB1E98A0010D419 /* XCRemoteSwiftPackageReference "MessageKit" */,
+				769569B32AC5900300A99725 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
 			);
 			productRefGroup = E0B664CB2A84FEEA00537CAE /* Products */;
 			projectDirPath = "";
@@ -590,6 +594,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		769569B32AC5900300A99725 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -617,6 +629,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		769569B42AC5900300A99725 /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 769569B32AC5900300A99725 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
+			productName = SocketIO;
+		};
 		76D5C5ED2AB069DA00C6E4DC /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */;
