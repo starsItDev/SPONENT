@@ -6,6 +6,7 @@ class ChatVC: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
+    let textFieldDelegateHelper = TextFieldDelegateHelper<ChatVC>()
 
     var messages: [String] = []
     let manager = SocketManager(socketURL: URL(string: "https://social.untamedoutback.com.au:3000")!, config: [.log(false), .connectParams(["uid": 1]), .compress])
@@ -14,7 +15,7 @@ class ChatVC: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
-
+        setupKeyboardDismiss()
         // Listen for socket connection event
         socket.on(clientEvent: .connect) { data, ack in
             print("Socket connected")
@@ -29,7 +30,25 @@ class ChatVC: UIViewController, UITableViewDataSource {
         socket.connect()
         print("Socket status: \(socket.status)")
     }
-
+    //MARK: - Actions
+    @IBAction func userProfileButton(_ sender: UIButton) {
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+//            vc.delegate = self
+            vc.isProfileBackButtonHidden = false
+            vc.isFollowButtonHidden = false
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    @IBAction func chatBackButton(_ sender: UIButton) {
+        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+            tabBarController.modalPresentationStyle = .fullScreen
+            tabBarController.selectedIndex = 3
+            self.present(tabBarController, animated: false)
+         }
+     }
+    func setupKeyboardDismiss() {
+        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
+    }
     func updateChat(message: String) {
         messages.append(message)
         tableView.reloadData()

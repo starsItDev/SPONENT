@@ -8,10 +8,14 @@ class MessagesVC: UIViewController {
     
     @IBOutlet weak var messageTableView: UITableView!
     var conversations: [Conversation] = []
+    var selectedReceiverID: Int?
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         apiCall()
     }
+ 
     func apiCall() {
         var request = URLRequest(url: URL(string: "https://playwithmeapp.com/api/app/inbox")!, timeoutInterval: Double.infinity)
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
@@ -55,8 +59,17 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
     
         return cell
     }
+        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+            let conversation = conversations[indexPath.row]
+            selectedReceiverID = conversation.receiverID
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            if let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewVC") as? ChatViewVC {
+                navigationController?.pushViewController(chatViewController, animated: true)
+              }
+          }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+//return UITableView.automaticDimension
+        return 120
     }
 }
 

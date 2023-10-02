@@ -10,6 +10,7 @@
 		761825072AB435D70018073E /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761825062AB435D70018073E /* Categories.swift */; };
 		769569B52AC5900300A99725 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 769569B42AC5900300A99725 /* SocketIO */; };
 		769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CD2ACAC3DE0061046D /* Inbox Model.swift */; };
+		769841D02ACB03E60061046D /* MassageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CF2ACB03E60061046D /* MassageModel.swift */; };
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
@@ -55,6 +56,7 @@
 /* Begin PBXFileReference section */
 		761825062AB435D70018073E /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
 		769841CD2ACAC3DE0061046D /* Inbox Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Inbox Model.swift"; sourceTree = "<group>"; };
+		769841CF2ACB03E60061046D /* MassageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassageModel.swift; sourceTree = "<group>"; };
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				E0DF66D22A95D14F006BFBFE /* MapPlaces.swift */,
 				761825062AB435D70018073E /* Categories.swift */,
 				769841CD2ACAC3DE0061046D /* Inbox Model.swift */,
+				769841CF2ACB03E60061046D /* MassageModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */,
+				769841D02ACB03E60061046D /* MassageModel.swift in Sources */,
 				E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */,
 				E0DD3C6D2AAEF15400D8A205 /* ActivityTableViewCell.swift in Sources */,
 				76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */,
