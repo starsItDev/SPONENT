@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		761825072AB435D70018073E /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761825062AB435D70018073E /* Categories.swift */; };
 		769569B52AC5900300A99725 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 769569B42AC5900300A99725 /* SocketIO */; };
+		769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CD2ACAC3DE0061046D /* Inbox Model.swift */; };
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
@@ -53,6 +54,7 @@
 
 /* Begin PBXFileReference section */
 		761825062AB435D70018073E /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		769841CD2ACAC3DE0061046D /* Inbox Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Inbox Model.swift"; sourceTree = "<group>"; };
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 			children = (
 				E0DF66D22A95D14F006BFBFE /* MapPlaces.swift */,
 				761825062AB435D70018073E /* Categories.swift */,
+				769841CD2ACAC3DE0061046D /* Inbox Model.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -371,6 +374,7 @@
 				E0B664D02A84FEEA00537CAE /* SceneDelegate.swift in Sources */,
 				E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */,
 				E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */,
+				769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */,
 				E0B664E82A85001000537CAE /* LoginVC.swift in Sources */,
 				E0DAA1882A8CD069001F72EF /* DetailViewController.swift in Sources */,
 			);

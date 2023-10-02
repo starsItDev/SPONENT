@@ -92,7 +92,7 @@
                                             <constraint firstAttribute="width" constant="56" id="bih-qh-RSb"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="ali@gmail.com" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mWe-0p-UwY">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="rao545746@gmail.com" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mWe-0p-UwY">
                                         <rect key="frame" x="56" y="0.0" width="318" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="7CM-nO-lX1"/>
@@ -138,7 +138,7 @@
                                             <constraint firstAttribute="bottom" secondItem="JDY-Ta-g2n" secondAttribute="bottom" constant="6" id="c00-0e-XuZ"/>
                                         </constraints>
                                     </view>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1234" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Xf-bX-EHc">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Lahore2*" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Xf-bX-EHc">
                                         <rect key="frame" x="56" y="0.0" width="318" height="47"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="47" id="cah-5U-eLx"/>
@@ -3438,13 +3438,13 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you up for tonight?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K2l-NR-FhE">
-                                                            <rect key="frame" x="80" y="39.5" width="165.5" height="19.5"/>
+                                                            <rect key="frame" x="80" y="39.5" width="294" height="19.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                             <color key="textColor" red="0.38341185119416976" green="0.38341185119416976" blue="0.38341185119416976" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="in Future" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DRy-i4-Y94">
-                                                            <rect key="frame" x="320.5" y="68" width="60.5" height="18"/>
+                                                            <rect key="frame" x="313" y="19" width="60.5" height="18"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.21051759491063127" green="0.21051759491063127" blue="0.21051759491063127" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -3453,13 +3453,14 @@
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="lNz-GU-zex" secondAttribute="bottom" id="2ye-1A-zLw"/>
-                                                        <constraint firstAttribute="trailing" secondItem="DRy-i4-Y94" secondAttribute="trailing" constant="13" id="AIB-Ol-79g"/>
                                                         <constraint firstItem="lNz-GU-zex" firstAttribute="top" secondItem="bIX-XN-cCq" secondAttribute="top" id="DhE-Nl-rKW"/>
-                                                        <constraint firstAttribute="bottom" secondItem="DRy-i4-Y94" secondAttribute="bottom" constant="13" id="EcE-cg-pru"/>
                                                         <constraint firstItem="K2l-NR-FhE" firstAttribute="leading" secondItem="lNz-GU-zex" secondAttribute="trailing" id="HYf-PH-SiT"/>
                                                         <constraint firstItem="lNz-GU-zex" firstAttribute="leading" secondItem="bIX-XN-cCq" secondAttribute="leading" id="J2F-tU-dTM"/>
+                                                        <constraint firstAttribute="trailing" secondItem="K2l-NR-FhE" secondAttribute="trailing" constant="20" id="Kvz-JC-q3u"/>
+                                                        <constraint firstItem="DRy-i4-Y94" firstAttribute="top" secondItem="bIX-XN-cCq" secondAttribute="top" constant="19" id="NZD-ZQ-g4f"/>
                                                         <constraint firstItem="vCE-KB-KNg" firstAttribute="top" secondItem="bIX-XN-cCq" secondAttribute="top" constant="18" id="Zs5-wE-aid"/>
                                                         <constraint firstItem="vCE-KB-KNg" firstAttribute="leading" secondItem="lNz-GU-zex" secondAttribute="trailing" id="cWp-0E-6K0"/>
+                                                        <constraint firstAttribute="trailing" secondItem="DRy-i4-Y94" secondAttribute="trailing" constant="20.5" id="dIb-eJ-4UN"/>
                                                         <constraint firstItem="K2l-NR-FhE" firstAttribute="top" secondItem="vCE-KB-KNg" secondAttribute="bottom" constant="2" id="j76-RK-owP"/>
                                                     </constraints>
                                                 </view>
@@ -3480,6 +3481,7 @@
                                             <outlet property="messageChatLabel" destination="K2l-NR-FhE" id="pgW-Aw-Ljy"/>
                                             <outlet property="messageIMageView" destination="Lco-nL-nti" id="geb-Im-nVe"/>
                                             <outlet property="messageNameLabel" destination="vCE-KB-KNg" id="bs3-OI-fcd"/>
+                                            <outlet property="messagetimeLabel" destination="DRy-i4-Y94" id="21X-CA-77M"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>

@@ -12,7 +12,7 @@ class MessagesTableViewCell: UITableViewCell {
     @IBOutlet weak var messageIMageView: UIImageView!
     @IBOutlet weak var messageNameLabel: UILabel!
     @IBOutlet weak var messageChatLabel: UILabel!
-    
+    @IBOutlet weak var messagetimeLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
