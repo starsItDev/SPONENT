@@ -34,12 +34,61 @@ class ChatVC: UIViewController {
     }
 
     @IBAction func sendMessage(_ sender: Any) {
-        if let message = messageTextField.text, !message.isEmpty {
-    
-            messageTextField.text = ""
-//            updateChat(message: "You: \(message)")
+        guard let message = messageTextField.text, !message.isEmpty,
+              let receiverID = receiverID,
+              let apiKey = UserDefaults.standard.string(forKey: "apikey") else {
+            print("Invalid input or missing data")
+            return
         }
+        let receiverId = String(receiverID)
+        let endpoint = APIConstants.Endpoints.sendMessage
+        let urlString = APIConstants.baseURL + endpoint
+        let boundary = "Boundary-\(UUID().uuidString)"
+
+        var request = URLRequest(url: URL(string: urlString)!)
+        request.httpMethod = "POST"
+        request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        request.addValue("ci_session=ccc2acfac2a1fb3185e0be8f31e32b74548eaaf2", forHTTPHeaderField: "Cookie")
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+
+        var body = ""
+        let parameters: [[String: Any]] = [
+            ["key": "receiverId", "value": receiverId, "type": "text"],
+            ["key": "message", "value": message, "type": "text"]
+        ]
+
+        for param in parameters {
+            guard let paramName = param["key"] as? String, let paramValue = param["value"] as? String else {
+                continue
+            }
+            body += "--\(boundary)\r\n"
+            body += "Content-Disposition:form-data; name=\"\(paramName)\""
+            body += "\r\n\r\n\(paramValue)\r\n"
+        }
+
+        body += "--\(boundary)--\r\n"
+        request.httpBody = body.data(using: .utf8)
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let data = data, let response = response as? HTTPURLResponse, error == nil {
+                if response.statusCode == 200 {
+                    if let responseData = String(data: data, encoding: .utf8) {
+                        print("Response Data: \(responseData)")
+                        
+                    }
+                } else {
+                    print("HTTP Status Code: \(response.statusCode)")
+                }
+            } else {
+                print("Error: \(String(describing: error))")
+            }
+        }
+        task.resume()
+        messageTextField.text = "" // Clear the text field after sending the message
+        tableView.reloadData()
+        messageApiCall()
     }
+
     func messageApiCall() {
         guard let receiverID = receiverID else {
             print("Receiver ID is nil or invalid")
@@ -83,13 +132,11 @@ class ChatVC: UIViewController {
                 print("Error: \(String(describing: error))")
                 return
             }
-
             if response.statusCode == 200 {
                 do {
                     let decoder = JSONDecoder()
                     let responseData = try decoder.decode(MessageModel.self, from: data)
                     let receivedMessages = responseData.body.messages
-
                     // Append the received messages to the chat
                     for receivedMessage in receivedMessages {
                         self.updateChat(message: receivedMessage)
@@ -98,26 +145,25 @@ class ChatVC: UIViewController {
                     print("Error decoding JSON: \(error)")
                 }
             }
-
         }
-
         task.resume()
     }
-
-
 }
 //MARK: - TableView
 extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
         let message = messages[indexPath.row]
-        cell.textLabel?.text = message.body
-        return cell
+                   let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellSender", for: indexPath)
+                   cell.textLabel?.text = message.body
+                   // Configure sender cell here
+                   return cell
     }
 }
+
 //MARK: Button Actions
 extension ChatVC {
     @IBAction func userProfileButton(_ sender: UIButton) {

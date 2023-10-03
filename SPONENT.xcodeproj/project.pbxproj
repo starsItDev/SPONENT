@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		761825072AB435D70018073E /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761825062AB435D70018073E /* Categories.swift */; };
+		7686A3C02ACC4DAD0083F7DC /* MessageCellUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */; };
 		769569B52AC5900300A99725 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 769569B42AC5900300A99725 /* SocketIO */; };
 		769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CD2ACAC3DE0061046D /* Inbox Model.swift */; };
 		769841D02ACB03E60061046D /* MassageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CF2ACB03E60061046D /* MassageModel.swift */; };
+		76ADC4762ACC4C2B002D7476 /* MessageCellSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ADC4752ACC4C2B002D7476 /* MessageCellSender.swift */; };
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
@@ -55,8 +57,10 @@
 
 /* Begin PBXFileReference section */
 		761825062AB435D70018073E /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellUser.swift; sourceTree = "<group>"; };
 		769841CD2ACAC3DE0061046D /* Inbox Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Inbox Model.swift"; sourceTree = "<group>"; };
 		769841CF2ACB03E60061046D /* MassageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassageModel.swift; sourceTree = "<group>"; };
+		76ADC4752ACC4C2B002D7476 /* MessageCellSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellSender.swift; sourceTree = "<group>"; };
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -113,6 +117,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		76ADC4722ACC4BDC002D7476 /* ChatVC */ = {
+			isa = PBXGroup;
+			children = (
+				76ADC4752ACC4C2B002D7476 /* MessageCellSender.swift */,
+				7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */,
+			);
+			path = ChatVC;
+			sourceTree = "<group>";
+		};
 		76D5C5F02AB06B2800C6E4DC /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +175,7 @@
 		E0AFE75A2A8F7C52001D3992 /* TableView */ = {
 			isa = PBXGroup;
 			children = (
+				76ADC4722ACC4BDC002D7476 /* ChatVC */,
 				E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */,
 				E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */,
 				E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */,
@@ -358,6 +372,7 @@
 				E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */,
 				E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */,
 				E0B8CB7B2AB2DCB200846951 /* ChatVC.swift in Sources */,
+				7686A3C02ACC4DAD0083F7DC /* MessageCellUser.swift in Sources */,
 				76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */,
 				E0B8CB7F2AB3227E00846951 /* ChatViewVC.swift in Sources */,
 				E0DF66D52A95EF70006BFBFE /* BorderStyle.swift in Sources */,
@@ -380,6 +395,7 @@
 				E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */,
 				769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */,
 				E0B664E82A85001000537CAE /* LoginVC.swift in Sources */,
+				76ADC4762ACC4C2B002D7476 /* MessageCellSender.swift in Sources */,
 				E0DAA1882A8CD069001F72EF /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
