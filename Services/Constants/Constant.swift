@@ -27,6 +27,10 @@ struct APIConstants {
         static let categories = "/app/categories"
         static let createActivity = "/app/activity/create"
         static let activityMine = "/app/activity/mine"
+        //MARK: Chat API Endpoint
+        static let inbox = "/app/inbox"
+        static let sendMessage = "/app/sendmessage"
+        static let messages = "/app/messages"
     }
 }
 

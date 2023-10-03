@@ -8,8 +8,8 @@ class MessagesVC: UIViewController {
     
     @IBOutlet weak var messageTableView: UITableView!
     var conversations: [Conversation] = []
-    var selectedReceiverID: Int?
     
+    var selectedReceiverID: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +53,7 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MessagesTableViewCell
         let conversation = conversations[indexPath.row]
-                cell.messageNameLabel?.text = conversation.nameReceiver
+        cell.messageNameLabel?.text = conversation.nameReceiver
         cell.messageChatLabel?.text = conversation.message
         cell.messagetimeLabel?.text = conversation.date
     
@@ -63,13 +63,15 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
             let conversation = conversations[indexPath.row]
             selectedReceiverID = conversation.receiverID
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let chatViewController = storyboard.instantiateViewController(withIdentifier: "ChatViewVC") as? ChatViewVC {
-                navigationController?.pushViewController(chatViewController, animated: true)
+            if let chatController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as? ChatVC {
+                chatController.receiverName = conversation.nameReceiver
+                chatController.receiverID = conversation.receiverID
+                navigationController?.pushViewController(chatController, animated: true)
               }
           }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //return UITableView.automaticDimension
-        return 120
+        return 100
     }
 }
 

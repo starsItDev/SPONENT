@@ -1,39 +1,128 @@
 import UIKit
-import SocketIO
-
-class ChatVC: UIViewController, UITableViewDataSource {
+class ChatVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var userNameLbl: UILabel!
+    // MARK: - Var
     let textFieldDelegateHelper = TextFieldDelegateHelper<ChatVC>()
-
-    var messages: [String] = []
-    let manager = SocketManager(socketURL: URL(string: "https://social.untamedoutback.com.au:3000")!, config: [.log(false), .connectParams(["uid": 1]), .compress])
-    lazy var socket = manager.defaultSocket
-
+    var messages: [Message] = []
+    var receiverName: String?
+    var receiverID: Int?
+    // MARK: - Override Func
     override func viewDidLoad() {
         super.viewDidLoad()
+        messageApiCall()
         tableView.dataSource = self
         setupKeyboardDismiss()
-        // Listen for socket connection event
-        socket.on(clientEvent: .connect) { data, ack in
-            print("Socket connected")
-        }
-        socket.on("chat message") { data, ack in
-            print("Received chat message event with data: \(data)")
-            if let message = data[0] as? String {
-                self.updateChat(message: message)
-            }
-        }
-        // Connect to the socket
-        socket.connect()
-        print("Socket status: \(socket.status)")
     }
-    //MARK: - Actions
+    // MARK: - Helper Func
+    func setupKeyboardDismiss() {
+        if let name = receiverName {
+            userNameLbl.text = name
+        }
+        self.navigationController?.navigationBar.isHidden = true
+        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
+    }
+    func updateChat(message: Message) {
+        messages.append(message)
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+
+    @IBAction func sendMessage(_ sender: Any) {
+        if let message = messageTextField.text, !message.isEmpty {
+    
+            messageTextField.text = ""
+//            updateChat(message: "You: \(message)")
+        }
+    }
+    func messageApiCall() {
+        guard let receiverID = receiverID else {
+            print("Receiver ID is nil or invalid")
+            return
+        }
+
+        let receiverId = String(receiverID)
+        let endpoint = APIConstants.Endpoints.messages
+        let urlString = APIConstants.baseURL + endpoint
+
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+
+        request.addValue("ci_session=2af35aba20c6238d5d8617ac781af0a1aefb0537", forHTTPHeaderField: "Cookie")
+        // Add other headers as needed
+
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = ""
+
+        // Append the receiverId parameter to the request body
+        body += "--\(boundary)\r\n"
+        body += "Content-Disposition: form-data; name=\"receiverId\"\r\n\r\n"
+        body += "\(receiverId)\r\n"
+        body += "--\(boundary)--\r\n"
+
+        let postData = body.data(using: .utf8)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = postData
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, let response = response as? HTTPURLResponse, error == nil else {
+                print("Error: \(String(describing: error))")
+                return
+            }
+
+            if response.statusCode == 200 {
+                do {
+                    let decoder = JSONDecoder()
+                    let responseData = try decoder.decode(MessageModel.self, from: data)
+                    let receivedMessages = responseData.body.messages
+
+                    // Append the received messages to the chat
+                    for receivedMessage in receivedMessages {
+                        self.updateChat(message: receivedMessage)
+                    }
+                } catch {
+                    print("Error decoding JSON: \(error)")
+                }
+            }
+
+        }
+
+        task.resume()
+    }
+
+
+}
+//MARK: - TableView
+extension ChatVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return messages.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
+        let message = messages[indexPath.row]
+        cell.textLabel?.text = message.body
+        return cell
+    }
+}
+//MARK: Button Actions
+extension ChatVC {
     @IBAction func userProfileButton(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
-//            vc.delegate = self
+            vc.delegate = self
             vc.isProfileBackButtonHidden = false
             vc.isFollowButtonHidden = false
             self.navigationController?.pushViewController(vc, animated: true)
@@ -46,31 +135,95 @@ class ChatVC: UIViewController, UITableViewDataSource {
             self.present(tabBarController, animated: false)
          }
      }
-    func setupKeyboardDismiss() {
-        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
-    }
-    func updateChat(message: String) {
-        messages.append(message)
-        tableView.reloadData()
-    }
-    @IBAction func sendMessage(_ sender: Any) {
-        if let message = messageTextField.text, !message.isEmpty {
-            socket.emit("chat message", message)
-            messageTextField.text = ""
-            updateChat(message: "You: \(message)")
-        }
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return messages.count
-    }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
-        cell.textLabel?.text = messages[indexPath.row]
-        return cell
-    }
+}
+//MARK: - Extension ProfileDelegate
+extension ChatVC: ProfileDelegate {
+  func didTapUserProfileSettingButton() {
+      if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
+          if profileVC.userSettingStackView.isHidden {
+              profileVC.userSettingStackView.isHidden = false
+              profileVC.settingStackView.isHidden = true
+          } else {
+              profileVC.userSettingStackView.isHidden = true
+              profileVC.settingStackView.isHidden = true
+          }
+      }
+   }
 }
 
+//import UIKit
+//import SocketIO
+//
+//class ChatVC: UIViewController, UITableViewDataSource{
+//
+//    @IBOutlet weak var tableView: UITableView!
+//    @IBOutlet weak var messageTextField: UITextField!
+//    @IBOutlet weak var sendButton: UIButton!
+//    let textFieldDelegateHelper = TextFieldDelegateHelper<ChatVC>()
+//
+//    var messages: [String] = []
+//    let manager = SocketManager(socketURL: URL(string: "https://social.untamedoutback.com.au:3000")!, config: [.log(false), .connectParams(["uid": 1]), .compress])
+//    lazy var socket = manager.defaultSocket
+//
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        tableView.dataSource = self
+//        setupKeyboardDismiss()
+//        // Listen for socket connection event
+//        socket.on(clientEvent: .connect) { data, ack in
+//            print("Socket connected")
+//        }
+//        socket.on("chat message") { data, ack in
+//            print("Received chat message event with data: \(data)")
+//            if let message = data[0] as? String {
+//                self.updateChat(message: message)
+//            }
+//        }
+//        socket.connect()
+//        print("Socket status: \(socket.status)")
+//    }
+//    //MARK: - Actions
+//    @IBAction func userProfileButton(_ sender: UIButton) {
+//        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+//            vc.delegate = self
+//            vc.isProfileBackButtonHidden = false
+//            vc.isFollowButtonHidden = false
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
+//    }
+//    @IBAction func chatBackButton(_ sender: UIButton) {
+//        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+//            tabBarController.modalPresentationStyle = .fullScreen
+//            tabBarController.selectedIndex = 3
+//            self.present(tabBarController, animated: false)
+//         }
+//     }
+//    func setupKeyboardDismiss() {
+//        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
+//    }
+//    func updateChat(message: String) {
+//        messages.append(message)
+//        tableView.reloadData()
+//    }
+//    @IBAction func sendMessage(_ sender: Any) {
+//        if let message = messageTextField.text, !message.isEmpty {
+//            socket.emit("chat message", message)
+//            messageTextField.text = ""
+//            updateChat(message: "You: \(message)")
+//        }
+//    }
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return messages.count
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
+//        cell.textLabel?.text = messages[indexPath.row]
+//        return cell
+//    }
+//}
+//
 
 
 //
