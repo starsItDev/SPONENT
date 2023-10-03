@@ -31,6 +31,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var userSettingStackView: UIStackView!
     @IBOutlet weak var imgProfileView: UIImageView!
     @IBOutlet weak var profileBackButton: UIButton!
+    @IBOutlet weak var blockButton: UIButton!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var ageLabel: UILabel!
@@ -154,7 +155,183 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             print("Error parsing JSON: \(error)")
         }
     }
-    
+    func blockUser(userId: String) {
+        
+        guard !userId.isEmpty else {
+            showAlert(title: "Alert", message: "User ID is empty")
+            return
+        }
+        let endpoint = APIConstants.Endpoints.blockUser
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [String: Any] = ["user_id": userId]
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+            request.httpBody = jsonData
+        } catch {
+            showAlert(title: "Alert", message: "JSON Serialization Error")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: ("\(error)"))
+                return
+            }
+            
+            guard let data = data else {
+                self.showAlert(title: "Alert", message: "No data received")
+                return
+            }
+            
+            do {
+                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let body = jsonObject["body"] as? [String: Any],
+                   let message = body["message"] as? String {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Blocked", message: message)
+                        self.blockButton.setTitle("Unblock", for: .normal)
+                    }
+                } else {
+                    self.showAlert(title: "Alert", message: "Invalid response format")
+                }
+            } catch {
+                self.showAlert(title: "Alert", message: "JSON Parsing Error")
+            }
+        }
+        
+        task.resume()
+    }
+    func unblockUser(userId: String) {
+        let endpoint = APIConstants.Endpoints.userUnblock
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [String: Any] = ["user_id": userId]
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+            request.httpBody = jsonData
+        } catch {
+            showAlert(title: "Alert", message: "JSON Serialization Error")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: ("\(error)"))
+                return
+            }
+            
+            guard let data = data else {
+                self.showAlert(title: "Alert", message: "No data received")
+                return
+            }
+            
+            do {
+                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let body = jsonObject["body"] as? [String: Any],
+                   let message = body["message"] as? String {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Unblocked", message: message)
+                        self.blockButton.setTitle("Block", for: .normal)
+                    }
+                } else {
+                    self.showAlert(title: "Alert", message: "Invalid response format")
+                }
+            } catch {
+                self.showAlert(title: "Alert", message: "JSON Parsing Error")
+            }
+        }
+        
+        task.resume()
+    }
+    func reportUser(userId: String, type: String, description: String) {
+        let endpoint = APIConstants.Endpoints.userReport
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [String: Any] = [
+            "user_id": userId,
+            "type": type,
+            "description": description
+        ]
+        
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
+            request.httpBody = jsonData
+        } catch {
+            showAlert(title: "Alert", message: "JSON Serialization Error")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: ("\(error)"))
+                return
+            }
+            
+            guard let data = data else {
+                self.showAlert(title: "Alert", message: "No data received")
+                return
+            }
+            
+            do {
+                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+                   let body = jsonObject["body"] as? [String: Any],
+                   let message = body["message"] as? String {
+                    DispatchQueue.main.async {
+                        self.showAlert(title: "Reported User", message: message)
+                    }
+                } else {
+                    self.showAlert(title: "Alert", message: "Invalid response format")
+                }
+            } catch {
+                self.showAlert(title: "Alert", message: "JSON Parsing Error")
+            }
+        }
+        
+        task.resume()
+    }
+
     //MARK: - Actions
     @IBAction func profileSegmentControl(_ sender: UISegmentedControl) {
         switch profileSegmentController.selectedSegmentIndex {
@@ -317,8 +494,31 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBAction func ProfileBackButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
+    @IBAction func blockButton(_ sender: UIButton) {
+        if let userIdToBlock = UserDefaults.standard.string(forKey: "userID") {
+            if sender.titleLabel?.text == "Block" {
+                blockUser(userId: userIdToBlock)
+            } else if sender.titleLabel?.text == "Unblock" {
+                unblockUser(userId: userIdToBlock)
+            }
+        } else {
+            DispatchQueue.main.async {
+                self.showAlert(title: "Error", message: "User ID not found")
+            }
+        }
+    }
+    @IBAction func reportButton(_ sender: UIButton) {
+        if let userIdToReport = UserDefaults.standard.string(forKey: "userID") {
+            let reportType = "Spam"
+            let reportDescription = "test"
+            reportUser(userId: userIdToReport, type: reportType, description: reportDescription)
+      } else {
+            DispatchQueue.main.async {
+                self.showAlert(title: "Error", message: "User ID not found")
+            }
+        }
+    }
     
-
     //MARK: - Helper Functions
     func uiSetUp(){
         profileSegmentView.isHidden = false
