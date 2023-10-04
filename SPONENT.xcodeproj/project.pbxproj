@@ -173,18 +173,15 @@
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		E0AFE75A2A8F7C52001D3992 /* TableView */ = {
+		E0AFE75A2A8F7C52001D3992 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				E0BABF3A2ACD834600C5AC95 /* TabBarVC  */,
 				76ADC4722ACC4BDC002D7476 /* ChatVC */,
 				E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */,
-				E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */,
-				E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */,
-				E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */,
-				E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */,
 				E0DD3C6E2AAEFF5600D8A205 /* RequestTableViewCell.swift */,
 			);
-			path = TableView;
+			path = TableViewCell;
 			sourceTree = "<group>";
 		};
 		E0B664C12A84FEEA00537CAE = {
@@ -252,7 +249,7 @@
 				E0B8CB7E2AB3227E00846951 /* ChatViewVC.swift */,
 				E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */,
 				E0AA26C92A8642DF002CDACA /* TabBar */,
-				E0AFE75A2A8F7C52001D3992 /* TableView */,
+				E0AFE75A2A8F7C52001D3992 /* TableViewCell */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -276,6 +273,17 @@
 				E0B664CF2A84FEEA00537CAE /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		E0BABF3A2ACD834600C5AC95 /* TabBarVC  */ = {
+			isa = PBXGroup;
+			children = (
+				E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */,
+				E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */,
+				E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */,
+				E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */,
+			);
+			path = "TabBarVC ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
