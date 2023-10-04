@@ -156,11 +156,11 @@ extension ChatVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let message = messages[indexPath.row]
-                   let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellSender", for: indexPath)
-                   cell.textLabel?.text = message.body
+                   let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellUser", for: indexPath)
+//        let message = messages[indexPath.row]
+//                   cell.textLabel?.text = message.body
                    // Configure sender cell here
-                   return cell
+            return cell
     }
 }
 

@@ -1,22 +1,29 @@
-
+//
 //  MessagesVC.swift
 //  SPONENT
 //  Created by Rao Ahmad on 13/09/2023.
 //
+//
+//
+
 import UIKit
+import Kingfisher
+
 class MessagesVC: UIViewController {
     
+    //MARK: - Variables
     @IBOutlet weak var messageTableView: UITableView!
     var conversations: [Conversation] = []
-    
     var selectedReceiverID: Int?
-
+   
+    //MARK: - Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        apiCall()
+        InboxapiCall()
     }
- 
-    func apiCall() {
+    
+    //MARK: - API Call
+    func InboxapiCall() {
         var request = URLRequest(url: URL(string: "https://playwithmeapp.com/api/app/inbox")!, timeoutInterval: Double.infinity)
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
@@ -29,24 +36,25 @@ class MessagesVC: UIViewController {
                 print(String(describing: error))
                 return
             }
-            // Parse the JSON response
-            do {
-                let decoder = JSONDecoder()
-                let responseData = try decoder.decode(InboxModel.self, from: data)
-                self.conversations = responseData.body.conversations
+              do {
+                 let decoder = JSONDecoder()
+                 let responseData = try decoder.decode(InboxModel.self, from: data)
+                 self.conversations = responseData.body.conversations
 
-                DispatchQueue.main.async {
-                    self.messageTableView.reloadData()
-                }
-            } catch {
-                print("Error decoding JSON: \(error)")
+                 DispatchQueue.main.async {
+                     self.messageTableView.reloadData()
+                 }
+              } catch {
+                  print("Error decoding JSON: \(error)")
             }
         }
         task.resume()
     }
-
 }
-extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
+
+ //MARK: - Extension TableView
+ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
+     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }
@@ -56,22 +64,26 @@ extension MessagesVC: UITableViewDelegate, UITableViewDataSource {
         cell.messageNameLabel?.text = conversation.nameReceiver
         cell.messageChatLabel?.text = conversation.message
         cell.messagetimeLabel?.text = conversation.date
-    
+        if let avatarURL = URL(string: conversation.avatarReceiver) {
+              loadImage(from: avatarURL.absoluteString, into: cell.messageIMageView, placeholder: UIImage(named: "placeholderImage"))
+          } else {
+              print("Invalid image URL: \(conversation.avatarReceiver)")
+        }
         return cell
     }
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            let conversation = conversations[indexPath.row]
-            selectedReceiverID = conversation.receiverID
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            if let chatController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as? ChatVC {
-                chatController.receiverName = conversation.nameReceiver
-                chatController.receiverID = conversation.receiverID
-                navigationController?.pushViewController(chatController, animated: true)
-              }
-          }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let conversation = conversations[indexPath.row]
+        selectedReceiverID = conversation.receiverID
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let chatController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as? ChatVC {
+              chatController.receiverName = conversation.nameReceiver
+              chatController.receiverID = conversation.receiverID
+              navigationController?.pushViewController(chatController, animated: true)
+        }
+    }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//return UITableView.automaticDimension
-        return 100
+         //return UITableView.automaticDimension
+         return 100
     }
 }
 

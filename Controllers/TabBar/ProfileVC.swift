@@ -55,6 +55,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         apiCall()
         tabsApiCall()
     }
+    
     //MARK: - API CAllING
     func apiCall() {
         let endpoint = APIConstants.Endpoints.appUser
@@ -110,7 +111,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         do {
             if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
                let body = jsonObject["body"] as? [String: Any] {
-                
+
                 DispatchQueue.main.async {
                     self.nameLabel.text = body["name"] as? String
                     self.ageLabel.text = body["age"] as? String
@@ -118,22 +119,13 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                     self.loctionLabel.text = body["location"] as? String
                     self.aboutMeLabel.text = body["about_me"] as? String
                     self.sportNameLabel.text = body["category_name"] as? String
-                    if let avatarURLString = body["avatar"] as? String,
-                        let avatarURL = URL(string: avatarURLString.replacingOccurrences(of: "http://", with: "https://")) {
-                        self.imgProfileView.kf.setImage(with: avatarURL, placeholder: UIImage(named: "placeholderImage"), options: nil, completionHandler: { result in
-                        switch result {
-                            case .success(let value):
-                                print("Image loaded successfully: \(value.image)")
-                            case .failure(let error):
-                                print("Error loading image: \(error)")
-                            }
-                        })
+                    if let avatarURLString = body["avatar"] as? String {
+                        self.loadImage(from: avatarURLString, into: self.imgProfileView, placeholder: UIImage(named: "placeholderImage"))
                     }
                 }
             }
         } catch {
             print("Error parsing JSON: \(error)")
-            print("Error 2")
         }
     }
     func updateCounters(with responseData: Data) {

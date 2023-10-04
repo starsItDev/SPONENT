@@ -12,7 +12,6 @@
 		769569B52AC5900300A99725 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 769569B42AC5900300A99725 /* SocketIO */; };
 		769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CD2ACAC3DE0061046D /* Inbox Model.swift */; };
 		769841D02ACB03E60061046D /* MassageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CF2ACB03E60061046D /* MassageModel.swift */; };
-		76ADC4762ACC4C2B002D7476 /* MessageCellSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76ADC4752ACC4C2B002D7476 /* MessageCellSender.swift */; };
 		76D5C5EE2AB069DA00C6E4DC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 76D5C5ED2AB069DA00C6E4DC /* Kingfisher */; };
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
@@ -40,6 +39,7 @@
 		E0B8CB7B2AB2DCB200846951 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */; };
 		E0B8CB7F2AB3227E00846951 /* ChatViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B8CB7E2AB3227E00846951 /* ChatViewVC.swift */; };
 		E0BFDFE22ACD37D1006D594D /* ConnectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */; };
+		E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */; };
 		E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */; };
 		E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */; };
 		E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */; };
@@ -61,7 +61,6 @@
 		7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellUser.swift; sourceTree = "<group>"; };
 		769841CD2ACAC3DE0061046D /* Inbox Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Inbox Model.swift"; sourceTree = "<group>"; };
 		769841CF2ACB03E60061046D /* MassageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassageModel.swift; sourceTree = "<group>"; };
-		76ADC4752ACC4C2B002D7476 /* MessageCellSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellSender.swift; sourceTree = "<group>"; };
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -85,6 +84,7 @@
 		E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		E0B8CB7E2AB3227E00846951 /* ChatViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewVC.swift; sourceTree = "<group>"; };
 		E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectModel.swift; sourceTree = "<group>"; };
+		E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KingFisher Image.swift"; sourceTree = "<group>"; };
 		E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectVC.swift; sourceTree = "<group>"; };
 		E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectTableViewCell.swift; sourceTree = "<group>"; };
 		E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
@@ -122,7 +122,6 @@
 		76ADC4722ACC4BDC002D7476 /* ChatVC */ = {
 			isa = PBXGroup;
 			children = (
-				76ADC4752ACC4C2B002D7476 /* MessageCellSender.swift */,
 				7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */,
 			);
 			path = ChatVC;
@@ -228,6 +227,7 @@
 				E0DF66D62A95F1C8006BFBFE /* UITapGesture.swift */,
 				E0DF66D82A95F266006BFBFE /* UIAlertController.swift */,
 				E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */,
+				E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -391,6 +391,7 @@
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
 				E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */,
 				E0AA26CB2A864361002CDACA /* HomeVC.swift in Sources */,
+				E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */,
 				E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */,
 				E0DF66D32A95D150006BFBFE /* MapPlaces.swift in Sources */,
 				E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */,
@@ -399,7 +400,6 @@
 				E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */,
 				769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */,
 				E0B664E82A85001000537CAE /* LoginVC.swift in Sources */,
-				76ADC4762ACC4C2B002D7476 /* MessageCellSender.swift in Sources */,
 				E0DAA1882A8CD069001F72EF /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -18,7 +18,6 @@ class ActivityVC: UIViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         segmentApiCall()
@@ -47,7 +46,6 @@ class ActivityVC: UIViewController {
            }
                task.resume()
       }
-    
     func updateCounter(with responseData: Data) {
         do {
             if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],

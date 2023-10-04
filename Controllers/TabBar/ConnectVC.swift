@@ -7,6 +7,7 @@
 
 import UIKit
 import Starscream
+import Kingfisher
 
 class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDelegate {
 
@@ -38,7 +39,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
             return
         }
         var request = URLRequest(url: url)
-        request.httpMethod = "GET" // Use GET for fetching data
+        request.httpMethod = "GET"
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
@@ -80,8 +81,8 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     }
 }
 
-   //MARK: - Extension TableView
-extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
+ //MARK: - Extension TableView
+ extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return connections.count
@@ -90,6 +91,11 @@ extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectTableViewCell
         let connection = connections[indexPath.row]
         cell.connectCellLabel?.text = connection.title
+        if let avatarURL = URL(string: connection.photoURL) {
+              loadImage(from: avatarURL.absoluteString, into: cell.connectImageView, placeholder: UIImage(named: "placeholderImage"))
+          } else {
+              print("Invalid image URL: \(connection.photoURL)")
+          }
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
