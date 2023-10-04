@@ -15,7 +15,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     @IBOutlet weak var chatView: GradientView!
     @IBOutlet weak var chatTextField: UITextField!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ConnectVC>()
-    var connection: [Connection] = []
+    var connections: [Connection] = []
 
     //MARK: - Override func
     override func viewDidLoad() {
@@ -33,19 +33,21 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     func connectionAPICall() {
         let endPoint = APIConstants.Endpoints.connection
         let urlString = APIConstants.baseURL + endPoint
-        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
         }
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
+        request.httpMethod = "GET" // Use GET for fetching data
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
-        request.addValue("ci_session=dca13b75c98d0a3adb35f00b8a053c47e285d746", forHTTPHeaderField: "Cookie")
+        request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
+                return
+            }
             guard let data = data else {
                 self.showAlert(title: "Alert", message: "No data received")
                 return
@@ -53,8 +55,8 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
             do {
                 let decoder = JSONDecoder()
                 let responseData = try decoder.decode(ConnectModel.self, from: data)
-                self.connection = responseData.body.connection
-
+                self.connections = responseData.body.connections
+                print(responseData.body)
                 DispatchQueue.main.async {
                     self.connectTableView.reloadData()
                 }
@@ -64,7 +66,6 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         }
         task.resume()
     }
-    
     //MARK: - Helper functions
     func chatImageViewTapped(in cell: ConnectTableViewCell) {
             chatView.isHidden = false
@@ -83,12 +84,11 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
 extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return connection.count
+        return connections.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectTableViewCell
-//        cell.delegate = self
-        let connection = connection[indexPath.row]
+        let connection = connections[indexPath.row]
         cell.connectCellLabel?.text = connection.title
         return cell
     }
