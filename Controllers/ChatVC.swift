@@ -1,3 +1,11 @@
+
+//
+//  ChatViewVC.swift
+//  SPONENT
+//
+//  Created by Rao Ahmad on 14/09/2023.
+//
+
 import UIKit
 class ChatVC: UIViewController {
 
@@ -5,19 +13,22 @@ class ChatVC: UIViewController {
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var userNameLbl: UILabel!
-    // MARK: - Var
+    
+    // MARK: - Variable
     let textFieldDelegateHelper = TextFieldDelegateHelper<ChatVC>()
     var messages: [Message] = []
     var receiverName: String?
     var receiverID: Int?
-    // MARK: - Override Func
+    
+    // MARK: - Override Function
     override func viewDidLoad() {
         super.viewDidLoad()
         messageApiCall()
         tableView.dataSource = self
         setupKeyboardDismiss()
     }
-    // MARK: - Helper Func
+    
+    // MARK: - Helper Function
     func setupKeyboardDismiss() {
         if let name = receiverName {
             userNameLbl.text = name
@@ -32,7 +43,8 @@ class ChatVC: UIViewController {
             self.tableView.reloadData()
         }
     }
-
+    
+    //MARK: - Actions
     @IBAction func sendMessage(_ sender: Any) {
         guard let message = messageTextField.text, !message.isEmpty,
               let receiverID = receiverID,
@@ -84,11 +96,12 @@ class ChatVC: UIViewController {
             }
         }
         task.resume()
-        messageTextField.text = "" // Clear the text field after sending the message
+        messageTextField.text = ""
         tableView.reloadData()
         messageApiCall()
     }
-
+    
+   //MARK: - API Call
     func messageApiCall() {
         guard let receiverID = receiverID else {
             print("Receiver ID is nil or invalid")
@@ -112,12 +125,10 @@ class ChatVC: UIViewController {
         }
 
         request.addValue("ci_session=2af35aba20c6238d5d8617ac781af0a1aefb0537", forHTTPHeaderField: "Cookie")
-        // Add other headers as needed
 
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = ""
 
-        // Append the receiverId parameter to the request body
         body += "--\(boundary)\r\n"
         body += "Content-Disposition: form-data; name=\"receiverId\"\r\n\r\n"
         body += "\(receiverId)\r\n"
@@ -137,7 +148,6 @@ class ChatVC: UIViewController {
                     let decoder = JSONDecoder()
                     let responseData = try decoder.decode(MessageModel.self, from: data)
                     let receivedMessages = responseData.body.messages
-                    // Append the received messages to the chat
                     for receivedMessage in receivedMessages {
                         self.updateChat(message: receivedMessage)
                     }
@@ -149,54 +159,52 @@ class ChatVC: UIViewController {
         task.resume()
     }
 }
-//MARK: - TableView
-extension ChatVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+  //MARK: - TableView
+  extension ChatVC: UITableViewDelegate, UITableViewDataSource {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-                   let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellUser", for: indexPath)
-//        let message = messages[indexPath.row]
-//                   cell.textLabel?.text = message.body
-                   // Configure sender cell here
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+         let message = messages[indexPath.row]
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellUser", for: indexPath) as! MessageCellUser
+            // cell.textLabel?.text = message.body
             return cell
-    }
-}
+     }
+ }
 
-//MARK: Button Actions
-extension ChatVC {
-    @IBAction func userProfileButton(_ sender: UIButton) {
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+  //MARK: Button Actions
+  extension ChatVC {
+     @IBAction func userProfileButton(_ sender: UIButton) {
+         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
             vc.delegate = self
             vc.isProfileBackButtonHidden = false
             vc.isFollowButtonHidden = false
             self.navigationController?.pushViewController(vc, animated: true)
         }
-    }
+  }
     @IBAction func chatBackButton(_ sender: UIButton) {
         if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
             tabBarController.modalPresentationStyle = .fullScreen
             tabBarController.selectedIndex = 3
             self.present(tabBarController, animated: false)
          }
-     }
-
+    }
 }
-//MARK: - Extension ProfileDelegate
-extension ChatVC: ProfileDelegate {
-  func didTapUserProfileSettingButton() {
-      if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
-          if profileVC.userSettingStackView.isHidden {
+  //MARK: - Extension ProfileDelegate
+  extension ChatVC: ProfileDelegate {
+     func didTapUserProfileSettingButton() {
+        if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
+           if profileVC.userSettingStackView.isHidden {
               profileVC.userSettingStackView.isHidden = false
               profileVC.settingStackView.isHidden = true
-          } else {
-              profileVC.userSettingStackView.isHidden = true
-              profileVC.settingStackView.isHidden = true
+           } else {
+               profileVC.userSettingStackView.isHidden = true
+               profileVC.settingStackView.isHidden = true
           }
-      }
-   }
-}
+       }
+    }
+ }
 
 //import UIKit
 //import SocketIO
