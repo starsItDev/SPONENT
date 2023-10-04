@@ -12,7 +12,6 @@ protocol ConnectTableViewCellDelegate: AnyObject {
 }
 
 class ConnectTableViewCell: UITableViewCell {
-
     
     @IBOutlet weak var connectImageView: UIImageView!
     @IBOutlet weak var connectCellLabel: UILabel!
@@ -26,10 +25,10 @@ class ConnectTableViewCell: UITableViewCell {
         chatImageView.isUserInteractionEnabled = true
             chatImageView.addGestureRecognizer(tapGesture)
     }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
     @objc func chatImageViewTapped() {
         delegate?.chatImageViewTapped(in: self)
      }
