@@ -13,6 +13,7 @@ class ChatVC: UIViewController {
     @IBOutlet weak var messageTextField: UITextField!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var userNameLbl: UILabel!
+    @IBOutlet weak var chatProfileImage: UIImageView!
     
     // MARK: - Variable
     let textFieldDelegateHelper = TextFieldDelegateHelper<ChatVC>()
@@ -26,6 +27,7 @@ class ChatVC: UIViewController {
         messageApiCall()
         tableView.dataSource = self
         setupKeyboardDismiss()
+        messageTextField.applyBorder()
     }
     
     // MARK: - Helper Function
@@ -151,6 +153,8 @@ class ChatVC: UIViewController {
                     for receivedMessage in receivedMessages {
                         self.updateChat(message: receivedMessage)
                     }
+                    let image = responseData.body.userAvatar
+                    self.loadImage(from: image, into: self.chatProfileImage, placeholder: nil)
                 } catch {
                     print("Error decoding JSON: \(error)")
                 }
@@ -163,16 +167,26 @@ class ChatVC: UIViewController {
   extension ChatVC: UITableViewDelegate, UITableViewDataSource {
      func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
-    }
-    
-     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-         let message = messages[indexPath.row]
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellUser", for: indexPath) as! MessageCellUser
-            // cell.textLabel?.text = message.body
-            return cell
      }
- }
-
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+          let message = messages[indexPath.row]
+          let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCellUser", for: indexPath) as! MessageCellUser
+              cell.chatLabel?.text = message.body
+          let dateFormatter = DateFormatter()
+              dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+              if let date = dateFormatter.date(from: message.date) {
+                 dateFormatter.dateFormat = "hh:mm a"
+                 let formattedDate = dateFormatter.string(from: date)
+                 cell.dateLabel?.text = formattedDate
+             } else {
+                 print("Invalid date: \(message.date)")
+             }
+        return cell
+      }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+          return UITableView.automaticDimension
+    }
+}
   //MARK: Button Actions
   extension ChatVC {
      @IBAction func userProfileButton(_ sender: UIButton) {

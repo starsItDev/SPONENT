@@ -28,6 +28,7 @@
 		E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB64652A9F0CB200F4F299 /* GoogleMapsM4B */; };
 		E0AB64682A9F0CB200F4F299 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB64672A9F0CB200F4F299 /* GooglePlaces */; };
 		E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AD40702A8CF150007576C3 /* ProfileVC.swift */; };
+		E0AFE26F2ACED46400E00A97 /* MessageCellSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AFE26E2ACED46400E00A97 /* MessageCellSender.swift */; };
 		E0B381362AB8370B00015401 /* UpdateSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B381352AB8370B00015401 /* UpdateSignUpVC.swift */; };
 		E0B664CE2A84FEEA00537CAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664CD2A84FEEA00537CAE /* AppDelegate.swift */; };
 		E0B664D02A84FEEA00537CAE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664CF2A84FEEA00537CAE /* SceneDelegate.swift */; };
@@ -37,7 +38,6 @@
 		E0B664EA2A85009200537CAE /* GradientColour.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664E92A85009200537CAE /* GradientColour.swift */; };
 		E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664EB2A8500B500537CAE /* CornerRadius.swift */; };
 		E0B8CB7B2AB2DCB200846951 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */; };
-		E0B8CB7F2AB3227E00846951 /* ChatViewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B8CB7E2AB3227E00846951 /* ChatViewVC.swift */; };
 		E0BFDFE22ACD37D1006D594D /* ConnectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */; };
 		E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */; };
 		E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */; };
@@ -71,6 +71,7 @@
 		E0AA26CA2A864361002CDACA /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		E0AD40702A8CF150007576C3 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		E0AFE26E2ACED46400E00A97 /* MessageCellSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellSender.swift; sourceTree = "<group>"; };
 		E0B381352AB8370B00015401 /* UpdateSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSignUpVC.swift; sourceTree = "<group>"; };
 		E0B664CA2A84FEEA00537CAE /* SPONENT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SPONENT.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0B664CD2A84FEEA00537CAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,7 +83,6 @@
 		E0B664E92A85009200537CAE /* GradientColour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColour.swift; sourceTree = "<group>"; };
 		E0B664EB2A8500B500537CAE /* CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
-		E0B8CB7E2AB3227E00846951 /* ChatViewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewVC.swift; sourceTree = "<group>"; };
 		E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectModel.swift; sourceTree = "<group>"; };
 		E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KingFisher Image.swift"; sourceTree = "<group>"; };
 		E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectVC.swift; sourceTree = "<group>"; };
@@ -123,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */,
+				E0AFE26E2ACED46400E00A97 /* MessageCellSender.swift */,
 			);
 			path = ChatVC;
 			sourceTree = "<group>";
@@ -246,7 +247,6 @@
 				E0B381352AB8370B00015401 /* UpdateSignUpVC.swift */,
 				E0DAA1872A8CD069001F72EF /* DetailViewController.swift */,
 				E0DD3C702AAEFF7D00D8A205 /* RequestVC.swift */,
-				E0B8CB7E2AB3227E00846951 /* ChatViewVC.swift */,
 				E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */,
 				E0AA26C92A8642DF002CDACA /* TabBar */,
 				E0AFE75A2A8F7C52001D3992 /* TableViewCell */,
@@ -386,7 +386,6 @@
 				E0B8CB7B2AB2DCB200846951 /* ChatVC.swift in Sources */,
 				7686A3C02ACC4DAD0083F7DC /* MessageCellUser.swift in Sources */,
 				76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */,
-				E0B8CB7F2AB3227E00846951 /* ChatViewVC.swift in Sources */,
 				E0DF66D52A95EF70006BFBFE /* BorderStyle.swift in Sources */,
 				E0DF66D72A95F1C8006BFBFE /* UITapGesture.swift in Sources */,
 				E0B664CE2A84FEEA00537CAE /* AppDelegate.swift in Sources */,
@@ -402,6 +401,7 @@
 				E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */,
 				E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */,
 				E0DF66D32A95D150006BFBFE /* MapPlaces.swift in Sources */,
+				E0AFE26F2ACED46400E00A97 /* MessageCellSender.swift in Sources */,
 				E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */,
 				E0B664D02A84FEEA00537CAE /* SceneDelegate.swift in Sources */,
 				E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */,

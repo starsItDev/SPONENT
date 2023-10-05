@@ -17,7 +17,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     @IBOutlet weak var chatTextField: UITextField!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ConnectVC>()
     var connections: [Connection] = []
-
+    var selectedReceiverID: String?
     //MARK: - Override func
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +34,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     func connectionAPICall() {
         let endPoint = APIConstants.Endpoints.connection
         let urlString = APIConstants.baseURL + endPoint
+        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -44,11 +45,13 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
         request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
                 return
             }
+            
             guard let data = data else {
                 self.showAlert(title: "Alert", message: "No data received")
                 return
@@ -61,7 +64,8 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
                 DispatchQueue.main.async {
                     self.connectTableView.reloadData()
                 }
-            } catch {
+            }
+            catch {
                 print("Error decoding JSON: \(error)")
             }
         }
@@ -103,10 +107,15 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         chatView.isHidden = true
+        let conversation = connections[indexPath.row]
+        selectedReceiverID = conversation.userID
+        print(selectedReceiverID)
+
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
             vc.delegate = self
             vc.isProfileBackButtonHidden = false
             vc.isFollowButtonHidden = false
+            vc.receiverID = conversation.userID
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

@@ -1,18 +1,14 @@
 //
-//  MessageCellUser.swift
+//  MessageCellSender.swift
 //  SPONENT
 //
-//  Created by StarsDev on 03/10/2023.
+//  Created by Rao Ahmad on 05/10/2023.
 //
 
 import UIKit
 
-class MessageCellUser: UITableViewCell {
+class MessageCellSender: UITableViewCell {
 
-    
-    @IBOutlet weak var chatImage: UIImageView!
-    @IBOutlet weak var chatLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -44,7 +44,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     let updateSignUpVC = UpdateSignUpVC()
     var isProfileBackButtonHidden = true
     var isFollowButtonHidden = true
-
+    var receiverID: String?
+    
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,9 +62,14 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         let endpoint = APIConstants.Endpoints.appUser
         var urlString = APIConstants.baseURL + endpoint
         
-        if let userId = UserDefaults.standard.string(forKey: "userID") {
-            urlString += "?id=" + userId
-        }
+        if let receiverID = receiverID {
+                urlString += "?id=" + receiverID
+            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
+                urlString += "?id=" + userID
+            } else {
+                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                return
+            }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -87,7 +93,12 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     }
     func tabsApiCall(){
         let endpoint = APIConstants.Endpoints.tabsCount
-        let urlString = APIConstants.baseURL + endpoint
+        var urlString = APIConstants.baseURL + endpoint
+        
+        if let receiverID = receiverID {
+               urlString += "?id=" + receiverID
+           }
+        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return

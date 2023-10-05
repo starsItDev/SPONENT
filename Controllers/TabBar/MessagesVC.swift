@@ -63,10 +63,19 @@ class MessagesVC: UIViewController {
         let conversation = conversations[indexPath.row]
         cell.messageNameLabel?.text = conversation.nameReceiver
         cell.messageChatLabel?.text = conversation.message
-        cell.messagetimeLabel?.text = conversation.date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        if let date = dateFormatter.date(from: conversation.date) {
+            dateFormatter.dateFormat = "hh:mm a"
+            let formattedDate = dateFormatter.string(from: date)
+            cell.messagetimeLabel?.text = formattedDate
+        } else {
+            print("Invalid date: \(conversation.date)")
+            cell.messagetimeLabel?.text = "Invalid Date"
+        }
         if let avatarURL = URL(string: conversation.avatarReceiver) {
-              loadImage(from: avatarURL.absoluteString, into: cell.messageIMageView, placeholder: UIImage(named: "placeholderImage"))
-          } else {
+            loadImage(from: avatarURL.absoluteString, into: cell.messageIMageView, placeholder: UIImage(named: "placeholderImage"))
+        } else {
               print("Invalid image URL: \(conversation.avatarReceiver)")
         }
         return cell

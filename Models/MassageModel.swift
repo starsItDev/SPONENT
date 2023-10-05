@@ -37,7 +37,8 @@ struct Message: Codable {
 
     enum CodingKeys: String, CodingKey {
         case messageID = "message_id"
-        case body, date
+        case body = "body"
+        case date = "date"
         case isViewer = "is_viewer"
     }
 }
