@@ -1,9 +1,48 @@
+////
+////  UserActivityModel.swift
+////  SPONENT
+////
+////  Created by Rao Ahmad on 06/10/2023.
+////
 //
-//  UserActivityModel.swift
-//  SPONENT
+//import Foundation
 //
-//  Created by Rao Ahmad on 06/10/2023.
+//// MARK: - ActivityModel
+//struct UserActivityModel: Codable {
+//    let code: Int
+//    let body: UserActivityBody
+//}
 //
+//// MARK: - Body
+//struct UserActivityBody: Codable {
+//    let activities: [Activities]
+//}
+//
+//// MARK: - Activities
+//struct Activities: Codable {
+//    let activity, activityID, categoryID: String
+//    let ownerID, date, location: String
+//    let catAvatar, distance, title: String
+//    let time, avatar: String
+//    let status: String
+//
+//    enum CodingKeys: String, CodingKey {
+//        case activity = "activity"
+//        case activityID = "activity_id"
+//        case categoryID = "category_id"
+//        case ownerID = "owner_id"
+//        case date = "date"
+//        case location = "location"
+//        case catAvatar = "cat_avatar"
+//        case distance = "distance"
+//        case title = "owner_title"
+//        case time = "time"
+//        case avatar = "avatar"
+//        case status
+//    }
+//}
+
+
 
 import Foundation
 
@@ -13,31 +52,57 @@ struct UserActivityModel: Codable {
     let body: UserActivityBody
 }
 
-// MARK: - Body
+// MARK: - UserActivityBody
 struct UserActivityBody: Codable {
     let activities: [Activities]
+    let totalItemCount: Int
 }
 
-// MARK: - Activities
+// MARK: - Activity
 struct Activities: Codable {
-    let activity, activityID, categoryID: String
-    let ownerID, date, location: String
-    let catAvatar, distance, title: String
-    let time, avatar: String
-    let status: String
-    
+    let activity, activityID, categoryID, ownerID: String
+    let date, location: String
+    let catAvatar: String
+    let status: ActivityJSONNull?
+    let distance, ownerTitle, time: String
+    let avatar: String
+
     enum CodingKeys: String, CodingKey {
-        case activity = "activity"
+        case activity
         case activityID = "activity_id"
         case categoryID = "category_id"
         case ownerID = "owner_id"
-        case date = "date"
-        case location = "location"
+        case date, location
         case catAvatar = "cat_avatar"
-        case distance = "distance"
-        case title = "owner_title"
-        case time = "time"
-        case avatar = "avatar"
-        case status
+        case status, distance
+        case ownerTitle = "owner_title"
+        case time, avatar
+    }
+}
+
+// MARK: - Encode/decode helpers
+
+class ActivityJSONNull: Codable, Hashable {
+
+    public static func == (lhs: ActivityJSONNull, rhs: ActivityJSONNull) -> Bool {
+        return true
+    }
+
+    public var hashValue: Int {
+        return 0
+    }
+
+    public init() {}
+
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if !container.decodeNil() {
+            throw DecodingError.typeMismatch(ActivityJSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encodeNil()
     }
 }
