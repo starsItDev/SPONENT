@@ -44,6 +44,7 @@
 		E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */; };
 		E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */; };
 		E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */; };
+		E0CACB602ACFDD3F00B62057 /* UserActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CACB5F2ACFDD3F00B62057 /* UserActivityModel.swift */; };
 		E0DAA1882A8CD069001F72EF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DAA1872A8CD069001F72EF /* DetailViewController.swift */; };
 		E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DD3C6A2AAEE24800D8A205 /* ActivityVC.swift */; };
 		E0DD3C6D2AAEF15400D8A205 /* ActivityTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */; };
@@ -89,6 +90,7 @@
 		E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectTableViewCell.swift; sourceTree = "<group>"; };
 		E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
+		E0CACB5F2ACFDD3F00B62057 /* UserActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivityModel.swift; sourceTree = "<group>"; };
 		E0DAA1872A8CD069001F72EF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E0DD3C6A2AAEE24800D8A205 /* ActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityVC.swift; sourceTree = "<group>"; };
 		E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTableViewCell.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 				769841CD2ACAC3DE0061046D /* Inbox Model.swift */,
 				769841CF2ACB03E60061046D /* MassageModel.swift */,
 				E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */,
+				E0CACB5F2ACFDD3F00B62057 /* UserActivityModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -397,6 +400,7 @@
 				E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */,
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
 				E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */,
+				E0CACB602ACFDD3F00B62057 /* UserActivityModel.swift in Sources */,
 				E0AA26CB2A864361002CDACA /* HomeVC.swift in Sources */,
 				E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */,
 				E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */,

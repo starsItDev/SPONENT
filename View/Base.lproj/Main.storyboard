@@ -2311,8 +2311,13 @@
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
+                                                    <outlet property="activityTitle" destination="I4d-An-l84" id="Ksh-Vh-EZU"/>
+                                                    <outlet property="catAvatarImage" destination="obX-Bh-8HI" id="zGQ-rd-nYp"/>
+                                                    <outlet property="dateLabel" destination="liK-jF-of5" id="WUz-gA-CxR"/>
                                                     <outlet property="homeTableImage" destination="rAi-tu-ojL" id="9ct-A3-JCS"/>
                                                     <outlet property="homeTableLocation" destination="WcX-XP-mjh" id="vG0-gr-rmD"/>
+                                                    <outlet property="timeLabel" destination="le8-ie-Cvn" id="2AK-Oo-MhA"/>
+                                                    <outlet property="titleLabel" destination="dxt-ro-hC2" id="bIk-yA-M4U"/>
                                                 </connections>
                                             </tableViewCell>
                                         </prototypes>
@@ -2808,6 +2813,11 @@
                             <constraint firstItem="vwB-Ul-6aE" firstAttribute="top" secondItem="y8J-j8-8uk" secondAttribute="bottom" id="xhW-72-VyK"/>
                             <constraint firstItem="pUQ-NE-BMp" firstAttribute="bottom" secondItem="e3G-5Q-2l7" secondAttribute="bottom" id="yJl-t1-zSx"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="pUQ-NE-BMp"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="Q8q-7r-zU8"/>
                     <connections>

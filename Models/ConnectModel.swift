@@ -8,7 +8,7 @@
 
 import Foundation
 
-// MARK: - MessageModel
+// MARK: - ConnectModel
 struct ConnectModel: Codable {
     let code: Int
     let body: ConnectModelBody

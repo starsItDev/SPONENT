@@ -11,6 +11,11 @@ class HomeTableViewCell: UITableViewCell {
     
     //MARK: - Variable
     @IBOutlet weak var homeTableImage: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var activityTitle: UILabel!
+    @IBOutlet weak var catAvatarImage: UIImageView!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var homeTableLocation: UILabel!
     var locationName: String?
     

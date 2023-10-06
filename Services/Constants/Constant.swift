@@ -28,6 +28,7 @@ struct APIConstants {
         static let createActivity = "/app/activity/create"
         static let activityMine = "/app/activity/mine"
         static let connection = "/app/conversations"
+        static let userActivities = "/app/activity/user"
         //MARK: Chat API Endpoint
         static let inbox = "/app/inbox"
         static let sendMessage = "/app/sendmessage"
