@@ -9,6 +9,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import CoreLocation
+import SwiftUI
 
 protocol DetailViewControllerDelegate: AnyObject {
     func didSelectLocation(_ locationName: String)
@@ -18,6 +19,16 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
 
     //MARK: - Variable
     @IBOutlet weak var detailScrollView: UIScrollView!
+    @IBOutlet weak var detailTitleLbl: UILabel!
+    @IBOutlet weak var detailActivityLbl: UILabel!
+    @IBOutlet weak var detailDateLbl: UILabel!
+    @IBOutlet weak var detailTimeLbl: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var detailAgeLbl: UILabel!
+    @IBOutlet weak var detailSkillLbl: UILabel!
+    @IBOutlet weak var detailGenderLbl: UILabel!
+    @IBOutlet weak var detailParticipantLbl: UILabel!
+    @IBOutlet weak var detailLocationLbl: UILabel!
     @IBOutlet weak var requestToJoinButton: UIButton!
     @IBOutlet weak var detailSearchBar: UISearchBar!
     @IBOutlet weak var detailViewOne: UIView!
@@ -27,6 +38,8 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBOutlet weak var detailBackLabel: UILabel!
     @IBOutlet weak var detailShareButton: UIButton!
     @IBOutlet weak var detailDoneButton: UIButton!
+    @IBOutlet weak var detailProfileImage: UIImageView!
+    @IBOutlet weak var deleteButton: UIButton!
     var locationSelectedHandler: ((String) -> Void)?
     weak var delegate: DetailViewControllerDelegate?
     weak var homeVC: HomeVC?
@@ -36,6 +49,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var expandMapHeight = false
     var isShareButtonHidden = false
     var isDoneButtonHidden = true
+    var activityID: String?
     var selectedMarker: GMSMarker?
     var selectedRegion: GMSCoordinateBounds?
     var selectedLocationCoordinate: CLLocationCoordinate2D?
@@ -51,6 +65,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
       detailShareButton.isHidden = isShareButtonHidden
       detailSearchBar.delegate = self
       detailDoneButton.isHidden = isDoneButtonHidden
+      deleteButton.isHidden = true
       detailMapView.delegate = self
       detailMapView.settings.compassButton = true
       detailMapView.settings.myLocationButton = true
@@ -82,7 +97,42 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
              homeVC?.addDetailsLocLabel.text = annotation.title
        }
   }
-
+    
+        //MARK: - API Calling
+    func activityDetailAPICall() {
+        let endPoint = APIConstants.Endpoints.activityDetail
+        var urlString = APIConstants.baseURL + endPoint
+        
+        if let activityID = activityID {
+                urlString += "?id=" + activityID
+            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
+                urlString += "?id=" + userID
+            } else {
+                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                return
+            }
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+    }
+       request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
+            } else if let data = data {
+                self.updateData(with: data)
+            }
+        }
+        task.resume()
+    }
+        
     //MARK: - Actions
     @IBAction func detailBackButton(_ sender: UIButton) {
        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
@@ -108,6 +158,32 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     
     
     //MARK: - Helper Functions
+    func updateData(with responseData: Data) {
+        do {
+            if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+               let body = jsonObject["body"] as? [String: Any] {
+
+                DispatchQueue.main.async {
+                    self.detailTitleLbl.text = body["owner_title"] as? String
+                    self.detailActivityLbl.text = body["activity"] as? String
+                    self.detailDateLbl.text = body["date"] as? String
+                    self.detailTimeLbl.text = body["time"] as? String
+                    self.descriptionLabel.text = body["description"] as? String
+                    self.detailAgeLbl.text = body["start_age"] as? String
+                    self.detailAgeLbl.text = body["start_age"] as? String
+                    self.detailSkillLbl.text = body["skill"] as? String
+                    self.detailGenderLbl.text = body["gender"] as? String
+                    self.detailParticipantLbl.text = body["number"] as? String
+                    self.detailLocationLbl.text = body["location"] as? String
+                    if let avatarURLString = body["avatar"] as? String {
+                        self.loadImage(from: avatarURLString, into: self.detailProfileImage, placeholder: UIImage(named: "placeholderImage"))
+                    }
+                }
+            }
+        } catch {
+            print("Error parsing JSON: \(error)")
+        }
+    }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        searchBar.resignFirstResponder()
        guard let searchText = searchBar.text, !searchText.isEmpty

@@ -50,6 +50,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     let textFieldDelegateHelper = TextFieldDelegateHelper<HomeVC>()
     var sports: [Category] = []
     var ages: [Agetype] = []
+    var activities: [Activities] = []
     let randomGenders = ["Any", "Male", "Female"]
     let randomParticipants = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
                      "14", "More than 15", "Team"]
@@ -62,6 +63,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        userActivityAPiCall()
         apiCall { [weak self] result in
                switch result {
                case .success(let categoriesModel):
@@ -89,6 +91,45 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         setupTapGesture(for: skillView, action: #selector(showSkillActionSheet))
   }
     //MARK: - API Calling
+    func userActivityAPiCall(){
+        let endPoint = APIConstants.Endpoints.userActivities
+        let urlString = APIConstants.baseURL + endPoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey"){
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
+                return
+            }
+            guard let data = data else {
+                self.showAlert(title: "Alert", message: "No data received")
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let responseData = try decoder.decode(UserActivityModel.self, from: data)
+                self.activities = responseData.body.activities
+                print(responseData.body)
+                DispatchQueue.main.async {
+                    self.homeTableView.reloadData()
+                }
+            }
+            catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }
+        task.resume()
+    }
     func apiCall(completion: @escaping (Result<CategoriesModel, Error>) -> Void) {
         let endpoint = APIConstants.Endpoints.categories
         let urlString = APIConstants.baseURL + endpoint
@@ -148,9 +189,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             let date = dateFormatter.string(from: selectedDateAndTime)
             dateFormatter.dateFormat = "HH:mm:ss"
             let time = dateFormatter.string(from: selectedDateAndTime)
-        
-            print("Date: \(date)")
-            print("Time: \(time)")
         
         var ageLabelText = ""
         if startAge == "Any" && endAge == "Teen Age" {
@@ -222,17 +260,26 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 DispatchQueue.main.async {
                     if httpResponse.statusCode == 200 {
                         print("OKKKKK")
-                        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                            //vc.modalPresentationStyle = .fullScreen
-                            self.present(vc, animated: false)
-                         }
+                        if let data = data,
+                           let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                           let body = json["body"] as? [String: Any],
+                           let activityId = body["activity_id"] as? Int {
+                            UserDefaults.standard.set(activityId, forKey: "activityID")
+                            print(activityId)
+                            
+                            if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                                vc.modalPresentationStyle = .fullScreen
+                                self.navigationController?.pushViewController(vc, animated: false)
+                            }
+                        } else {
+                            print("Failed to parse JSON or extract activityId")
+                        }
                     } else {
                         self.showAlert(title: "Error", message: "Failed")
                     }
                 }
             }
         }.resume()
-        
     }
     
     //MARK: - HelperFuntions
@@ -378,7 +425,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
   }
     @IBAction func homeRangeButton(_ sender: UIButton) {
         actions.removeAll()
-        let range = ["15 miles", "30 miles", "45 miles", "60 miles", "75 miles"]
+        let range = ["10 miles", "20 miles", "30 miles", "40 miles", "50 miles", "100 miles"]
         for range in range {
            let action = UIAlertAction(title: range, style: .default) { _ in
            let attributedTitle = NSAttributedString(string: "With in: \(range)")
@@ -420,30 +467,27 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
 //MARK: - Extension TableaView
 extension HomeVC: UITableViewDataSource, UITableViewDelegate{
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 8
-    }
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footer = UIView()
-            footer.backgroundColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0)
-        return footer
+        return activities.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as!
         HomeTableViewCell
-        let location = locations[indexPath.section]
-        cell.locationName = location
-        cell.homeTableLocation.text = location
+        let activities = activities[indexPath.row]
+        cell.titleLabel?.text = activities.ownerTitle
+        cell.activityTitle?.text = activities.activity
+        cell.dateLabel?.text = activities.date
+        cell.timeLabel?.text = activities.time
+        cell.homeTableLocation?.text = activities.location
+        loadImage(from: activities.catAvatar, into: cell.catAvatarImage)
+        loadImage(from: activities.avatar, into: cell.homeTableImage)
+//      let location = locations[indexPath.row]
+//      cell.locationName = location
+//      cell.homeTableLocation.text = location
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 99
+        return UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,

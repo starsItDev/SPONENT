@@ -109,8 +109,6 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         chatView.isHidden = true
         let conversation = connections[indexPath.row]
         selectedReceiverID = conversation.userID
-        print(selectedReceiverID)
-
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
             vc.delegate = self
             vc.isProfileBackButtonHidden = false

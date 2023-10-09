@@ -1386,9 +1386,20 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="arrowshape.turn.up.forward.fill" catalog="system" title=" "/>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="olh-bk-dLx">
+                                        <rect key="frame" x="333" y="45" width="30" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="7oj-1s-aSC"/>
+                                            <constraint firstAttribute="width" constant="30" id="cLS-mf-TqW"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system" title=" "/>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="olh-bk-dLx" firstAttribute="top" secondItem="ISZ-OI-HRe" secondAttribute="top" constant="45" id="4SU-VB-G8h"/>
                                     <constraint firstItem="zAg-vv-jct" firstAttribute="leading" secondItem="ISZ-OI-HRe" secondAttribute="leading" constant="10" id="AUG-jt-XEb"/>
                                     <constraint firstItem="INB-Vu-Mql" firstAttribute="centerX" secondItem="ISZ-OI-HRe" secondAttribute="centerX" id="EQO-75-Ykw"/>
                                     <constraint firstAttribute="trailing" secondItem="iPm-hT-gS5" secondAttribute="trailing" constant="10" id="NNd-C8-EEe"/>
@@ -1396,6 +1407,7 @@
                                     <constraint firstItem="INB-Vu-Mql" firstAttribute="top" secondItem="ISZ-OI-HRe" secondAttribute="top" constant="49" id="cB4-xY-236"/>
                                     <constraint firstItem="iPm-hT-gS5" firstAttribute="top" secondItem="ISZ-OI-HRe" secondAttribute="top" constant="45" id="vt3-sH-up4"/>
                                     <constraint firstAttribute="height" constant="85" id="wGb-hf-QdV"/>
+                                    <constraint firstItem="iPm-hT-gS5" firstAttribute="leading" secondItem="olh-bk-dLx" secondAttribute="trailing" constant="11" id="yCe-Oe-w9K"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -1467,16 +1479,22 @@
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </stackView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="FCT-05-uLx">
-                                                        <rect key="frame" x="95" y="54.5" width="181" height="19.5"/>
+                                                        <rect key="frame" x="95" y="54.5" width="182.5" height="19.5"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31 oct, 2023 at" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ORo-Z1-UsI">
-                                                                <rect key="frame" x="0.0" y="0.0" width="109.5" height="19.5"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31 oct, 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ORo-Z1-UsI">
+                                                                <rect key="frame" x="0.0" y="0.0" width="91.5" height="19.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.5411764979" green="0.54117643829999995" blue="0.5411764979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="at" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZb-8E-a14">
+                                                                <rect key="frame" x="96.5" y="0.0" width="14.5" height="19.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                <color key="textColor" red="0.59215694669999996" green="0.59215694669999996" blue="0.59215694669999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3: 30 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="10Z-K8-EMX">
-                                                                <rect key="frame" x="114.5" y="0.0" width="66.5" height="19.5"/>
+                                                                <rect key="frame" x="116" y="0.0" width="66.5" height="19.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <color key="textColor" red="0.5411764979" green="0.54117643829999995" blue="0.5411764979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -1727,13 +1745,25 @@
                     </view>
                     <navigationItem key="navigationItem" id="b8I-81-e5e"/>
                     <connections>
+                        <outlet property="deleteButton" destination="olh-bk-dLx" id="yPJ-sO-tLS"/>
+                        <outlet property="descriptionLabel" destination="KBx-zQ-bCr" id="Utj-62-YLU"/>
+                        <outlet property="detailActivityLbl" destination="69g-B3-3Yq" id="vhy-6a-pC2"/>
+                        <outlet property="detailAgeLbl" destination="yBC-sn-Hg1" id="p8W-ck-aZM"/>
                         <outlet property="detailBackLabel" destination="INB-Vu-Mql" id="HFE-9V-rTV"/>
+                        <outlet property="detailDateLbl" destination="ORo-Z1-UsI" id="oO4-Ua-r5w"/>
                         <outlet property="detailDoneButton" destination="FNw-vy-jP2" id="jBo-wz-gRS"/>
+                        <outlet property="detailGenderLbl" destination="L1x-Zx-RCN" id="Xmq-vZ-mFv"/>
+                        <outlet property="detailLocationLbl" destination="FjW-zH-cqS" id="Jmr-qa-80G"/>
                         <outlet property="detailMapHeight" destination="6IF-H6-CPN" id="GAx-Zg-dFP"/>
                         <outlet property="detailMapView" destination="sez-o8-R9x" id="Vgx-FV-3Yf"/>
+                        <outlet property="detailParticipantLbl" destination="wts-40-GXe" id="Bqv-uA-8OS"/>
+                        <outlet property="detailProfileImage" destination="cNl-bD-6gZ" id="eUa-oC-z2c"/>
                         <outlet property="detailScrollView" destination="IAG-UJ-arK" id="RTX-K3-XoR"/>
                         <outlet property="detailSearchBar" destination="pTO-zu-PYv" id="s44-wH-nG4"/>
                         <outlet property="detailShareButton" destination="iPm-hT-gS5" id="iUs-0J-QBO"/>
+                        <outlet property="detailSkillLbl" destination="jGa-Yg-gph" id="3nJ-Nx-8Ol"/>
+                        <outlet property="detailTimeLbl" destination="10Z-K8-EMX" id="XW6-ZT-P7p"/>
+                        <outlet property="detailTitleLbl" destination="CCx-ke-M2t" id="M99-gJ-pwH"/>
                         <outlet property="detailViewOne" destination="4r7-fF-o0i" id="J8O-eh-pdZ"/>
                         <outlet property="detailViewTwo" destination="fff-JS-k3f" id="w73-K1-dfX"/>
                         <outlet property="requestToJoinButton" destination="HuO-1W-CUi" id="z5u-uf-7q5"/>
@@ -2203,7 +2233,7 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="404" height="100"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXl-LP-eP6">
-                                                                    <rect key="frame" x="0.0" y="10" width="80" height="80"/>
+                                                                    <rect key="frame" x="0.0" y="10" width="80" height="90"/>
                                                                     <subviews>
                                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cillian-murphy-oppenheimer" translatesAutoresizingMaskIntoConstraints="NO" id="rAi-tu-ojL">
                                                                             <rect key="frame" x="5" y="6" width="70" height="70"/>
@@ -2223,7 +2253,6 @@
                                                                         <constraint firstAttribute="trailing" secondItem="rAi-tu-ojL" secondAttribute="trailing" constant="5" id="Vpc-M9-yHp"/>
                                                                         <constraint firstAttribute="width" constant="80" id="Vy0-8u-UZG"/>
                                                                         <constraint firstItem="rAi-tu-ojL" firstAttribute="top" secondItem="fXl-LP-eP6" secondAttribute="top" constant="6" id="fa3-dy-CWL"/>
-                                                                        <constraint firstAttribute="height" constant="95" id="gX1-7g-X8x"/>
                                                                     </constraints>
                                                                 </view>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="voa-4B-li7">
@@ -2251,27 +2280,33 @@
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </stackView>
                                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="3S2-r7-MGB">
-                                                                    <rect key="frame" x="80" y="34.5" width="196" height="20"/>
+                                                                    <rect key="frame" x="80" y="34.5" width="196.5" height="20"/>
                                                                     <subviews>
                                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="obX-Bh-8HI">
                                                                             <rect key="frame" x="0.0" y="2.5" width="14.5" height="14.5"/>
                                                                             <imageReference key="image" image="person" catalog="system" symbolScale="small"/>
                                                                         </imageView>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31 Oct, 2023 at" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="liK-jF-of5">
-                                                                            <rect key="frame" x="18.5" y="0.0" width="112.5" height="20"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31 Oct, 2023" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="liK-jF-of5">
+                                                                            <rect key="frame" x="18.5" y="0.0" width="94.5" height="20"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                            <color key="textColor" red="0.5411764979" green="0.54117643829999995" blue="0.5411764979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="at" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSa-8F-MWY">
+                                                                            <rect key="frame" x="117" y="0.0" width="14.5" height="20"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                             <color key="textColor" red="0.5411764979" green="0.54117643829999995" blue="0.5411764979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:20 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="le8-ie-Cvn">
-                                                                            <rect key="frame" x="135" y="0.0" width="61" height="20"/>
+                                                                            <rect key="frame" x="135.5" y="0.0" width="61" height="20"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                             <color key="textColor" red="0.5411764979" green="0.54117643829999995" blue="0.5411764979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
                                                                 </stackView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Block G 1, Sector 3, Johar Town, Main Ground, Lahore" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WcX-XP-mjh">
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Block G 1, Sector 3, Johar Town, Main Ground, Lahore" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WcX-XP-mjh">
                                                                     <rect key="frame" x="80" y="56.5" width="324" height="38.5"/>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                     <nil key="textColor"/>
@@ -2281,13 +2316,14 @@
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstItem="WcX-XP-mjh" firstAttribute="leading" secondItem="fXl-LP-eP6" secondAttribute="trailing" id="2rf-Ai-QFu"/>
-                                                                <constraint firstAttribute="bottom" secondItem="fXl-LP-eP6" secondAttribute="bottom" constant="10" id="9fp-3C-NsE"/>
+                                                                <constraint firstAttribute="bottom" secondItem="fXl-LP-eP6" secondAttribute="bottom" id="39i-wF-deM"/>
                                                                 <constraint firstItem="fXl-LP-eP6" firstAttribute="leading" secondItem="Ct9-tH-hyr" secondAttribute="leading" id="Aqe-dn-3ql"/>
                                                                 <constraint firstAttribute="trailing" secondItem="WcX-XP-mjh" secondAttribute="trailing" id="H3t-sC-dic"/>
                                                                 <constraint firstItem="voa-4B-li7" firstAttribute="leading" secondItem="fXl-LP-eP6" secondAttribute="trailing" id="Mea-Lg-EIe"/>
                                                                 <constraint firstItem="3S2-r7-MGB" firstAttribute="top" secondItem="voa-4B-li7" secondAttribute="bottom" constant="2" id="baX-HR-9nB"/>
                                                                 <constraint firstItem="3S2-r7-MGB" firstAttribute="leading" secondItem="fXl-LP-eP6" secondAttribute="trailing" id="hWc-Ih-yBs"/>
                                                                 <constraint firstItem="fXl-LP-eP6" firstAttribute="top" secondItem="Ct9-tH-hyr" secondAttribute="top" constant="10" id="ryJ-AO-rRs"/>
+                                                                <constraint firstAttribute="bottom" secondItem="WcX-XP-mjh" secondAttribute="bottom" constant="5" id="yDg-Jz-xOc"/>
                                                                 <constraint firstItem="voa-4B-li7" firstAttribute="top" secondItem="Ct9-tH-hyr" secondAttribute="top" constant="13" id="ygc-XW-jTb"/>
                                                                 <constraint firstItem="WcX-XP-mjh" firstAttribute="top" secondItem="3S2-r7-MGB" secondAttribute="bottom" constant="2" id="z4L-wo-yNY"/>
                                                             </constraints>
@@ -2813,11 +2849,6 @@
                             <constraint firstItem="vwB-Ul-6aE" firstAttribute="top" secondItem="y8J-j8-8uk" secondAttribute="bottom" id="xhW-72-VyK"/>
                             <constraint firstItem="pUQ-NE-BMp" firstAttribute="bottom" secondItem="e3G-5Q-2l7" secondAttribute="bottom" id="yJl-t1-zSx"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="pUQ-NE-BMp"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="Q8q-7r-zU8"/>
                     <connections>
@@ -4434,6 +4465,7 @@
         <image name="point.3.connected.trianglepath.dotted" catalog="system" width="128" height="96"/>
         <image name="settings" width="27" height="27"/>
         <image name="sportscourt" catalog="system" width="128" height="84"/>
+        <image name="trash.fill" catalog="system" width="121" height="128"/>
         <namedColor name="outgoingMessageBackground">
             <color red="0.20399998128414154" green="0.77999997138977051" blue="0.34899997711181641" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
