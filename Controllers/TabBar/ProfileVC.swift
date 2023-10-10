@@ -11,7 +11,6 @@ import Kingfisher
 protocol ProfileDelegate: AnyObject {
     func didTapUserProfileSettingButton()
 }
-
 class ProfileVC: UIViewController, UITextFieldDelegate {
     
     //MARK: - Variable
@@ -158,183 +157,256 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             print("Error parsing JSON: \(error)")
         }
     }
-    func blockUser(userId: String) {
-        
-        guard !userId.isEmpty else {
-            showAlert(title: "Alert", message: "User ID is empty")
-            return
-        }
+    func blockapiCall() {
         let endpoint = APIConstants.Endpoints.blockUser
         let urlString = APIConstants.baseURL + endpoint
-        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
         }
-        
+        let parameters = [
+            [
+                "key": "user_id",
+                "value": receiverID!,
+                "type": "text"
+            ],
+        ] as [[String: Any]]
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
-            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+            request.setValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
-        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
-        
-        let parameters: [String: Any] = ["user_id": userId]
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-            request.httpBody = jsonData
-        } catch {
-            showAlert(title: "Alert", message: "JSON Serialization Error")
-            return
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
         }
-        
+
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                self.showAlert(title: "Alert", message: ("\(error)"))
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
-            guard let data = data else {
-                self.showAlert(title: "Alert", message: "No data received")
-                return
-            }
-            
-            do {
-                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                   let body = jsonObject["body"] as? [String: Any],
-                   let message = body["message"] as? String {
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Blocked", message: message)
-                        self.blockButton.setTitle("Unblock", for: .normal)
-                    }
-                } else {
-                    self.showAlert(title: "Alert", message: "Invalid response format")
+
+            if let responseData = String(data: data, encoding: .utf8) {
+                print("Response Data: \(responseData)")
+                DispatchQueue.main.async {
+                    self.blockButton.setTitle("Blocked", for: .normal)
+                    self.showAlert(title: "Unblock", message: responseData)
                 }
-            } catch {
-                self.showAlert(title: "Alert", message: "JSON Parsing Error")
             }
         }
-        
         task.resume()
     }
-    func unblockUser(userId: String) {
+    func unblockUser() {
         let endpoint = APIConstants.Endpoints.userUnblock
         let urlString = APIConstants.baseURL + endpoint
-        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
         }
-        
+        let parameters = [
+            [
+                "key": "user_id",
+                "value": receiverID!,
+                "type": "text"
+            ],
+        ] as [[String: Any]]
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
-            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+            request.setValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
-        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
-        
-        let parameters: [String: Any] = ["user_id": userId]
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-            request.httpBody = jsonData
-        } catch {
-            showAlert(title: "Alert", message: "JSON Serialization Error")
-            return
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
         }
-        
+
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                self.showAlert(title: "Alert", message: ("\(error)"))
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
-            guard let data = data else {
-                self.showAlert(title: "Alert", message: "No data received")
-                return
-            }
-            
-            do {
-                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                   let body = jsonObject["body"] as? [String: Any],
-                   let message = body["message"] as? String {
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Unblocked", message: message)
-                        self.blockButton.setTitle("Block", for: .normal)
-                    }
-                } else {
-                    self.showAlert(title: "Alert", message: "Invalid response format")
+
+            if let responseData = String(data: data, encoding: .utf8) {
+                print("Response Data: \(responseData)")
+                DispatchQueue.main.async {
+                    self.blockButton.setTitle("Blocked", for: .normal)
+                    self.showAlert(title: "Unblock", message: responseData)
                 }
-            } catch {
-                self.showAlert(title: "Alert", message: "JSON Parsing Error")
             }
         }
-        
         task.resume()
     }
-    func reportUser(userId: String, type: String, description: String) {
+    func reportApiCall() {
         let endpoint = APIConstants.Endpoints.userReport
         let urlString = APIConstants.baseURL + endpoint
-        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
         }
-        
+        let parameters = [
+          [
+            "key": "type",
+            "value": "Spam",
+            "type": "text"
+          ],
+          [
+            "key": "description",
+            "value": "test",
+            "type": "text"
+          ],
+          [
+            "key": "user_id",
+            "value": receiverID!,
+            "type": "text"
+          ]] as [[String: Any]]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
-            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+            request.setValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
-        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
-        
-        let parameters: [String: Any] = [
-            "user_id": userId,
-            "type": type,
-            "description": description
-        ]
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: parameters, options: [])
-            request.httpBody = jsonData
-        } catch {
-            showAlert(title: "Alert", message: "JSON Serialization Error")
-            return
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
         }
-        
+
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                self.showAlert(title: "Alert", message: ("\(error)"))
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
-            guard let data = data else {
-                self.showAlert(title: "Alert", message: "No data received")
-                return
-            }
-            
-            do {
-                if let jsonObject = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                   let body = jsonObject["body"] as? [String: Any],
-                   let message = body["message"] as? String {
-                    DispatchQueue.main.async {
-                        self.showAlert(title: "Reported User", message: message)
-                    }
-                } else {
-                    self.showAlert(title: "Alert", message: "Invalid response format")
+
+            if let responseData = String(data: data, encoding: .utf8) {
+                print("Response Data: \(responseData)")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Report", message: responseData)
                 }
-            } catch {
-                self.showAlert(title: "Alert", message: "JSON Parsing Error")
             }
         }
-        
         task.resume()
     }
+    func friendshipAddAPI() {
+        let endpoint = APIConstants.Endpoints.friendshipAdd
+        let urlString = APIConstants.baseURL + endpoint
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        let parameters = [
+          [
+            "key": "friendId",
+            "value": receiverID!,
+            "type": "text"
+          ]] as [[String: Any]]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.setValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
 
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            if let responseData = String(data: data, encoding: .utf8) {
+                print("Response Data: \(responseData)")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Friend Add", message: responseData)
+                }
+            }
+        }
+        task.resume()
+    }
+    func friendshipLeaveAPI() {
+        let endpoint = APIConstants.Endpoints.friendshipLeave
+        let urlString = APIConstants.baseURL + endpoint
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        let parameters = [
+          [
+            "key": "friendId",
+            "value": receiverID!,
+            "type": "text"
+          ]] as [[String: Any]]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.setValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+
+            if let responseData = String(data: data, encoding: .utf8) {
+                print("Response Data: \(responseData)")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Leave Frined", message: responseData)
+                }
+            }
+        }
+        task.resume()
+    }
     //MARK: - Actions
     @IBAction func profileSegmentControl(_ sender: UISegmentedControl) {
         switch profileSegmentController.selectedSegmentIndex {
@@ -378,8 +450,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func changePasswordButton(_ sender: UIButton) {
         if changePasswordView.isHidden {
-                changePasswordView.isHidden = false
-                settingStackView.isHidden = true
+            changePasswordView.isHidden = false
+            settingStackView.isHidden = true
         }
     }
     @IBAction func signOutButton(_ sender: UIButton) {
@@ -395,133 +467,89 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             changePasswordView.isHidden = true
         }
     }
-
     @IBAction func updateOkButton(_ sender: UIButton) {
-        if let oldPassword = oldPasswordField.text,
-           let newPassword = newPasswordField.text,
-           let confirmPassword = confirmPasswordField.text {
-            
-            if oldPassword.isEmpty || newPassword.isEmpty || confirmPassword.isEmpty {
+        guard let oldPassword = oldPasswordField.text,
+              let newPassword = newPasswordField.text,
+              let confirmPassword = confirmPasswordField.text,
+              !oldPassword.isEmpty,
+              !newPassword.isEmpty,
+              !confirmPassword.isEmpty else {
                 showAlert(title: "Alert", message: "Please fill in all text fields.")
-            } else {
-                let parameters = [
-                    [
-                        "key": "newPassword",
-                        "value": newPassword,
-                        "type": "text"
-                    ],
-                    [
-                        "key": "oldPassword",
-                        "value": oldPassword,
-                        "type": "text"
-                    ]
-                ]
-                
-                // Create the multipart form data request body
-                let boundary = "Boundary-\(UUID().uuidString)"
-                var body = Data()
-                
-                for param in parameters {
-                    if let disabled = param["disabled"] as? Bool, disabled {
-                        continue
-                    }
-                    let paramName = param["key"] as! String
-                    let paramType = param["type"] as! String
-                    
-                    body.append("--\(boundary)\r\n".data(using: .utf8)!)
-                    body.append("Content-Disposition: form-data; name=\"\(paramName)\"".data(using: .utf8)!)
-                    
-                    if paramType == "text" {
-                        let paramValue = param["value"] as! String
-                        body.append("\r\n\r\n\(paramValue)\r\n".data(using: .utf8)!)
-                    } else {
-                        if let paramSrc = param["src"] as? String {
-                            do {
-                                let fileData = try Data(contentsOf: URL(fileURLWithPath: paramSrc))
-                                body.append("; filename=\"\(paramSrc)\"\r\n".data(using: .utf8)!)
-                                body.append("Content-Type: \"content-type header\"\r\n\r\n".data(using: .utf8)!)
-                                body.append(fileData)
-                                body.append("\r\n".data(using: .utf8)!)
-                            } catch {
-                                print("Error reading file: \(error)")
-                            }
-                        }
-                    }
-                }
-                
-                body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-                
-                let endpoint = APIConstants.Endpoints.updatePassword
-                let urlString = APIConstants.baseURL + endpoint
-                
-                guard let url = URL(string: urlString) else {
-                    showAlert(title: "Alert", message: "Invalid URL")
-                    return
-                }
-                
-                var request = URLRequest(url: url)
-                request.httpMethod = "POST"
-                request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-                request.httpBody = body
-                
-                if let apikey = UserDefaults.standard.string(forKey: "apikey") {
-                    request.addValue(apikey, forHTTPHeaderField: "authorizuser")
-                }
-                
-                request.addValue("ci_session=5f00cf86613afada367b19f16bfcef515914c5a7", forHTTPHeaderField: "Cookie")
-                
-                let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                    if let error = error {
-                        print("Error: \(error)")
-                    } else if let data = data {
-                        print(String(data: data, encoding: .utf8)!)
-                    DispatchQueue.main.async {
-                            self.changePasswordView.isHidden = true
-                        }
-                    }
-                }
-                task.resume()
-            }
-        } else {
-            showAlert(title: "Alert", message: "Please fill in all text fields.")
+                return
         }
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        
+        let parameters = [
+            ["key": "newPassword", "value": newPassword],
+            ["key": "oldPassword", "value": oldPassword]
+        ]
+        
+        for param in parameters {
+            let paramName = param["key"]!
+            let paramValue = param["value"]!
+            
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        let endpoint = APIConstants.Endpoints.updatePassword
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+        
+        if let apikey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apikey, forHTTPHeaderField: "authorizuser")
+        }
+        
+        request.addValue("ci_session=5f00cf86613afada367b19f16bfcef515914c5a7", forHTTPHeaderField: "Cookie")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let data = data {
+                print(String(data: data, encoding: .utf8)!)
+                DispatchQueue.main.async {
+                    self.changePasswordView.isHidden = true
+                }
+            }
+        }
+        task.resume()
     }
-    
     @IBAction func followButton(_ sender: UIButton) {
         if followButton.currentTitle == "Follow" {
             followButton.setTitle("Unfollow", for: .normal)
+            friendshipAddAPI()
         } else {
             followButton.setTitle("Follow", for: .normal)
+            friendshipLeaveAPI()
         }
     }
     @IBAction func ProfileBackButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
     @IBAction func blockButton(_ sender: UIButton) {
-        if let userIdToBlock = UserDefaults.standard.string(forKey: "userID") {
-            if sender.titleLabel?.text == "Block" {
-                blockUser(userId: userIdToBlock)
-            } else if sender.titleLabel?.text == "Unblock" {
-                unblockUser(userId: userIdToBlock)
-            }
-        } else {
-            DispatchQueue.main.async {
-                self.showAlert(title: "Error", message: "User ID not found")
-            }
+        if sender.titleLabel?.text == "Block" {
+            blockapiCall()
+        } else if sender.titleLabel?.text == "Unblock" {
+            unblockUser()
         }
     }
     @IBAction func reportButton(_ sender: UIButton) {
-        if let userIdToReport = UserDefaults.standard.string(forKey: "userID") {
-            let reportType = "Spam"
-            let reportDescription = "test"
-            reportUser(userId: userIdToReport, type: reportType, description: reportDescription)
-      } else {
-            DispatchQueue.main.async {
-                self.showAlert(title: "Error", message: "User ID not found")
-            }
-        }
+        reportApiCall()
     }
-    
     //MARK: - Helper Functions
     func uiSetUp(){
         profileSegmentView.isHidden = false
