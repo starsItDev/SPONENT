@@ -15,9 +15,10 @@ struct MessageModel: Codable {
 
 // MARK: - Body
 struct MessageModelBody: Codable {
+    let userID: String
     let userAvatar: String
     let isOwner: Int
-    let conversationID, userID, userName: String
+    let conversationID, userName: String
     let messages: [Message]
 
     enum CodingKeys: String, CodingKey {

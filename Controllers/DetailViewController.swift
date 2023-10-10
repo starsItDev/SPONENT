@@ -69,7 +69,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
       detailShareButton.isHidden = isShareButtonHidden
       detailSearchBar.delegate = self
       detailDoneButton.isHidden = isDoneButtonHidden
-      deleteButton.isHidden = true
       detailMapView.delegate = self
       detailMapView.settings.compassButton = true
       detailMapView.settings.myLocationButton = true

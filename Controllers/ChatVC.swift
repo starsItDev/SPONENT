@@ -18,8 +18,10 @@ class ChatVC: UIViewController {
     // MARK: - Variable
     let textFieldDelegateHelper = TextFieldDelegateHelper<ChatVC>()
     var messages: [Message] = []
+    var message: MessageModelBody?
     var receiverName: String?
     var receiverID: Int?
+    var selectedReceiverID: String?
     
     // MARK: - Override Function
     override func viewDidLoad() {
@@ -189,14 +191,17 @@ class ChatVC: UIViewController {
 }
   //MARK: Button Actions
   extension ChatVC {
-     @IBAction func userProfileButton(_ sender: UIButton) {
-         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
-            vc.delegate = self
-            vc.isProfileBackButtonHidden = false
-            vc.isFollowButtonHidden = false
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-  }
+      @IBAction func userProfileButton(_ sender: UIButton) {
+            let message = message
+            selectedReceiverID = message?.userID
+            if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+                  vc.delegate = self
+                  vc.isProfileBackButtonHidden = false
+                  vc.isFollowButtonHidden = false
+                  vc.receiverID = message?.userID
+                  self.navigationController?.pushViewController(vc, animated: true)
+          }
+      }
     @IBAction func chatBackButton(_ sender: UIButton) {
         if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
             tabBarController.modalPresentationStyle = .fullScreen
