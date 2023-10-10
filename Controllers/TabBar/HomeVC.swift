@@ -148,12 +148,10 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 completion(.failure(error))
                 return
             }
-            
             guard let data = data else {
                 completion(.failure(NSError(domain: "No data received", code: 1, userInfo: nil)))
                 return
             }
-            
             do {
                 let decoder = JSONDecoder()
                 let categoriesModel = try decoder.decode(CategoriesModel.self, from: data)
@@ -162,21 +160,19 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 completion(.failure(error))
             }
         }
-        
         task.resume()
     }
     func CreateActivityAPICall(){
-        
       guard let categoryID = sportTypeLabel.text, !categoryID.isEmpty,
             let selectedDateAndTime = datePicker?.date,
             let activity = addDetailsActivity.text, !activity.isEmpty,
             let description = addDetailsTextView.text, !description.isEmpty,
-            let gender = genderLabel.text, !gender.isEmpty,
-            let startAge = ageLabel.text, !startAge.isEmpty,
-            let endAge = ageLabel.text, !endAge.isEmpty,
-            let participantNumber = participantLabel.text, !participantNumber.isEmpty,
-            let skill = skillLabel.text, !skill.isEmpty,
-            let location = addDetailsLocLabel.text, !location.isEmpty,
+            let gender = genderLabel.text,
+            let startAge = ageLabel.text,
+            let endAge = ageLabel.text,
+            let participantNumber = participantLabel.text,
+            let skill = skillLabel.text,
+            let location = addDetailsLocLabel.text,
             let latitude = selectedLocationLatitude,
             let longitude = selectedLocationLongitude
         else {
@@ -199,7 +195,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
 
         let endpoint = APIConstants.Endpoints.createActivity
         let urlString = APIConstants.baseURL + endpoint
-        
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -214,9 +209,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var body = Data()
-
         let textFields = [
-                "categoryId": categoryID,
+                "categoryId": 1,
                 "date": date,
                 "time": time,
                 "activity": activity,
@@ -229,7 +223,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 "location[latitude]": String(latitude),
                 "location[longitude]": String(longitude),
                 "location[location]": location
-            ]
+        ] as [String : Any]
+        print(textFields)
         
         for (key, value) in textFields {
             if let keyData = "--\(boundary)\r\n".data(using: .utf8),
@@ -255,7 +250,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 }
                 return
             }
-
             if let httpResponse = response as? HTTPURLResponse {
                 DispatchQueue.main.async {
                     if httpResponse.statusCode == 200 {
@@ -265,8 +259,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                            let body = json["body"] as? [String: Any],
                            let activityId = body["activity_id"] as? Int {
                             UserDefaults.standard.set(activityId, forKey: "activityID")
-                            print(activityId)
-                            
                             if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
                                 vc.modalPresentationStyle = .fullScreen
                                 self.navigationController?.pushViewController(vc, animated: false)
@@ -503,7 +495,6 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
                            return
             }
             if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                //detailController.modalPresentationStyle = .fullScreen
                  self.selectedMarker?.map = nil
                  self.selectedMarker = nil
                  detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)

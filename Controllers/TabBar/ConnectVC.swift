@@ -29,7 +29,6 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         self.navigationController?.navigationBar.isHidden = true
     }
     
-    
     //MARK: - API Call
     func connectionAPICall() {
         let endPoint = APIConstants.Endpoints.connection
@@ -136,15 +135,6 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
 }
 
 
-//func numberOfSections(in tableView: UITableView) -> Int {
-//    return 3
-//}
-
-//func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//    return 8
-//}
-//func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//    let footer = UIView()
 //        footer.backgroundColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0)
 //    return footer
 //}

@@ -4,7 +4,6 @@
 //
 //  Created by Rao Ahmad on 16/08/2023.
 //
-
 import UIKit
 import GoogleMaps
 import GooglePlaces
@@ -14,6 +13,9 @@ import SwiftUI
 protocol DetailViewControllerDelegate: AnyObject {
     func didSelectLocation(_ locationName: String)
  }
+protocol DetailDelegate: AnyObject {
+    func didTapAddDetailDoneButton()
+}
 
 class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate, GMSMapViewDelegate{
 
@@ -42,6 +44,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBOutlet weak var deleteButton: UIButton!
     var locationSelectedHandler: ((String) -> Void)?
     weak var delegate: DetailViewControllerDelegate?
+    weak var delegatetwo: DetailDelegate?
     weak var homeVC: HomeVC?
     var locationManager = CLLocationManager()
     var isSearchBarHidden = true
@@ -59,6 +62,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     //MARK: - Override Functions
     override func viewDidLoad() {
       super.viewDidLoad()
+      activityDetailAPICall()
       detailSearchBar.isHidden = isSearchBarHidden
       detailViewOne.isHidden = areViewsHidden
       detailViewTwo.isHidden = areViewsHidden
@@ -86,31 +90,25 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 15)
             detailMapView.camera = camera
         }
-       
-  }
+    }
      override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
-  }
+   }
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
          if let annotation = detailMapView.selectedMarker {
              homeVC?.addDetailsLocLabel.text = annotation.title
-       }
-  }
+         }
+    }
     
         //MARK: - API Calling
     func activityDetailAPICall() {
         let endPoint = APIConstants.Endpoints.activityDetail
         var urlString = APIConstants.baseURL + endPoint
         
-        if let activityID = activityID {
-                urlString += "?id=" + activityID
-            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
-                urlString += "?id=" + userID
-            } else {
-                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
-                return
-            }
+        if let activityID = UserDefaults.standard.string(forKey: "activityID") {
+                urlString += "?activityId=" + activityID
+        }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -126,7 +124,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
-            } else if let data = data {
+              } else if let data = data {
                 self.updateData(with: data)
             }
         }
@@ -144,9 +142,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         let searchedLocation = detailSearchBar.text ?? ""
         if !searchedLocation.isEmpty {
             delegate?.didSelectLocation(searchedLocation)
-        } else {
+          } else {
             delegate?.didSelectLocation("")
-        }
+       }
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func requestToJoinBtn(_ sender: UIButton) {
@@ -155,7 +153,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             self.navigationController?.pushViewController(vc, animated: false)
         }
     }
-    
     
     //MARK: - Helper Functions
     func updateData(with responseData: Data) {
@@ -170,7 +167,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     self.detailTimeLbl.text = body["time"] as? String
                     self.descriptionLabel.text = body["description"] as? String
                     self.detailAgeLbl.text = body["start_age"] as? String
-                    self.detailAgeLbl.text = body["start_age"] as? String
                     self.detailSkillLbl.text = body["skill"] as? String
                     self.detailGenderLbl.text = body["gender"] as? String
                     self.detailParticipantLbl.text = body["number"] as? String
@@ -182,7 +178,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             }
         } catch {
             print("Error parsing JSON: \(error)")
-        }
+       }
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        searchBar.resignFirstResponder()
