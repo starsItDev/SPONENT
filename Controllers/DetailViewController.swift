@@ -51,6 +51,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var areViewsHidden = false
     var expandMapHeight = false
     var isShareButtonHidden = false
+    var isdelButtonHidden = false
     var isDoneButtonHidden = true
     var activityID: String?
     var selectedMarker: GMSMarker?
@@ -68,6 +69,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
       detailViewTwo.isHidden = areViewsHidden
       detailShareButton.isHidden = isShareButtonHidden
       detailSearchBar.delegate = self
+      deleteButton.isHidden = isdelButtonHidden
       detailDoneButton.isHidden = isDoneButtonHidden
       detailMapView.delegate = self
       detailMapView.settings.compassButton = true

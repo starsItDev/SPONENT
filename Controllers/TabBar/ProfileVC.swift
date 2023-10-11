@@ -44,11 +44,15 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     var isProfileBackButtonHidden = true
     var isFollowButtonHidden = true
     var receiverID: String?
-    
+    var userFollowStatus: [String: Bool] = [:]
+    var userBlockStatus: [String: Bool] = [:]
+
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSetUp()
+        updateFollowButtonTitle()
+        updateBlockButtonTitle()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -200,8 +204,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
-                    self.blockButton.setTitle("Blocked", for: .normal)
-                    self.showAlert(title: "Unblock", message: responseData)
+                    //self.blockButton.setTitle("Unblock", for: .normal)
+                    self.showAlert(title: "Blocked User", message: responseData)
                 }
             }
         }
@@ -250,8 +254,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
-                    self.blockButton.setTitle("Blocked", for: .normal)
-                    self.showAlert(title: "Unblock", message: responseData)
+                    //self.blockButton.setTitle("Block", for: .normal)
+                    self.showAlert(title: "Unblocked User", message: responseData)
                 }
             }
         }
@@ -529,22 +533,37 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         task.resume()
     }
     @IBAction func followButton(_ sender: UIButton) {
-        if followButton.currentTitle == "Follow" {
-            followButton.setTitle("Unfollow", for: .normal)
-            friendshipAddAPI()
-        } else {
-            followButton.setTitle("Follow", for: .normal)
-            friendshipLeaveAPI()
+        if let userID = receiverID {
+            if userFollowStatus[userID] == true {
+                followButton.setTitle("Follow", for: .normal)
+                userFollowStatus[userID] = false
+                UserDefaults.standard.set(false, forKey: "FollowStatus_\(userID)")
+                friendshipLeaveAPI()
+            } else {
+                followButton.setTitle("Unfollow", for: .normal)
+                userFollowStatus[userID] = true
+                UserDefaults.standard.set(true, forKey: "FollowStatus_\(userID)")
+                friendshipAddAPI()
+            }
         }
     }
     @IBAction func ProfileBackButton(_ sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
     @IBAction func blockButton(_ sender: UIButton) {
-        if sender.titleLabel?.text == "Block" {
-            blockapiCall()
-        } else if sender.titleLabel?.text == "Unblock" {
-            unblockUser()
+        if let userID = receiverID {
+            if userBlockStatus[userID] == true {
+                unblockUser()
+                userBlockStatus[userID] = false
+                blockButton.setTitle("Block", for: .normal)
+                UserDefaults.standard.set(false, forKey: "BlockStatus_\(userID)")
+
+            } else {
+                blockapiCall()
+                userBlockStatus[userID] = true
+                blockButton.setTitle("Unblock", for: .normal)
+                UserDefaults.standard.set(true, forKey: "BlockStatus_\(userID)")
+            }
         }
     }
     @IBAction func reportButton(_ sender: UIButton) {
@@ -576,4 +595,25 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
+    func updateFollowButtonTitle() {
+        if let userID = receiverID {
+            let followStatus = UserDefaults.standard.bool(forKey: "FollowStatus_\(userID)")
+            if followStatus == true {
+                followButton.setTitle("Unfollow", for: .normal)
+            } else {
+                followButton.setTitle("Follow", for: .normal)
+            }
+        }
+    }
+    func updateBlockButtonTitle() {
+        if let userID = receiverID {
+            let blockStatus = UserDefaults.standard.bool(forKey: "BlockStatus_\(userID)")
+            if blockStatus == true {
+                blockButton.setTitle("Unblock", for: .normal)
+            } else {
+                blockButton.setTitle("Block", for: .normal)
+            }
+        }
+    }
+
 }

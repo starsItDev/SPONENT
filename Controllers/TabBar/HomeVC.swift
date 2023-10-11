@@ -9,7 +9,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate {
+class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate, UITabBarControllerDelegate {
     
     //MARK: - Variable
     @IBOutlet weak var homeTableView: UITableView!
@@ -51,6 +51,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     var sports: [Category] = []
     var ages: [Agetype] = []
     var activities: [Activities] = []
+    var refreshControl = UIRefreshControl()
     let randomGenders = ["Any", "Male", "Female"]
     let randomParticipants = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
                      "14", "More than 15", "Team"]
@@ -79,6 +80,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         setupKeyboardDismiss()
         styleViews()
         addAnnotations()
+        tabBarController?.delegate = self
         addDetailsTextView.textColor = UIColor.lightGray
         //homeSportBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         homeMapView.delegate = self
@@ -89,6 +91,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         setupTapGesture(for: participantView, action:
         #selector(showParticipantActionSheet))
         setupTapGesture(for: skillView, action: #selector(showSkillActionSheet))
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+
   }
     //MARK: - API Calling
     func userActivityAPiCall(){
@@ -381,8 +385,17 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     func setupKeyboardDismiss() {
            textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
-    
-    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+            if tabBarController.selectedIndex == 0 {
+                homeSegmentController.selectedSegmentIndex = 0
+                homeSegmentControl(homeSegmentController)
+            }
+    }
+    @objc func refreshData() {
+        userActivityAPiCall()
+        refreshControl.endRefreshing()
+    }
+
     //MARK: - Actions
     @IBAction func homeSegmentControl(_ sender: UISegmentedControl) {
       switch homeSegmentController.selectedSegmentIndex {
@@ -429,26 +442,26 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             presentActionSheet(title: "Select Range", message: nil, actions: actions)
    }
     @IBAction func addDetailsLocBtn(_ sender: UIButton) {
-        if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController,
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController,
                let userLocation = (UIApplication.shared.delegate as? AppDelegate)?.locationManager.location?.coordinate {
-                
-                detailController.userLocationCoordinate = userLocation
-                   detailController.delegate = self
+                   vc.userLocationCoordinate = userLocation
+                   vc.delegate = self
                    //detailController.setupLocationManager()
                    //locationManager.requestWhenInUseAuthorization()
-                   detailController.modalPresentationStyle = .fullScreen
-                   detailController.isSearchBarHidden = false
-                   detailController.areViewsHidden = true
-                   detailController.expandMapHeight = true
-                   detailController.isShareButtonHidden = true
-                   detailController.isDoneButtonHidden = false
-                   detailController.selectedLocationCoordinate = selectedCoordinate
-                   detailController.locationSelectedHandler = { [weak self] locationName in
+                   vc.modalPresentationStyle = .fullScreen
+                   vc.isSearchBarHidden = false
+                   vc.areViewsHidden = true
+                   vc.expandMapHeight = true
+                   vc.isShareButtonHidden = true
+                   vc.isdelButtonHidden = true
+                   vc.isDoneButtonHidden = false
+                   vc.selectedLocationCoordinate = selectedCoordinate
+                   vc.locationSelectedHandler = { [weak self] locationName in
                        self?.addDetailsLocLabel.text = locationName
                        self?.selectedLocation = locationName
                        self?.homeSegmentController.selectedSegmentIndex = 2
               }
-                 self.present(detailController, animated: false, completion: nil)
+                 self.present(vc, animated: false, completion: nil)
           }
       }
     @IBAction func addDetailDoneButton(_ sender: UIButton) {
