@@ -17,6 +17,7 @@ class ActivityVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
+        activitySegmentController.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .normal)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -56,10 +57,10 @@ class ActivityVC: UIViewController {
                     let FollowedRequests = body["followed"] as? Int ?? 0
                     let pastRequests = body["past"] as? Int ?? 0
                     
-                    self.activitySegmentController.setTitle("Pending: \(pendingRequests)", forSegmentAt: 0)
-                    self.activitySegmentController.setTitle("Current: \(currentRequests)", forSegmentAt: 1)
-                    self.activitySegmentController.setTitle("Following: \(FollowedRequests)", forSegmentAt: 2)
-                    self.activitySegmentController.setTitle("Past: \(pastRequests)", forSegmentAt: 3)
+                    self.activitySegmentController.setTitle("Pending(\(pendingRequests))", forSegmentAt: 0)
+                    self.activitySegmentController.setTitle("Current(\(currentRequests))", forSegmentAt: 1)
+                    self.activitySegmentController.setTitle("Following(\(FollowedRequests))", forSegmentAt: 2)
+                    self.activitySegmentController.setTitle("Past(\(pastRequests))", forSegmentAt: 3)
                 }
             }
         } catch {

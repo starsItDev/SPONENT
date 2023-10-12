@@ -28,6 +28,9 @@
 		E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB64652A9F0CB200F4F299 /* GoogleMapsM4B */; };
 		E0AB64682A9F0CB200F4F299 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB64672A9F0CB200F4F299 /* GooglePlaces */; };
 		E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AD40702A8CF150007576C3 /* ProfileVC.swift */; };
+		E0AE75722AD7D25500BE7DAC /* ProfileActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AE75712AD7D25500BE7DAC /* ProfileActivityCell.swift */; };
+		E0AE75752AD7D84C00BE7DAC /* ProfileFollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AE75742AD7D84C00BE7DAC /* ProfileFollowerCell.swift */; };
+		E0AE75772AD7F38200BE7DAC /* ProfileFollowingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AE75762AD7F38200BE7DAC /* ProfileFollowingCell.swift */; };
 		E0AFE26F2ACED46400E00A97 /* MessageCellSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AFE26E2ACED46400E00A97 /* MessageCellSender.swift */; };
 		E0B381362AB8370B00015401 /* UpdateSignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B381352AB8370B00015401 /* UpdateSignUpVC.swift */; };
 		E0B664CE2A84FEEA00537CAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664CD2A84FEEA00537CAE /* AppDelegate.swift */; };
@@ -72,6 +75,9 @@
 		E0AA26CA2A864361002CDACA /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		E0AD40702A8CF150007576C3 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		E0AE75712AD7D25500BE7DAC /* ProfileActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActivityCell.swift; sourceTree = "<group>"; };
+		E0AE75742AD7D84C00BE7DAC /* ProfileFollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFollowerCell.swift; sourceTree = "<group>"; };
+		E0AE75762AD7F38200BE7DAC /* ProfileFollowingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFollowingCell.swift; sourceTree = "<group>"; };
 		E0AFE26E2ACED46400E00A97 /* MessageCellSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellSender.swift; sourceTree = "<group>"; };
 		E0B381352AB8370B00015401 /* UpdateSignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateSignUpVC.swift; sourceTree = "<group>"; };
 		E0B664CA2A84FEEA00537CAE /* SPONENT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SPONENT.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -166,6 +172,16 @@
 				E0AD40702A8CF150007576C3 /* ProfileVC.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		E0AE75732AD7D26C00BE7DAC /* ProfileVC */ = {
+			isa = PBXGroup;
+			children = (
+				E0AE75712AD7D25500BE7DAC /* ProfileActivityCell.swift */,
+				E0AE75742AD7D84C00BE7DAC /* ProfileFollowerCell.swift */,
+				E0AE75762AD7F38200BE7DAC /* ProfileFollowingCell.swift */,
+			);
+			path = ProfileVC;
 			sourceTree = "<group>";
 		};
 		E0AFE7592A8F7C0E001D3992 /* Sources */ = {
@@ -285,6 +301,7 @@
 				E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */,
 				E0DD3C6C2AAEF15400D8A205 /* ActivityTableViewCell.swift */,
 				E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */,
+				E0AE75732AD7D26C00BE7DAC /* ProfileVC */,
 			);
 			path = "TabBarVC ";
 			sourceTree = "<group>";
@@ -380,6 +397,7 @@
 				E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */,
 				769841D02ACB03E60061046D /* MassageModel.swift in Sources */,
 				E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */,
+				E0AE75752AD7D84C00BE7DAC /* ProfileFollowerCell.swift in Sources */,
 				E0DD3C6D2AAEF15400D8A205 /* ActivityTableViewCell.swift in Sources */,
 				76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */,
 				E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */,
@@ -406,10 +424,12 @@
 				E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */,
 				E0DF66D32A95D150006BFBFE /* MapPlaces.swift in Sources */,
 				E0AFE26F2ACED46400E00A97 /* MessageCellSender.swift in Sources */,
+				E0AE75772AD7F38200BE7DAC /* ProfileFollowingCell.swift in Sources */,
 				E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */,
 				E0B664D02A84FEEA00537CAE /* SceneDelegate.swift in Sources */,
 				E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */,
 				E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */,
+				E0AE75722AD7D25500BE7DAC /* ProfileActivityCell.swift in Sources */,
 				769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */,
 				E0B664E82A85001000537CAE /* LoginVC.swift in Sources */,
 				E0DAA1882A8CD069001F72EF /* DetailViewController.swift in Sources */,

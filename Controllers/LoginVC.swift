@@ -148,7 +148,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 if let responseString = String(data: data, encoding: .utf8) {
                     print("Response: \(responseString)")
                     DispatchQueue.main.async {
-                        self.showAlert(title: "Password Reset", message: "Please login to your email to get new passowrd.")
+                        self.showAlert(title: "Password Reset", message: "Please login to your email to get new password.")
                         self.forgotPasswordView.isHidden = true
                     }
                 }

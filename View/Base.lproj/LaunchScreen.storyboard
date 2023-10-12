@@ -20,12 +20,20 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="IFw-yy-8Tx">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SPONENT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ZF-cQ-OjV">
+                                <rect key="frame" x="147" y="59" width="120.5" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="3ZF-cQ-OjV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="GbX-4V-gH3"/>
                             <constraint firstItem="IFw-yy-8Tx" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="LZ6-cW-5zE"/>
                             <constraint firstItem="IFw-yy-8Tx" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="dZA-Fz-9qf"/>
+                            <constraint firstItem="3ZF-cQ-OjV" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="e9z-hi-elM"/>
                             <constraint firstAttribute="bottom" secondItem="IFw-yy-8Tx" secondAttribute="bottom" id="f0r-vs-5VZ"/>
                             <constraint firstAttribute="trailing" secondItem="IFw-yy-8Tx" secondAttribute="trailing" id="mxB-dj-fe0"/>
                         </constraints>

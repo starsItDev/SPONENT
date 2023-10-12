@@ -17,6 +17,7 @@ struct ConnectModel: Codable {
 // MARK: - Body
 struct ConnectModelBody: Codable {
     let connections: [Connection]
+    let totalItemCount: Int
 }
 
 // MARK: - Connection

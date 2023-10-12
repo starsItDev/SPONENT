@@ -51,7 +51,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     var sports: [Category] = []
     var ages: [Agetype] = []
     var activities: [Activities] = []
-    var refreshControl = UIRefreshControl()
     let randomGenders = ["Any", "Male", "Female"]
     let randomParticipants = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
                      "14", "More than 15", "Team"]
@@ -82,7 +81,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         addAnnotations()
         tabBarController?.delegate = self
         addDetailsTextView.textColor = UIColor.lightGray
-        //homeSportBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
         homeMapView.delegate = self
         self.navigationController?.navigationBar.isHidden = true
         setupTapGesture(for: sportTypeView, action: #selector(showSportActionSheet))
@@ -91,9 +89,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         setupTapGesture(for: participantView, action:
         #selector(showParticipantActionSheet))
         setupTapGesture(for: skillView, action: #selector(showSkillActionSheet))
-        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-
   }
+
     //MARK: - API Calling
     func userActivityAPiCall(){
         let endPoint = APIConstants.Endpoints.userActivities
@@ -391,10 +388,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 homeSegmentControl(homeSegmentController)
             }
     }
-    @objc func refreshData() {
-        userActivityAPiCall()
-        refreshControl.endRefreshing()
-    }
 
     //MARK: - Actions
     @IBAction func homeSegmentControl(_ sender: UISegmentedControl) {
@@ -417,12 +410,10 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
   }
      @IBAction func homeSportButton(_ sender: UIButton) {
        actions.removeAll()
-       let sports = ["Cricket", "Football", "Basketball", "Badminton", "Volleyball"]
        for sport in sports {
-          let action = UIAlertAction(title: sport, style: .default) { _ in
-          let attributedTitle = NSAttributedString(string: "Sport: \(sport)")
-//         , attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .semibold)])
-          sender.setAttributedTitle(attributedTitle, for: .normal)
+           let title = "  Sport: " + sport.title + "  "
+           let action = UIAlertAction(title: sport.title, style: .default) { _ in
+                        self.homeSportBtn.setTitle(title, for: .normal)
         }
            actions.append(action)
      }
@@ -432,10 +423,9 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         actions.removeAll()
         let range = ["10 miles", "20 miles", "30 miles", "40 miles", "50 miles", "100 miles"]
         for range in range {
-           let action = UIAlertAction(title: range, style: .default) { _ in
-           let attributedTitle = NSAttributedString(string: "With in: \(range)")
-//         , attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .semibold)])
-            sender.setAttributedTitle(attributedTitle, for: .normal)
+             let action = UIAlertAction(title: range, style: .default) { _ in
+             let attributedTitle = NSAttributedString(string: "   With in: \(range)   ", attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .semibold)])
+                 sender.setAttributedTitle(attributedTitle, for: .normal)
            }
             actions.append(action)
        }
