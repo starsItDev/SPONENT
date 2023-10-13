@@ -1,34 +1,32 @@
 //
-//  ConnectModel.swift
+//  FollowingModel.swift
 //  SPONENT
 //
-//  Created by Rao Ahmad on 04/10/2023.
-//
+//  Created by Rao Ahmad on 13/10/2023.
 //
 
 import Foundation
 
 // MARK: - ConnectModel
-struct ConnectModel: Codable {
+struct FollowingModel: Codable {
     let code: Int
-    let body: ConnectModelBody
+    let body: FollowingModelBody
 }
 
 // MARK: - Body
-struct ConnectModelBody: Codable {
-    let connections: [Connection]
+struct FollowingModelBody: Codable {
+    let connections: [Following]
+    let totalItemCount: Int
 }
 
 // MARK: - Connection
-struct Connection: Codable {
+struct Following: Codable {
     let userID, title: String
     let photoURL: String
-    let activities: String
 
     enum CodingKeys: String, CodingKey {
         case userID = "user_id"
         case title = "title"
         case photoURL = "photo_url"
-        case activities = "activities"
     }
 }

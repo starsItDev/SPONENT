@@ -16,6 +16,8 @@
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
 		76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */; };
+		E003374F2AD916A4001E55A6 /* FollowersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E003374E2AD916A4001E55A6 /* FollowersModel.swift */; };
+		E00337512AD948B5001E55A6 /* FollowingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00337502AD948B5001E55A6 /* FollowingModel.swift */; };
 		E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD02AA99F23001422CE /* SignUpVC.swift */; };
 		E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */; };
 		E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */; };
@@ -68,6 +70,8 @@
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		E003374E2AD916A4001E55A6 /* FollowersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersModel.swift; sourceTree = "<group>"; };
+		E00337502AD948B5001E55A6 /* FollowingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingModel.swift; sourceTree = "<group>"; };
 		E00B8BD02AA99F23001422CE /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAgeTableViewCell.swift; sourceTree = "<group>"; };
 		E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardDismiss.swift; sourceTree = "<group>"; };
@@ -195,10 +199,10 @@
 		E0AFE75A2A8F7C52001D3992 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				E0BABF3A2ACD834600C5AC95 /* TabBarVC  */,
-				76ADC4722ACC4BDC002D7476 /* ChatVC */,
 				E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */,
 				E0DD3C6E2AAEFF5600D8A205 /* RequestTableViewCell.swift */,
+				E0BABF3A2ACD834600C5AC95 /* TabBarVC  */,
+				76ADC4722ACC4BDC002D7476 /* ChatVC */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -281,6 +285,8 @@
 				769841CF2ACB03E60061046D /* MassageModel.swift */,
 				E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */,
 				E0CACB5F2ACFDD3F00B62057 /* UserActivityModel.swift */,
+				E003374E2AD916A4001E55A6 /* FollowersModel.swift */,
+				E00337502AD948B5001E55A6 /* FollowingModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -400,6 +406,7 @@
 				E0AE75752AD7D84C00BE7DAC /* ProfileFollowerCell.swift in Sources */,
 				E0DD3C6D2AAEF15400D8A205 /* ActivityTableViewCell.swift in Sources */,
 				76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */,
+				E003374F2AD916A4001E55A6 /* FollowersModel.swift in Sources */,
 				E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */,
 				E0DD3C712AAEFF7D00D8A205 /* RequestVC.swift in Sources */,
 				E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */,
@@ -415,6 +422,7 @@
 				E0B664EA2A85009200537CAE /* GradientColour.swift in Sources */,
 				761825072AB435D70018073E /* Categories.swift in Sources */,
 				E0B381362AB8370B00015401 /* UpdateSignUpVC.swift in Sources */,
+				E00337512AD948B5001E55A6 /* FollowingModel.swift in Sources */,
 				E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */,
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
 				E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */,

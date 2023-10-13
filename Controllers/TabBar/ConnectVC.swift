@@ -18,6 +18,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     let textFieldDelegateHelper = TextFieldDelegateHelper<ConnectVC>()
     var connections: [Connection] = []
     var selectedReceiverID: String?
+    
     //MARK: - Override func
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +103,15 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 99
+        let defaultHeight: CGFloat = 99.0
+        let cell = tableView.cellForRow(at: indexPath) as? ConnectTableViewCell
+        if let cell = cell {
+            let labelHeight = cell.connectCellLabel.intrinsicContentSize.height
+            if labelHeight > defaultHeight {
+                return UITableView.automaticDimension
+            }
+        }
+        return defaultHeight
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         chatView.isHidden = true
@@ -134,7 +143,3 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
    }
 }
 
-
-//        footer.backgroundColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0)
-//    return footer
-//}

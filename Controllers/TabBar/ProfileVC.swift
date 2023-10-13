@@ -11,8 +11,8 @@ import Kingfisher
 protocol ProfileDelegate: AnyObject {
     func didTapUserProfileSettingButton()
 }
-class ProfileVC: UIViewController, UITextFieldDelegate {
-    
+class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate {
+
     //MARK: - Variable
     @IBOutlet weak var profileScrollView: UIScrollView!
     @IBOutlet weak var profileView: UIView!
@@ -50,9 +50,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     var userFollowStatus: [String: Bool] = [:]
     var userBlockStatus: [String: Bool] = [:]
     var activity: [Activities] = []
-    var connections: [Connection] = []
-    var following: [Connection] = []
-    
+    var followers: [Follower] = []
+    var followings: [Following] = []
+    var selectedReceiverID: String?
+
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,6 +63,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         updateFollowButtonTitle()
         updateBlockButtonTitle()
         followerAPICall()
+//      setupTapGesture(for: profileScrollView, action: #selector(hideSettingView))
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -72,8 +74,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     //MARK: - API CAllING
     func followingAPICall() {
         let endPoint = APIConstants.Endpoints.following
-        let urlString = APIConstants.baseURL + endPoint
-        
+        var urlString = APIConstants.baseURL + endPoint
+        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
+            urlString += "?id=" + storedUserID
+        }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -83,27 +87,22 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
-        if let storedUserID = UserDefaults.standard.object(forKey: "userID")  {
-            request.addValue(storedUserID as! String, forHTTPHeaderField: "user_ID")
-
-            print("User ID is: \(storedUserID)")
-        }
         request.addValue("ci_session=f78d9f7ae33419e3cf756d7252f41ceb1a369386", forHTTPHeaderField: "Cookie")
-        
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
                 return
             }
-            
+
             guard let data = data else {
                 self.showAlert(title: "Alert", message: "No data received")
                 return
             }
             do {
                 let decoder = JSONDecoder()
-                let responseData = try decoder.decode(ConnectModel.self, from: data)
-                self.following = responseData.body.connections
+                let responseData = try decoder.decode(FollowingModel.self, from: data)
+                self.followings = responseData.body.connections
                 print(responseData.body)
                 DispatchQueue.main.async {
                     self.profileFollowingTableView.reloadData()
@@ -153,9 +152,13 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         var urlString = APIConstants.baseURL + endpoint
         
         if let receiverID = receiverID {
-               urlString += "?id=" + receiverID
-           }
-        
+                urlString += "?id=" + receiverID
+            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
+                urlString += "?id=" + userID
+            } else {
+                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                return
+            }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -670,17 +673,31 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    func didTapUserProfileSettingButton() {
+        if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
+            if profileVC.userSettingStackView.isHidden {
+                 profileVC.userSettingStackView.isHidden = false
+                 profileVC.settingStackView.isHidden = true
+            } else {
+                profileVC.userSettingStackView.isHidden = true
+                profileVC.settingStackView.isHidden = true
+            }
+        }
+    }
+//    @objc func hideSettingView(){
+//        settingStackView.isHidden = true
+//    }
 }
-
+//MARK: - Extension TableView
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == profileActivityTableView {
             return activity.count
         } else if tableView == profileFollowerTableView {
-            return connections.count
+            return followers.count
         } else if tableView == profileFollowingTableView {
-            return following.count
+            return followings.count
         }
         return 0
     }
@@ -698,28 +715,63 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
              return cell
         } else if tableView == profileFollowerTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowerCell
-            let connection = connections[indexPath.row]
-            cell.followerNameLabel?.text = connection.title
-            if let avatarURL = URL(string: connection.photoURL) {
-                  loadImage(from: avatarURL.absoluteString, into: cell.followerImageView, placeholder: UIImage(named: "placeholderImage"))
-              } else {
-                  print("Invalid image URL: \(connection.photoURL)")
-              }
+            let follower = followers[indexPath.row]
+            cell.followerNameLabel?.text = follower.title
+            loadImage(from: follower.photoURL, into: cell.followerImageView)
             return cell
         } else if tableView == profileFollowingTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowingCell
-            let connection = following[indexPath.row]
-            cell.followingNameLabel?.text = connection.title
-            loadImage(from: connection.photoURL, into: cell.followingImageView)
+            let following = followings[indexPath.row]
+            cell.followingNameLabel?.text = following.title
+            loadImage(from: following.photoURL, into: cell.followingImageView)
             return cell
         }
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 99
+        if tableView == profileActivityTableView {
+              let defaultHeight: CGFloat = 99.0
+              let cell = tableView.cellForRow(at: indexPath) as? ProfileActivityCell
+              if let cell = cell {
+                  let labelHeight = cell.activityTableLocation.intrinsicContentSize.height
+                  if labelHeight > defaultHeight {
+                      return UITableView.automaticDimension
+                  }
+              }
+              return defaultHeight
+          } else if tableView == profileFollowerTableView {
+               return 99
+            } else if tableView == profileFollowingTableView {
+                 return 99
+             }
+        return 0
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if tableView == profileFollowerTableView {
+        let follower = followers[indexPath.row]
+            selectedReceiverID = follower.userID
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+            vc.delegate = self
+            vc.isProfileBackButtonHidden = false
+            vc.isFollowButtonHidden = false
+            vc.receiverID = follower.userID
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        } else if tableView == profileFollowingTableView {
+            let following = followings[indexPath.row]
+            selectedReceiverID = following.userID
+            if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+                vc.delegate = self
+                vc.isProfileBackButtonHidden = false
+                vc.isFollowButtonHidden = false
+                vc.receiverID = following.userID
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
 }
 
+//MARK: - Extension ProfileVC
 extension ProfileVC {
     func getActivityAPiCall(){
         let endPoint = APIConstants.Endpoints.getActivities
@@ -762,8 +814,10 @@ extension ProfileVC {
     }
     func followerAPICall() {
         let endPoint = APIConstants.Endpoints.followers
-        let urlString = APIConstants.baseURL + endPoint
-        
+        var urlString = APIConstants.baseURL + endPoint
+        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
+            urlString += "?id=" + storedUserID
+        }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -773,11 +827,7 @@ extension ProfileVC {
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
         }
-        if let storedUserID = UserDefaults.standard.object(forKey: "userID")  {
-            request.addValue(storedUserID as! String, forHTTPHeaderField: "user_ID")
-
-            print("User ID is: \(storedUserID)")
-        }
+       
         request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -792,8 +842,8 @@ extension ProfileVC {
             }
             do {
                 let decoder = JSONDecoder()
-                let responseData = try decoder.decode(ConnectModel.self, from: data)
-                self.connections = responseData.body.connections
+                let responseData = try decoder.decode(FollowerModel.self, from: data)
+                self.followers = responseData.body.connections
                 print(responseData.body)
                 DispatchQueue.main.async {
                     self.profileFollowerTableView.reloadData()

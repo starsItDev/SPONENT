@@ -89,8 +89,11 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         setupTapGesture(for: participantView, action:
         #selector(showParticipantActionSheet))
         setupTapGesture(for: skillView, action: #selector(showSkillActionSheet))
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshHomeTableView(_:)), for: .valueChanged)
+        homeTableView.refreshControl = refreshControl
   }
-
+   
     //MARK: - API Calling
     func userActivityAPiCall(){
         let endPoint = APIConstants.Endpoints.userActivities
@@ -123,6 +126,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 print(responseData.body)
                 DispatchQueue.main.async {
                     self.homeTableView.reloadData()
+                    self.homeTableView.refreshControl?.endRefreshing()
+
                 }
             }
             catch {
@@ -328,6 +333,9 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
      }
          presentActionSheet(title: "Select skill", message: nil, actions: actions)
   }
+    @objc func refreshHomeTableView(_ sender: UIRefreshControl) {
+        userActivityAPiCall()
+    }
      func styleViews() {
          sportTypeView.applyBorder()
         // datePickerView.applyBorder()
@@ -482,8 +490,16 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
+        let defaultHeight: CGFloat = 99.0
+        let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell
+        if let cell = cell {
+            let labelHeight = cell.homeTableLocation.intrinsicContentSize.height
+            if labelHeight > defaultHeight {
+                return UITableView.automaticDimension
+            }
+        }
+        return defaultHeight
+    }    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
                let locationName = cell.homeTableLocation.text {
