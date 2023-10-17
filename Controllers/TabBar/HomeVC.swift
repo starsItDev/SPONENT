@@ -291,7 +291,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         }
         presentActionSheet(title: "Select Sport Type", message: nil, actions: actions)
     }
-
     @objc func showGenderActionSheet() {
          actions.removeAll()
          for gender in randomGenders {
@@ -312,7 +311,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         }
         presentActionSheet(title: "Select age", message: nil, actions: actions)
     }
-
     @objc func showParticipantActionSheet() {
          actions.removeAll()
          for player in randomParticipants {
@@ -336,33 +334,33 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     @objc func refreshHomeTableView(_ sender: UIRefreshControl) {
         userActivityAPiCall()
     }
-     func styleViews() {
-         sportTypeView.applyBorder()
-        // datePickerView.applyBorder()
-         genderView.applyBorder()
-         ageView.applyBorder()
-         participantView.applyBorder()
-         skillView.applyBorder()
-         addDetailsLocation.applyBorder()
-         addDetailsActivity.applyBorder()
-         addDetailsTextView.applyBorder()
+    func styleViews() {
+        sportTypeView.applyBorder()
+    // datePickerView.applyBorder()
+        genderView.applyBorder()
+        ageView.applyBorder()
+        participantView.applyBorder()
+        skillView.applyBorder()
+        addDetailsLocation.applyBorder()
+        addDetailsActivity.applyBorder()
+        addDetailsTextView.applyBorder()
+}
+    func addAnnotations() {
+        for place in places {
+                let marker = GMSMarker()
+                marker.title = place.title
+                marker.position = place.coordinate!
+                marker.map = homeMapView
     }
-     func addAnnotations() {
-         for place in places {
-                   let marker = GMSMarker()
-                   marker.title = place.title
-                   marker.position = place.coordinate!
-                   marker.map = homeMapView
-       }
-   }
-     func createLoadingView() {
-        loadingView = UIView(frame: UIScreen.main.bounds)
-        loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = loadingView!.center
-        loadingView?.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-    }
+}
+    func createLoadingView() {
+    loadingView = UIView(frame: UIScreen.main.bounds)
+    loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+    let activityIndicator = UIActivityIndicatorView(style: .large)
+    activityIndicator.center = loadingView!.center
+    loadingView?.addSubview(activityIndicator)
+    activityIndicator.startAnimating()
+}
     func didSelectLocation(_ locationName: String) {
          addDetailsLocLabel.text = locationName
          selectedLocation = locationName
@@ -416,17 +414,17 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             break
       }
   }
-     @IBAction func homeSportButton(_ sender: UIButton) {
-       actions.removeAll()
-       for sport in sports {
-           let title = "  Sport: " + sport.title + "  "
-           let action = UIAlertAction(title: sport.title, style: .default) { _ in
-                        self.homeSportBtn.setTitle(title, for: .normal)
-        }
-           actions.append(action)
-     }
-           presentActionSheet(title: "Select Sport", message: nil, actions: actions)
-  }
+    @IBAction func homeSportButton(_ sender: UIButton) {
+    actions.removeAll()
+    for sport in sports {
+        let title = "  Sport: " + sport.title + "  "
+        let action = UIAlertAction(title: sport.title, style: .default) { _ in
+                    self.homeSportBtn.setTitle(title, for: .normal)
+    }
+        actions.append(action)
+    }
+        presentActionSheet(title: "Select Sport", message: nil, actions: actions)
+}
     @IBAction func homeRangeButton(_ sender: UIButton) {
         actions.removeAll()
         let range = ["10 miles", "20 miles", "30 miles", "40 miles", "50 miles", "100 miles"]
@@ -484,9 +482,6 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         cell.homeTableLocation?.text = activities.location
         loadImage(from: activities.catAvatar, into: cell.catAvatarImage)
         loadImage(from: activities.avatar, into: cell.homeTableImage)
-//      let location = locations[indexPath.row]
-//      cell.locationName = location
-//      cell.homeTableLocation.text = location
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -501,6 +496,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         return defaultHeight
     }    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let activity = activities[indexPath.row]
            if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
                let locationName = cell.homeTableLocation.text {
                showLoadingView()
@@ -514,13 +510,14 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
                            return
             }
             if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 detailController.activityID = activity.activityID
                  self.selectedMarker?.map = nil
                  self.selectedMarker = nil
                  detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
                  detailController.delegate = self
                  cell.accessoryView = nil
-//                 let camera = GMSCameraPosition.camera(withLatitude: locationCoordinate.latitude,                  longitude: locationCoordinate.longitude, zoom: 15)
-                  // detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
+//               let camera = GMSCameraPosition.camera(withLatitude:                              locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
+                 //detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
                 self.navigationController?.pushViewController(detailController, animated: false)
                    }
                }

@@ -122,6 +122,8 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
             vc.isProfileBackButtonHidden = false
             vc.isFollowButtonHidden = false
             vc.receiverID = conversation.userID
+            let selectedText = "Profile"
+            vc.labelText = selectedText
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

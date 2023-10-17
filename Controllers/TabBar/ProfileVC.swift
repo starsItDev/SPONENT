@@ -7,11 +7,13 @@
 
 import UIKit
 import Kingfisher
+import GoogleMaps
+import GooglePlaces
 
 protocol ProfileDelegate: AnyObject {
     func didTapUserProfileSettingButton()
 }
-class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate {
+class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailViewControllerDelegate {
 
     //MARK: - Variable
     @IBOutlet weak var profileScrollView: UIScrollView!
@@ -41,6 +43,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate {
     @IBOutlet weak var sportNameLabel: UILabel!
     @IBOutlet weak var loctionLabel: UILabel!
     @IBOutlet weak var aboutMeLabel: UILabel!
+    @IBOutlet weak var myProfileLabel: UILabel!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
     var delegate: ProfileDelegate?
     let updateSignUpVC = UpdateSignUpVC()
@@ -53,6 +56,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate {
     var followers: [Follower] = []
     var followings: [Following] = []
     var selectedReceiverID: String?
+    var selectedMarker: GMSMarker?
+    var selectedLocationLatitude: Double?
+    var selectedLocationLongitude: Double?
+    var labelText: String?
 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -626,6 +633,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate {
     @IBAction func reportButton(_ sender: UIButton) {
         reportApiCall()
     }
+    
     //MARK: - Helper Functions
     func uiSetUp(){
         profileSegmentView.isHidden = false
@@ -647,6 +655,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate {
         confirmPasswordField.layer.borderWidth = 1.0
         confirmPasswordField.layer.borderColor = UIColor.gray.cgColor
         profileSegmentController.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .normal)
+        if let labelText = labelText {
+            myProfileLabel.text = labelText
+        }
         setupKeyboardDismiss()
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -687,6 +698,15 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate {
 //    @objc func hideSettingView(){
 //        settingStackView.isHidden = true
 //    }
+    func didSelectLocation(_ locationName: String) {
+        let geocoder = CLGeocoder()
+           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+               if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
+                   self?.selectedLocationLatitude = locationCoordinate.latitude
+                   self?.selectedLocationLongitude = locationCoordinate.longitude
+            }
+        }
+    }
 }
 //MARK: - Extension TableView
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
@@ -747,27 +767,58 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         return 0
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView == profileFollowerTableView {
-        let follower = followers[indexPath.row]
-            selectedReceiverID = follower.userID
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
-            vc.delegate = self
-            vc.isProfileBackButtonHidden = false
-            vc.isFollowButtonHidden = false
-            vc.receiverID = follower.userID
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+       if tableView == profileFollowerTableView {
+             let follower = followers[indexPath.row]
+             selectedReceiverID = follower.userID
+          if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+              vc.delegate = self
+              vc.isProfileBackButtonHidden = false
+              vc.isFollowButtonHidden = false
+              vc.receiverID = follower.userID
+              let selectedText = "Profile"
+              vc.labelText = selectedText
+              self.navigationController?.pushViewController(vc, animated: true)
+          }
         } else if tableView == profileFollowingTableView {
-            let following = followings[indexPath.row]
-            selectedReceiverID = following.userID
-            if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
-                vc.delegate = self
-                vc.isProfileBackButtonHidden = false
-                vc.isFollowButtonHidden = false
-                vc.receiverID = following.userID
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        }
+             let following = followings[indexPath.row]
+             selectedReceiverID = following.userID
+             if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+                 vc.delegate = self
+                 vc.isProfileBackButtonHidden = false
+                 vc.isFollowButtonHidden = false
+                 vc.receiverID = following.userID
+                 let selectedText = "Profile"
+                 vc.labelText = selectedText
+                 self.navigationController?.pushViewController(vc, animated: true)
+             }
+         } else if tableView == profileActivityTableView {
+             let activity = activity[indexPath.row]
+             if let cell = tableView.cellForRow(at: indexPath) as? ProfileActivityCell,
+                 let locationName = cell.activityTableLocation.text {
+                 let geocoder = CLGeocoder()
+                 geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+                     guard let self = self,
+                         let placemark = placemarks?.first,
+                         let locationCoordinate = placemark.location?.coordinate else {
+                             cell.accessoryView = nil
+                             return
+              }
+              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                   detailController.activityID = activity.activityID
+                   self.selectedMarker?.map = nil
+                   self.selectedMarker = nil
+                   detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
+                   detailController.delegate = self
+                   cell.accessoryView = nil
+                   let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
+                   detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
+                  self.navigationController?.pushViewController(detailController, animated: false)
+                     }
+                 }
+             }
+             tableView.deselectRow(at: indexPath, animated: true)
+         }
+            
     }
 }
 
@@ -775,8 +826,10 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 extension ProfileVC {
     func getActivityAPiCall(){
         let endPoint = APIConstants.Endpoints.getActivities
-        let urlString = APIConstants.baseURL + endPoint
-
+        var urlString = APIConstants.baseURL + endPoint
+        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
+            urlString += "?id=" + storedUserID
+        }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return

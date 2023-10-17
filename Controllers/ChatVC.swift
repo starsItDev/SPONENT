@@ -199,6 +199,8 @@ class ChatVC: UIViewController {
                   vc.isProfileBackButtonHidden = false
                   vc.isFollowButtonHidden = false
                   vc.receiverID = message?.userID
+                  let selectedText = "Profile"
+                  vc.labelText = selectedText
                   self.navigationController?.pushViewController(vc, animated: true)
           }
       }
