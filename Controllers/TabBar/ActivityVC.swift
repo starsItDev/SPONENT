@@ -37,62 +37,8 @@ class ActivityVC: UIViewController, DetailViewControllerDelegate {
         self.navigationController?.navigationBar.isHidden = true
         activitySegmentController.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .normal)
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //segmentApiCall()
-    }
-    
+
 //    //MARK: - API CAllING
-//    func segmentApiCall() {
-//        let endPoint = APIConstants.Endpoints.activityMine
-//        var urlString = APIConstants.baseURL + endPoint
-//        if let receiverID = receiverID {
-//                urlString += "?id=" + receiverID
-//            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
-//                urlString += "?id=" + userID
-//            } else {
-//                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
-//                return
-//            }
-//        guard let url = URL(string: urlString) else {
-//           showAlert(title: "Alert", message: "Invalid URL")
-//            return
-//        }
-//        var request = URLRequest(url: url)
-//        if let apikey = UserDefaults.standard.string(forKey: "apikey") {
-//            request.addValue(apikey, forHTTPHeaderField: "authorizuser")
-//        }
-//        request.addValue("ci_session=7b88733d4b8336873c2371ae16760bf4ee9b5b9f", forHTTPHeaderField: "Cookie")
-//        
-//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//            if let error = error {
-//                print("Error: \(error)")
-//            } else if let data = data {
-//                    self.updateCounter(with: data)
-//                }
-//           }
-//               task.resume()
-//      }
-//    func updateCounter(with responseData: Data) {
-//        do {
-//            if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
-//               let body = jsonObject["body"] as? [String: Any] {
-//                DispatchQueue.main.async {
-//                    let pendingRequests = body["pending"] as? Int ?? 0
-//                    let currentRequests = body["current"] as? Int ?? 0
-//                    let FollowedRequests = body["followed"] as? Int ?? 0
-//                    let pastRequests = body["past"] as? Int ?? 0
-//                    
-//                    self.activitySegmentController.setTitle("Pending(\(pendingRequests))", forSegmentAt: 0)
-//                    self.activitySegmentController.setTitle("Current(\(currentRequests))", forSegmentAt: 1)
-//                    self.activitySegmentController.setTitle("Following(\(FollowedRequests))", forSegmentAt: 2)
-//                    self.activitySegmentController.setTitle("Past(\(pastRequests))", forSegmentAt: 3)
-//                }
-//            }
-//        } catch {
-//            print("Error parsing JSON: \(error)")
-//        }
-//    }
     func activitiesAPiCall(){
         let endPoint = APIConstants.Endpoints.activityMine
         var urlString = APIConstants.baseURL + endPoint
@@ -209,46 +155,54 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
         if tableView == pendingtableView {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActivityPendingCell
             let pending = pending[indexPath.row]
-            cell.nameLabel?.text = pending.ownerTitle.rawValue
+            cell.nameLabel?.text = pending.ownerTitle
             cell.activityTitle?.text = pending.activity
             cell.dateLabel?.text = pending.date
             cell.timeLabel?.text = pending.time
             cell.pendingTableLocation?.text = pending.location
             loadImage(from: pending.catAvatar, into: cell.catAvatarImage)
             loadImage(from: pending.avatar, into: cell.pendingTableImage)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
             return cell
         } else if tableView == currentTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ActivityCurrentCell
             let current = activity[indexPath.row]
-            cell.nameLabel?.text = current.ownerTitle.rawValue
+            cell.nameLabel?.text = current.ownerTitle
             cell.activityTitle?.text = current.activity
             cell.dateLabel?.text = current.date
             cell.timeLabel?.text = current.time
             cell.currentTableLocation?.text = current.location
             loadImage(from: current.catAvatar, into: cell.catAvatarImage)
             loadImage(from: current.avatar, into: cell.currentTableImage)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
              return cell
         } else if tableView == followingTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActivityFollowingCell
             let following = following[indexPath.row]
-            cell.nameLabel?.text = following.ownerTitle.rawValue
+            cell.nameLabel?.text = following.ownerTitle
             cell.activityTitle?.text = following.activity
             cell.dateLabel?.text = following.date
             cell.timeLabel?.text = following.time
             cell.followingTableLocation?.text = following.location
             loadImage(from: following.catAvatar, into: cell.catAvatarImage)
             loadImage(from: following.avatar, into: cell.followingTableImage)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
             return cell
         } else if tableView == pastTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActivityPastCell
             let past = past[indexPath.row]
-            cell.NameLabel?.text = past.ownerTitle.rawValue
+            cell.NameLabel?.text = past.ownerTitle
             cell.activityTitle?.text = past.activity
             cell.dateLabel?.text = past.date
             cell.timeLabel?.text = past.time
             cell.pastTableLocation?.text = past.location
             loadImage(from: past.catAvatar, into: cell.catAvatarImage)
             loadImage(from: past.avatar, into: cell.pastTableImage)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
              return cell
         }
         return UITableViewCell()
@@ -304,7 +258,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                     guard let self = self,
                         let placemark = placemarks?.first,
                         let locationCoordinate = placemark.location?.coordinate else {
-                            cell.accessoryView = nil
+                                cell.accessoryView = nil
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {

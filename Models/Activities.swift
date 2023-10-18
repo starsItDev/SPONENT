@@ -23,7 +23,7 @@ struct Current: Codable {
     let catAvatar: String
     let status: String?
     let distance: Int
-    let ownerTitle: OwnerTitle
+    let ownerTitle: String
     let time: String
     let avatar: String
 
@@ -41,7 +41,7 @@ struct Current: Codable {
         case avatar = "avatar"
     }
 }
-
-enum OwnerTitle: String, Codable {
-    case ahmad = "AHMAD"
-}
+//
+//enum OwnerTitle: String, Codable {
+//    case ahmad = "AHMAD"
+//}

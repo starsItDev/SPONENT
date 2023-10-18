@@ -60,6 +60,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     var selectedLocationLatitude: Double?
     var selectedLocationLongitude: Double?
     var labelText: String?
+    var dismissViewTap: UITapGestureRecognizer?
 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -70,7 +71,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         updateFollowButtonTitle()
         updateBlockButtonTitle()
         followerAPICall()
-//      setupTapGesture(for: profileScrollView, action: #selector(hideSettingView))
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -512,6 +512,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     }
     @IBAction func editProfileButton(_ sender: UIButton) {
         if let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "UpdateSignUpVC") as? UpdateSignUpVC {
+            settingStackView.isHidden = true
             controller.modalPresentationStyle = .fullScreen
             self.present(controller, animated: false)
         }
@@ -658,6 +659,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         if let labelText = labelText {
             myProfileLabel.text = labelText
         }
+        dismissViewTap = UITapGestureRecognizer(target: self, action: #selector(dismissView))
+            if let tap = dismissViewTap {
+                view.addGestureRecognizer(tap)
+            }
         setupKeyboardDismiss()
         self.navigationController?.navigationBar.isHidden = true
     }
@@ -695,9 +700,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
             }
         }
     }
-//    @objc func hideSettingView(){
-//        settingStackView.isHidden = true
-//    }
     func didSelectLocation(_ locationName: String) {
         let geocoder = CLGeocoder()
            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
@@ -706,6 +708,16 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
                    self?.selectedLocationLongitude = locationCoordinate.longitude
             }
         }
+    }
+    @objc private func dismissView() {
+        guard let tap = dismissViewTap else {
+           return
+        }
+//      guard settingStackView.isHidden == false else {
+//         return
+//      }
+        settingStackView.isHidden = true
+        view.removeGestureRecognizer(tap)
     }
 }
 //MARK: - Extension TableView
@@ -732,18 +744,24 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cell.activityTableLocation?.text = activities.location
             loadImage(from: activities.catAvatar, into: cell.catAvatarImage)
             loadImage(from: activities.avatar, into: cell.activityTableImage)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
              return cell
         } else if tableView == profileFollowerTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowerCell
             let follower = followers[indexPath.row]
             cell.followerNameLabel?.text = follower.title
             loadImage(from: follower.photoURL, into: cell.followerImageView)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
             return cell
         } else if tableView == profileFollowingTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowingCell
             let following = followings[indexPath.row]
             cell.followingNameLabel?.text = following.title
             loadImage(from: following.photoURL, into: cell.followingImageView)
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
             return cell
         }
         return UITableViewCell()

@@ -63,6 +63,8 @@ class MessagesVC: UIViewController {
         let conversation = conversations[indexPath.row]
         cell.messageNameLabel?.text = conversation.nameReceiver
         cell.messageChatLabel?.text = conversation.message
+        cell.layer.borderWidth = 3
+        cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         if let date = dateFormatter.date(from: conversation.date) {
@@ -70,14 +72,9 @@ class MessagesVC: UIViewController {
             let formattedDate = dateFormatter.string(from: date)
             cell.messagetimeLabel?.text = formattedDate
         } else {
-            print("Invalid date: \(conversation.date)")
             cell.messagetimeLabel?.text = "Invalid Date"
         }
-        if let avatarURL = URL(string: conversation.avatarReceiver) {
-            loadImage(from: avatarURL.absoluteString, into: cell.messageIMageView, placeholder: UIImage(named: "placeholderImage"))
-        } else {
-              print("Invalid image URL: \(conversation.avatarReceiver)")
-        }
+        loadImage(from: conversation.avatarReceiver, into: cell.messageIMageView, placeholder: UIImage(named: "placeholderImage"))
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -474,6 +474,8 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as!
         HomeTableViewCell
+        cell.layer.borderWidth = 3
+        cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
         let activities = activities[indexPath.row]
         cell.titleLabel?.text = activities.ownerTitle
         cell.activityTitle?.text = activities.activity

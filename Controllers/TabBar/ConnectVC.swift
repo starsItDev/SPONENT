@@ -93,13 +93,11 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectTableViewCell
+        cell.layer.borderWidth = 3
+        cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
         let connection = connections[indexPath.row]
         cell.connectCellLabel?.text = connection.title
-        if let avatarURL = URL(string: connection.photoURL) {
-              loadImage(from: avatarURL.absoluteString, into: cell.connectImageView, placeholder: UIImage(named: "placeholderImage"))
-          } else {
-              print("Invalid image URL: \(connection.photoURL)")
-          }
+        loadImage(from: connection.photoURL , into: cell.connectImageView)
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

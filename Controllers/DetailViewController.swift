@@ -135,6 +135,54 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         task.resume()
     }
         
+    func deleteAPICall() {
+        let endPoint = APIConstants.Endpoints.deleteActivity
+        let urlString = APIConstants.baseURL + endPoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+    }
+       request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [[String: Any]] = [
+            ["key": "activityId", "value": activityID!, "type": "text"],
+            ["key": "userId", "value": storedUserID!, "type": "text"]
+        ]
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+      let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+          if let responseData = String(data: data, encoding: .utf8) {
+              print("Response Data: \(responseData)")
+              DispatchQueue.main.async {
+                   self.showAlert(title: "Alert", message: "Activity Deleted Sucessfully")
+              }
+          }
+      }
+      task.resume()
+   }
     //MARK: - Actions
     @IBAction func detailBackButton(_ sender: UIButton) {
        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
@@ -156,6 +204,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             //vc.modalPresentationStyle = .fullScreen
             self.navigationController?.pushViewController(vc, animated: false)
         }
+    }
+    @IBAction func deleteButton(_ sender: UIButton) {
+        deleteAPICall()
     }
     
     //MARK: - Helper Functions
