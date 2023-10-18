@@ -29,6 +29,7 @@
 		E0AB64642A9F0CB200F4F299 /* GoogleMapsCore in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB64632A9F0CB200F4F299 /* GoogleMapsCore */; };
 		E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB64652A9F0CB200F4F299 /* GoogleMapsM4B */; };
 		E0AB64682A9F0CB200F4F299 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB64672A9F0CB200F4F299 /* GooglePlaces */; };
+		E0AD05882ADFF5C000DC1D2F /* MapActivities.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AD05872ADFF5C000DC1D2F /* MapActivities.swift */; };
 		E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AD40702A8CF150007576C3 /* ProfileVC.swift */; };
 		E0AE75722AD7D25500BE7DAC /* ProfileActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AE75712AD7D25500BE7DAC /* ProfileActivityCell.swift */; };
 		E0AE75752AD7D84C00BE7DAC /* ProfileFollowerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AE75742AD7D84C00BE7DAC /* ProfileFollowerCell.swift */; };
@@ -82,6 +83,7 @@
 		E08986B22AC568DD005A102D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E0AA26CA2A864361002CDACA /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		E0AD05872ADFF5C000DC1D2F /* MapActivities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapActivities.swift; sourceTree = "<group>"; };
 		E0AD40702A8CF150007576C3 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		E0AE75712AD7D25500BE7DAC /* ProfileActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActivityCell.swift; sourceTree = "<group>"; };
 		E0AE75742AD7D84C00BE7DAC /* ProfileFollowerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFollowerCell.swift; sourceTree = "<group>"; };
@@ -296,6 +298,7 @@
 				E003374E2AD916A4001E55A6 /* FollowersModel.swift */,
 				E00337502AD948B5001E55A6 /* FollowingModel.swift */,
 				E0E544362ADD4BB300B7D2F0 /* Activities.swift */,
+				E0AD05872ADFF5C000DC1D2F /* MapActivities.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */,
 				E0DF66D32A95D150006BFBFE /* MapPlaces.swift in Sources */,
 				E0AFE26F2ACED46400E00A97 /* MessageCellSender.swift in Sources */,
+				E0AD05882ADFF5C000DC1D2F /* MapActivities.swift in Sources */,
 				E0AE75772AD7F38200BE7DAC /* ProfileFollowingCell.swift in Sources */,
 				E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */,
 				E0E544332ADD38DE00B7D2F0 /* ActivityFollowingCell.swift in Sources */,

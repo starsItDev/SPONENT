@@ -42,8 +42,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     var actions: [UIAlertAction] = []
     var selectedLocation: String?
     var selectedRegion: GMSVisibleRegion?
-    var placess: [GMSMarker] = []
-    private var loadingView: UIView?
+    //var placess: [GMSMarker] = []
+    var loadingView: UIView?
     var selectedMarker: GMSMarker?
     var selectedLocationLatitude: Double?
     var selectedLocationLongitude: Double?
@@ -55,11 +55,9 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     let randomParticipants = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13",
                      "14", "More than 15", "Team"]
     let randomSkills = ["Any", "Expert", "Perfect", "Middle", "Average"]
-    let places = [
-        place(title: "JT", coordinate: CLLocationCoordinate2D(latitude: 31.4697, longitude: 74.2728)),
-        place(title: "MT", coordinate: CLLocationCoordinate2D(latitude: 31.4805, longitude: 74.3239))]
-    let locations = ["Gulberg 2 Lahore", "Model Town Lahore", "Punjab University Main Ground"]
-    
+    var activityID: String?
+
+
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +76,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         addDetails.isHidden = true
         setupKeyboardDismiss()
         styleViews()
-        addAnnotations()
         tabBarController?.delegate = self
         addDetailsTextView.textColor = UIColor.lightGray
         homeMapView.delegate = self
@@ -135,6 +132,68 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
         }
         task.resume()
+    }
+    func mapApiCall() {
+        let endPoint = APIConstants.Endpoints.userActivitiesMap
+        let urlString = APIConstants.baseURL + endPoint
+
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
+                return
+            }
+            guard let data = data else {
+                self.showAlert(title: "Alert", message: "No data received")
+                return
+            }
+
+            do {
+                let decoder = JSONDecoder()
+                let responseData = try decoder.decode(mapActivityModel.self, from: data)
+                let activities = responseData.body.activities
+
+                DispatchQueue.main.async {
+                    self.homeMapView.clear()
+
+                    var bounds = GMSCoordinateBounds()
+
+                    for activity in activities {
+                        if let latitude = Double(activity.latitude),
+                           let longitude = Double(activity.longitude) {
+                            let marker = GMSMarker()
+                            marker.position = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                            marker.icon = GMSMarker.markerImage(with: .red)
+                            marker.map = self.homeMapView
+                            
+                            bounds = bounds.includingCoordinate(marker.position)
+                        }
+                    }
+                    let update = GMSCameraUpdate.fit(bounds, withPadding: 50)
+                    self.homeMapView.moveCamera(update)
+                }
+            } catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }
+        task.resume()
+    }
+
+    func createMarkerView(imageURL: URL) -> UIImageView {
+        let markerView = UIImageView()
+        markerView.contentMode = .scaleAspectFit
+        markerView.kf.setImage(with: imageURL)
+        return markerView
     }
     func apiCall(completion: @escaping (Result<CategoriesModel, Error>) -> Void) {
         let endpoint = APIConstants.Endpoints.categories
@@ -345,14 +404,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         addDetailsActivity.applyBorder()
         addDetailsTextView.applyBorder()
 }
-    func addAnnotations() {
-        for place in places {
-                let marker = GMSMarker()
-                marker.title = place.title
-                marker.position = place.coordinate!
-                marker.map = homeMapView
-    }
-}
     func createLoadingView() {
     loadingView = UIView(frame: UIScreen.main.bounds)
     loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
@@ -405,6 +456,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
        case 1:
              homeView.isHidden = true
              homeMapView.isHidden = false
+             mapApiCall()
              addDetails.isHidden = true
        case 2:
              homeView.isHidden = true
