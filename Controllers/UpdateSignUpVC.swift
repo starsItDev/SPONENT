@@ -77,7 +77,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
               let age = updateAgeLabel.text, !age.isEmpty,
               let gender = updateGenderLabel.text, !gender.isEmpty,
               let aboutMe = updateAboutField.text, !aboutMe.isEmpty,
-              let categoryID = updateCategoryLabel.text, !categoryID.isEmpty,
+//              let categoryID = updateCategoryLabel.text, !categoryID.isEmpty,
               let location = updateLocationLabel.text, !location.isEmpty
         else {
                 showAlert(title: "Alert", message: "Please fill in all required fields")
@@ -108,11 +108,11 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 "age": age,
                 "gender": gender,
                 "aboutMe": aboutMe,
-                "category_id": categoryID,
+                "category_id": 1,
                 "location[latitude]": String(latitude),
                 "location[longitude]": String(longitude),
                 "location[location]": location
-            ]
+        ] as [String : Any]
         for (key, value) in textFields {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
                 body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
