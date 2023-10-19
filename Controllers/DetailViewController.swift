@@ -107,12 +107,14 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         let endPoint = APIConstants.Endpoints.activityDetail
         var urlString = APIConstants.baseURL + endPoint
         
-        if let activityID = activityID {
-                urlString += "?activityId=" + activityID
-        }
-//        if let activityID = UserDefaults.standard.string(forKey: "activityID") {
-//                urlString += "?activityId=" + activityID
-//        }
+        if let currentActivityID = activityID {
+               activityID = currentActivityID
+           } else if let storedActivityID = UserDefaults.standard.string(forKey: "activityID") {
+               activityID = storedActivityID
+           }
+           if let activityID = activityID {
+               urlString += "?activityId=" + activityID
+           }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return

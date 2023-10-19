@@ -82,9 +82,14 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     func followingAPICall() {
         let endPoint = APIConstants.Endpoints.following
         var urlString = APIConstants.baseURL + endPoint
-        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
-            urlString += "?id=" + storedUserID
-        }
+        if let receiverID = receiverID {
+                urlString += "?id=" + receiverID
+            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
+                urlString += "?id=" + userID
+            } else {
+                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                return
+            }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -836,7 +841,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
              }
              tableView.deselectRow(at: indexPath, animated: true)
          }
-            
     }
 }
 
@@ -844,10 +848,10 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 extension ProfileVC {
     func getActivityAPiCall(){
         let endPoint = APIConstants.Endpoints.getActivities
-        var urlString = APIConstants.baseURL + endPoint
-        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
-            urlString += "?id=" + storedUserID
-        }
+        let urlString = APIConstants.baseURL + endPoint
+//        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
+//            urlString += "?id=" + storedUserID
+//        }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -886,9 +890,14 @@ extension ProfileVC {
     func followerAPICall() {
         let endPoint = APIConstants.Endpoints.followers
         var urlString = APIConstants.baseURL + endPoint
-        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
-            urlString += "?id=" + storedUserID
-        }
+        if let receiverID = receiverID {
+                urlString += "?id=" + receiverID
+            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
+                urlString += "?id=" + userID
+            } else {
+                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                return
+            }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
