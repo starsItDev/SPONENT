@@ -17,7 +17,7 @@ class RejectedTableViewCell: UITableViewCell {
     @IBOutlet weak var rejectedName: UILabel!
     @IBOutlet weak var rejectedDate: UILabel!
     @IBOutlet weak var rejectedMessage: UILabel!
-    
+    @IBOutlet weak var deleteBtn: UIButton!
 
     override func awakeFromNib() {
         super.awakeFromNib()

@@ -11,13 +11,11 @@ class AcceptedTableViewCell: UITableViewCell {
 
     
     @IBOutlet weak var acceptedImage: UIImageView!
-    
     @IBOutlet weak var acceptedUserName: UILabel!
-    
     @IBOutlet weak var acceptedDate: UILabel!
-    
     @IBOutlet weak var acceptedMessage: UILabel!
-    
+    @IBOutlet weak var acceptedMessageBtn: UIButton!
+    @IBOutlet weak var acceptedCancelBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

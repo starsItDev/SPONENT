@@ -27,6 +27,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     @IBOutlet weak var rejectedViewHeight: NSLayoutConstraint!
     var isImageRotated = false
     var rejectedTableRowCount = 3
+    var activityID: String?
     var pending: [Requests] = []
     var accepted: [Requests] = []
     var rejected: [Requests] = []
@@ -45,10 +46,8 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     func activityRequestAPI(){
         let endPoint = APIConstants.Endpoints.getActivityRequest
         var urlString = APIConstants.baseURL + endPoint
-
-        if let storedActivityID = UserDefaults.standard.string(forKey: "activityID"){
-            urlString += "?activityId=" + storedActivityID
-        }
+       
+        urlString += "?activityId=" + (self.activityID ?? "")
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -77,9 +76,30 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                 self.rejected = responseData.body.rejected
                 print(responseData.body)
                 DispatchQueue.main.async {
+                    if self.pending.count == 0 {
+                        self.requestTableView.isHidden = true
+                        self.pendingView.isHidden = true
+                        self.pendingViewheight.constant = 0
+                        self.pendingTableHeight.constant = 0
+                    } else {
                     self.requestTableView.reloadData()
+                    }
+                    if self.accepted.count == 0 {
+                        self.acceptedTableView.isHidden = true
+                        self.acceptedView.isHidden = true
+                        self.acceptedViewheight.constant = 0
+                        self.acceptedTableHeight.constant = 0
+                    } else {
                     self.acceptedTableView.reloadData()
+                    }
+                    if self.rejected.count == 0 {
+                        self.rejectedTableView.isHidden = true
+                        self.rejectedView.isHidden = true
+                        self.rejectedViewHeight.constant = 0
+                        self.rejectedTableHeight.constant = 0
+                    } else {
                     self.rejectedTableView.reloadData()
+                    }
                 }
             }
             catch {
@@ -88,6 +108,55 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         }
         task.resume()
     }
+    func acceptRequestApi() {
+        let endPoint = APIConstants.Endpoints.acceptActivity
+        let urlString = APIConstants.baseURL + endPoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+    }
+       request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [[String: Any]] = [
+            ["key": "activityId", "value": activityID ?? "", "type": "text"],
+            ["key": "userId", "value": storedUserID ?? "", "type": "text"]
+        ]
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+      let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+          if let responseData = String(data: data, encoding: .utf8) {
+              print("Response Data: \(responseData)")
+              DispatchQueue.main.async {
+                  self.showAlert(title: "alert", message: "\(responseData)")
+            
+           }
+         }
+      }
+      task.resume()
+   }
     
     //MARK: - Actions
     @IBAction func requestBackButton(_ sender: UIButton) {
@@ -142,22 +211,17 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         acceptedView.isHidden = false
         acceptedTableView.isHidden = false
     }
+    
+    @objc func acceptBtnTapped(_sender: UIButton) {
+        acceptRequestApi()
+    }
     func rejectButtonTapped(inCell cell: RequestTableViewCell) {
-        if rejectedTableRowCount > 0 {
-           rejectedView.isHidden = false
-           rejectedTableView.isHidden = false
-        }
+        rejectedView.isHidden = false
+        rejectedTableView.isHidden = false
     }
     func deleteButtonTapped(inCell cell: RejectedTableViewCell) {
-        if rejectedTableRowCount > 0 {
-            rejectedTableRowCount -= 1
-            rejectedTableView.reloadData()
-            
-            if rejectedTableRowCount == 0 {
-                rejectedView.isHidden = true
-                rejectedTableView.isHidden = true
-            }
-        }
+        rejectedView.isHidden = true
+        rejectedTableView.isHidden = true
     }
 }
 
@@ -183,6 +247,8 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             cell.pendingdate?.text = pending.dateTime
             cell.pendingMessage?.text = pending.userMessage
             loadImage(from: pending.userAvatar, into: cell.pendingImage)
+            cell.acceptBtn.tag = indexPath.row
+            cell.acceptBtn.addTarget(self, action: #selector(acceptBtnTapped(_sender:)), for: .touchUpInside)
             cell.layer.borderWidth = 3
             cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
         return cell

@@ -54,6 +54,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var isdelButtonHidden = false
     var isDoneButtonHidden = true
     var activityID: String?
+    var userID: String?
     var isRequestToJoin = true
     var isOwner: Bool = false
     var requestStatus: Int = 0
@@ -166,7 +167,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
        request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
         
         let parameters: [[String: Any]] = [
-            ["key": "activityId", "value": activityID!, "type": "text"],
+            ["key": "activityId", "value": activityID ?? "", "type": "text"],
             ["key": "userId", "value": storedUserID!, "type": "text"]
         ]
         
@@ -215,7 +216,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
        request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
         
         let parameters: [[String: Any]] = [
-            ["key": "activityId", "value": activityID!, "type": "text"]
+            ["key": "activityId", "value": activityID ?? "", "type": "text"]
         ]
         
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -331,6 +332,8 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                 self.isRequestToJoin = false
                 self.requestJoinButton.setTitle("View Requests", for: .normal)
                 if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RequestVC") as? RequestVC {
+                    vc.activityID = self.activityID
+                    //vc.userID = self.userID
                    self.navigationController?.pushViewController(vc, animated: false)
                }
             }
@@ -364,6 +367,8 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     self.detailGenderLbl.text = body["gender"] as? String
                     self.detailParticipantLbl.text = body["number"] as? String
                     self.detailLocationLbl.text = body["location"] as? String
+                    self.activityID = body["activity_id"] as? String
+                    self.userID = body["owner_id"] as? String
                     if let avatarURLString = body["avatar"] as? String {
                         self.loadImage(from: avatarURLString, into: self.detailProfileImage, placeholder: UIImage(named: "placeholderImage"))
                     }

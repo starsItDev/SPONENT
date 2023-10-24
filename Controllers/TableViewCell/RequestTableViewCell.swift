@@ -15,12 +15,15 @@ protocol RequestTableViewCellDelegate: AnyObject {
 class RequestTableViewCell: UITableViewCell {
 
     @IBOutlet weak var requestView: UIView!
-    weak var delegate: RequestTableViewCellDelegate?
     @IBOutlet weak var pendingImage: UIImageView!
     @IBOutlet weak var pendingUserName: UILabel!
     @IBOutlet weak var pendingdate: UILabel!
     @IBOutlet weak var pendingMessage: UILabel!
-    
+    @IBOutlet weak var acceptBtn: UIButton!
+    @IBOutlet weak var rejectBtn: UIButton!
+    @IBOutlet weak var messageBtn: UIButton!
+    weak var delegate: RequestTableViewCellDelegate?
+
     override func awakeFromNib() {
         super.awakeFromNib()
     }

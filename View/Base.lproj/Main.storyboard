@@ -2099,10 +2099,13 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
+                                                            <outlet property="acceptBtn" destination="6EB-r9-JdE" id="15z-oP-HaA"/>
+                                                            <outlet property="messageBtn" destination="mBL-bu-02f" id="KTu-jt-2m2"/>
                                                             <outlet property="pendingImage" destination="JX1-5o-0iC" id="OcL-eq-R2d"/>
                                                             <outlet property="pendingMessage" destination="PZ8-Io-R24" id="YwH-u4-zOH"/>
                                                             <outlet property="pendingUserName" destination="4UW-eK-PhV" id="OfI-G7-ZKf"/>
                                                             <outlet property="pendingdate" destination="V3o-ws-VwE" id="7Vf-PJ-EVz"/>
+                                                            <outlet property="rejectBtn" destination="FVt-Zp-278" id="i4f-FO-b7R"/>
                                                             <outlet property="requestView" destination="TaQ-nM-0SR" id="mPa-eQ-W8u"/>
                                                         </connections>
                                                     </tableViewCell>
@@ -2324,9 +2327,11 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
+                                                            <outlet property="acceptedCancelBtn" destination="73q-rz-sza" id="4ch-OX-vui"/>
                                                             <outlet property="acceptedDate" destination="Aot-O8-CSO" id="lyr-N7-Yeh"/>
                                                             <outlet property="acceptedImage" destination="1YP-uX-igz" id="Xl9-Ee-mrL"/>
                                                             <outlet property="acceptedMessage" destination="Q7R-Cd-I5D" id="8p3-VY-mC9"/>
+                                                            <outlet property="acceptedMessageBtn" destination="wqE-80-lKJ" id="JI6-MK-LN9"/>
                                                             <outlet property="acceptedUserName" destination="Dg3-Zb-a4b" id="NID-Fd-cxC"/>
                                                         </connections>
                                                     </tableViewCell>
@@ -2510,6 +2515,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
+                                                            <outlet property="deleteBtn" destination="B1r-hp-Uib" id="RBU-om-ZFj"/>
                                                             <outlet property="rejectedDate" destination="eUV-CH-Djy" id="tKR-HY-bhf"/>
                                                             <outlet property="rejectedImage" destination="udR-j3-XKx" id="8sh-n9-Zue"/>
                                                             <outlet property="rejectedMessage" destination="g5o-cy-Kjz" id="Xpc-NT-kUc"/>
