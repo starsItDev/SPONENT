@@ -208,46 +208,48 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let defaultHeight: CGFloat = 99.0
-        if tableView == pendingtableView {
-            let cell = tableView.cellForRow(at: indexPath) as? ActivityPendingCell
-            if let cell = cell {
-                let labelHeight = cell.pendingTableLocation.intrinsicContentSize.height
-                if labelHeight > defaultHeight {
-                    return UITableView.automaticDimension
-                }
-            }
-            return defaultHeight
-        } else if tableView == currentTableView {
-            let cell = tableView.cellForRow(at: indexPath) as? ActivityCurrentCell
-            if let cell = cell {
-                let labelHeight = cell.currentTableLocation.intrinsicContentSize.height
-                if labelHeight > defaultHeight {
-                    return UITableView.automaticDimension
-                }
-            }
-            return defaultHeight
-        } else if tableView == followingTableView {
-            let cell = tableView.cellForRow(at: indexPath) as? ActivityFollowingCell
-            if let cell = cell {
-                let labelHeight = cell.followingTableLocation.intrinsicContentSize.height
-                if labelHeight > defaultHeight {
-                    return UITableView.automaticDimension
-                }
-            }
-            return defaultHeight
-        } else if tableView == pastTableView {
-            let cell = tableView.cellForRow(at: indexPath) as? ActivityPastCell
-            if let cell = cell {
-                let labelHeight = cell.pastTableLocation.intrinsicContentSize.height
-                if labelHeight > defaultHeight {
-                    return UITableView.automaticDimension
-                }
-            }
-            return defaultHeight
-        }
-        return 0
+        return 99
     }
+//        let defaultHeight: CGFloat = 99.0
+//        if tableView == pendingtableView {
+//            let cell = tableView.cellForRow(at: indexPath) as? ActivityPendingCell
+//            if let cell = cell {
+//                let labelHeight = cell.pendingTableLocation.intrinsicContentSize.height
+//                if labelHeight > defaultHeight {
+//                    return UITableView.automaticDimension
+//                }
+//            }
+//            return defaultHeight
+//        } else if tableView == currentTableView {
+//            let cell = tableView.cellForRow(at: indexPath) as? ActivityCurrentCell
+//            if let cell = cell {
+//                let labelHeight = cell.currentTableLocation.intrinsicContentSize.height
+//                if labelHeight > defaultHeight {
+//                    return UITableView.automaticDimension
+//                }
+//            }
+//            return defaultHeight
+//        } else if tableView == followingTableView {
+//            let cell = tableView.cellForRow(at: indexPath) as? ActivityFollowingCell
+//            if let cell = cell {
+//                let labelHeight = cell.followingTableLocation.intrinsicContentSize.height
+//                if labelHeight > defaultHeight {
+//                    return UITableView.automaticDimension
+//                }
+//            }
+//            return defaultHeight
+//        } else if tableView == pastTableView {
+//            let cell = tableView.cellForRow(at: indexPath) as? ActivityPastCell
+//            if let cell = cell {
+//                let labelHeight = cell.pastTableLocation.intrinsicContentSize.height
+//                if labelHeight > defaultHeight {
+//                    return UITableView.automaticDimension
+//                }
+//            }
+//            return defaultHeight
+//        }
+//        return 0
+//    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == pendingtableView {
             let pending = pending[indexPath.row]

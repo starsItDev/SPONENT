@@ -42,7 +42,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     var actions: [UIAlertAction] = []
     var selectedLocation: String?
     var selectedRegion: GMSVisibleRegion?
-    //var placess: [GMSMarker] = []
     var loadingView: UIView?
     var selectedMarker: GMSMarker?
     var selectedLocationLatitude: Double?
@@ -56,7 +55,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                      "14", "More than 15", "Team"]
     let randomSkills = ["Any", "Expert", "Perfect", "Middle", "Average"]
     var activityID: String?
-
 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {

@@ -44,6 +44,7 @@
 		E0B664EA2A85009200537CAE /* GradientColour.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664E92A85009200537CAE /* GradientColour.swift */; };
 		E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B664EB2A8500B500537CAE /* CornerRadius.swift */; };
 		E0B8CB7B2AB2DCB200846951 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */; };
+		E0B9593A2AE259E10030A930 /* RejectedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B959392AE259E10030A930 /* RejectedTableViewCell.swift */; };
 		E0BFDFE22ACD37D1006D594D /* ConnectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */; };
 		E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */; };
 		E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */; };
@@ -51,6 +52,8 @@
 		E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */; };
 		E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */; };
 		E0CACB602ACFDD3F00B62057 /* UserActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CACB5F2ACFDD3F00B62057 /* UserActivityModel.swift */; };
+		E0CE876A2AE7949E00311914 /* ActivtyRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CE87692AE7949E00311914 /* ActivtyRequests.swift */; };
+		E0D10A902AE13F9A00BA188E /* AcceptedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D10A8F2AE13F9A00BA188E /* AcceptedTableViewCell.swift */; };
 		E0DAA1882A8CD069001F72EF /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DAA1872A8CD069001F72EF /* DetailViewController.swift */; };
 		E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DD3C6A2AAEE24800D8A205 /* ActivityVC.swift */; };
 		E0DD3C6D2AAEF15400D8A205 /* ActivityPendingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0DD3C6C2AAEF15400D8A205 /* ActivityPendingCell.swift */; };
@@ -100,6 +103,7 @@
 		E0B664E92A85009200537CAE /* GradientColour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientColour.swift; sourceTree = "<group>"; };
 		E0B664EB2A8500B500537CAE /* CornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CornerRadius.swift; sourceTree = "<group>"; };
 		E0B8CB7A2AB2DCB200846951 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
+		E0B959392AE259E10030A930 /* RejectedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectedTableViewCell.swift; sourceTree = "<group>"; };
 		E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectModel.swift; sourceTree = "<group>"; };
 		E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KingFisher Image.swift"; sourceTree = "<group>"; };
 		E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectVC.swift; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 		E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesVC.swift; sourceTree = "<group>"; };
 		E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesTableViewCell.swift; sourceTree = "<group>"; };
 		E0CACB5F2ACFDD3F00B62057 /* UserActivityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserActivityModel.swift; sourceTree = "<group>"; };
+		E0CE87692AE7949E00311914 /* ActivtyRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivtyRequests.swift; sourceTree = "<group>"; };
+		E0D10A8F2AE13F9A00BA188E /* AcceptedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptedTableViewCell.swift; sourceTree = "<group>"; };
 		E0DAA1872A8CD069001F72EF /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E0DD3C6A2AAEE24800D8A205 /* ActivityVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityVC.swift; sourceTree = "<group>"; };
 		E0DD3C6C2AAEF15400D8A205 /* ActivityPendingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityPendingCell.swift; sourceTree = "<group>"; };
@@ -211,6 +217,8 @@
 			children = (
 				E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */,
 				E0DD3C6E2AAEFF5600D8A205 /* RequestTableViewCell.swift */,
+				E0D10A8F2AE13F9A00BA188E /* AcceptedTableViewCell.swift */,
+				E0B959392AE259E10030A930 /* RejectedTableViewCell.swift */,
 				E0BABF3A2ACD834600C5AC95 /* TabBarVC  */,
 				76ADC4722ACC4BDC002D7476 /* ChatVC */,
 			);
@@ -299,6 +307,7 @@
 				E00337502AD948B5001E55A6 /* FollowingModel.swift */,
 				E0E544362ADD4BB300B7D2F0 /* Activities.swift */,
 				E0AD05872ADFF5C000DC1D2F /* MapActivities.swift */,
+				E0CE87692AE7949E00311914 /* ActivtyRequests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -436,6 +445,7 @@
 				E0DD3C712AAEFF7D00D8A205 /* RequestVC.swift in Sources */,
 				E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */,
 				E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */,
+				E0CE876A2AE7949E00311914 /* ActivtyRequests.swift in Sources */,
 				E0B8CB7B2AB2DCB200846951 /* ChatVC.swift in Sources */,
 				7686A3C02ACC4DAD0083F7DC /* MessageCellUser.swift in Sources */,
 				76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */,
@@ -448,6 +458,7 @@
 				761825072AB435D70018073E /* Categories.swift in Sources */,
 				E0B381362AB8370B00015401 /* UpdateSignUpVC.swift in Sources */,
 				E00337512AD948B5001E55A6 /* FollowingModel.swift in Sources */,
+				E0B9593A2AE259E10030A930 /* RejectedTableViewCell.swift in Sources */,
 				E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */,
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
 				E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */,
@@ -456,6 +467,7 @@
 				E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */,
 				E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */,
 				E0DF66D32A95D150006BFBFE /* MapPlaces.swift in Sources */,
+				E0D10A902AE13F9A00BA188E /* AcceptedTableViewCell.swift in Sources */,
 				E0AFE26F2ACED46400E00A97 /* MessageCellSender.swift in Sources */,
 				E0AD05882ADFF5C000DC1D2F /* MapActivities.swift in Sources */,
 				E0AE75772AD7F38200BE7DAC /* ProfileFollowingCell.swift in Sources */,

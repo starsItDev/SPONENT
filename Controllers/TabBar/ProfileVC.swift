@@ -790,9 +790,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         return 0
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       if tableView == profileFollowerTableView {
-             let follower = followers[indexPath.row]
-             selectedReceiverID = follower.userID
+        if tableView == profileFollowerTableView {
+            let follower = followers[indexPath.row]
+            selectedReceiverID = follower.userID
           if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
               vc.delegate = self
               vc.isProfileBackButtonHidden = false
@@ -803,8 +803,8 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
               self.navigationController?.pushViewController(vc, animated: true)
           }
         } else if tableView == profileFollowingTableView {
-             let following = followings[indexPath.row]
-             selectedReceiverID = following.userID
+            let following = followings[indexPath.row]
+            selectedReceiverID = following.userID
              if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
                  vc.delegate = self
                  vc.isProfileBackButtonHidden = false

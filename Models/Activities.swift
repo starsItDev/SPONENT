@@ -41,7 +41,3 @@ struct Current: Codable {
         case avatar = "avatar"
     }
 }
-//
-//enum OwnerTitle: String, Codable {
-//    case ahmad = "AHMAD"
-//}

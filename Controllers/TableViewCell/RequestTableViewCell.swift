@@ -7,9 +7,19 @@
 
 import UIKit
 
+protocol RequestTableViewCellDelegate: AnyObject {
+    func acceptButtonTapped(inCell cell: RequestTableViewCell)
+    func rejectButtonTapped(inCell cell: RequestTableViewCell)
+}
+
 class RequestTableViewCell: UITableViewCell {
 
     @IBOutlet weak var requestView: UIView!
+    weak var delegate: RequestTableViewCellDelegate?
+    @IBOutlet weak var pendingImage: UIImageView!
+    @IBOutlet weak var pendingUserName: UILabel!
+    @IBOutlet weak var pendingdate: UILabel!
+    @IBOutlet weak var pendingMessage: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -18,5 +28,16 @@ class RequestTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-
+    
+    @IBAction func acceptButton(_ sender: UIButton) {
+        delegate?.acceptButtonTapped(inCell: self)
+    }
+ 
+    @IBAction func declineButton(_ sender: UIButton) {
+        delegate?.rejectButtonTapped(inCell: self)
+    }
+    
+    @IBAction func chatButton(_ sender: UIButton) {
+    }
+    
 }

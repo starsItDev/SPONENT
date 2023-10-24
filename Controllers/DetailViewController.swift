@@ -31,7 +31,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBOutlet weak var detailGenderLbl: UILabel!
     @IBOutlet weak var detailParticipantLbl: UILabel!
     @IBOutlet weak var detailLocationLbl: UILabel!
-    @IBOutlet weak var requestToJoinButton: UIButton!
     @IBOutlet weak var detailSearchBar: UISearchBar!
     @IBOutlet weak var detailViewOne: UIView!
     @IBOutlet weak var detailViewTwo: UIView!
@@ -42,6 +41,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBOutlet weak var detailDoneButton: UIButton!
     @IBOutlet weak var detailProfileImage: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var requestJoinButton: UIButton!
     var locationSelectedHandler: ((String) -> Void)?
     weak var delegate: DetailViewControllerDelegate?
     weak var delegatetwo: DetailDelegate?
@@ -54,6 +54,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var isdelButtonHidden = false
     var isDoneButtonHidden = true
     var activityID: String?
+    var isRequestToJoin = true
+    var isOwner: Bool = false
+    var requestStatus: Int = 0
     var selectedMarker: GMSMarker?
     var selectedRegion: GMSCoordinateBounds?
     var selectedLocationCoordinate: CLLocationCoordinate2D?
@@ -63,7 +66,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     //MARK: - Override Functions
     override func viewDidLoad() {
       super.viewDidLoad()
-      activityDetailAPICall()
+      //activityDetailAPICall()
       detailSearchBar.isHidden = isSearchBarHidden
       detailViewOne.isHidden = areViewsHidden
       detailViewTwo.isHidden = areViewsHidden
@@ -91,12 +94,21 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 15)
             detailMapView.camera = camera
         }
+        
+        let userid = UserDefaults.standard.string(forKey: "userID")
+        self.isRequestToJoin = UserDefaults.standard.bool(forKey: userid ?? "")
+          if self.isRequestToJoin == false {
+              requestJoinButton.setTitle("Cancel Request", for: .normal)
+         } else {
+              requestJoinButton.setTitle("Request to Join", for: .normal)
+        }
     }
      override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
    }
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
+        activityDetailAPICall()
          if let annotation = detailMapView.selectedMarker {
              homeVC?.addDetailsLocLabel.text = annotation.title
          }
@@ -179,7 +191,114 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
           if let responseData = String(data: data, encoding: .utf8) {
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
-                   self.showAlert(title: "Alert", message: "Activity Deleted Sucessfully")
+             // self.showAlert(title: "Alert", message: "Activity Deleted Sucessfully")
+                    self.navigationController?.popViewController(animated: true)
+           }
+         }
+      }
+      task.resume()
+   }
+    func joinActivityApiCall() {
+        let endPoint = APIConstants.Endpoints.joinActivity
+        let urlString = APIConstants.baseURL + endPoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+    }
+       request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [[String: Any]] = [
+            ["key": "activityId", "value": activityID!, "type": "text"]
+        ]
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+      let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+          
+        if let responseData = String(data: data, encoding: .utf8) {
+            print("Response Data: \(responseData)")
+            DispatchQueue.main.async {
+                self.showAlert(title: "Alert", message: "\(responseData)")
+                self.requestJoinButton.setTitle("Cancel Request", for: .normal)
+                self.isRequestToJoin = false
+                let userid = UserDefaults.standard.string(forKey: "userID")
+                UserDefaults.standard.set(self.isRequestToJoin, forKey: userid ?? "")
+              }
+          }
+      }
+      task.resume()
+   }
+    func cancelActivityApiCall() {
+        let endPoint = APIConstants.Endpoints.cancelActivity
+        let urlString = APIConstants.baseURL + endPoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+    }
+       request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [[String: Any]] = [
+            ["key": "activityId", "value": activityID!, "type": "text"],
+            ["key": "userId", "value": storedUserID!, "type": "text"]
+        ]
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+      let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+          if let responseData = String(data: data, encoding: .utf8) {
+              print("Response Data: \(responseData)")
+              DispatchQueue.main.async {
+                   self.showAlert(title: "Alert", message: "Activity Cancelled Sucessfully \(responseData)")
+                  self.requestJoinButton.setTitle("Request to Join", for: .normal)
+                  self.isRequestToJoin = true
+                  let userid = UserDefaults.standard.string(forKey: "userID")
+                  UserDefaults.standard.set(self.isRequestToJoin, forKey: userid ?? "")
               }
           }
       }
@@ -189,7 +308,8 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBAction func detailBackButton(_ sender: UIButton) {
        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
            tabBarController.modalPresentationStyle = .fullScreen
-           self.present(tabBarController, animated: false, completion: nil)
+           //self.present(tabBarController, animated: false, completion: nil)
+           self.navigationController?.popViewController(animated: true)
       }
   }
     @IBAction func detailDoneBtnClicked(_ sender: UIButton) {
@@ -202,9 +322,25 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func requestToJoinBtn(_ sender: UIButton) {
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RequestVC") as? RequestVC {
-            //vc.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(vc, animated: false)
+        
+        if self.isOwner {
+            if self.requestStatus == 0 {
+                self.isRequestToJoin = false
+                self.requestJoinButton.setTitle("No request yet", for: .normal)
+            } else if self.requestStatus > 0 {
+                self.isRequestToJoin = false
+                self.requestJoinButton.setTitle("View Requests", for: .normal)
+                if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RequestVC") as? RequestVC {
+                   self.navigationController?.pushViewController(vc, animated: false)
+               }
+            }
+         } else {
+            if isRequestToJoin {
+                joinActivityApiCall()
+            } else {
+                cancelActivityApiCall()
+            }
+            isRequestToJoin.toggle()
         }
     }
     @IBAction func deleteButton(_ sender: UIButton) {
@@ -230,6 +366,25 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     self.detailLocationLbl.text = body["location"] as? String
                     if let avatarURLString = body["avatar"] as? String {
                         self.loadImage(from: avatarURLString, into: self.detailProfileImage, placeholder: UIImage(named: "placeholderImage"))
+                    }
+                    if let isOwnerValue = body["is_owner"] as? Bool {
+                        self.isOwner = isOwnerValue
+                    }
+                    if let requestStatusValue = body["request_status"] as? Int {
+                        self.requestStatus = requestStatusValue
+                    }
+                    if self.isOwner == true{
+                        if self.requestStatus == 0 {
+                        self.requestJoinButton.titleLabel?.text = "No request yet"
+                    } else if self.requestStatus > 0 {
+                        self.requestJoinButton.titleLabel?.text = "View Requests"
+                      }
+                    } else {
+                        if self.isRequestToJoin{
+                            self.requestJoinButton.titleLabel?.text = "Request To join"
+                        } else {
+                            self.requestJoinButton.titleLabel?.text = "Cancel request"
+                        }
                     }
                 }
             }
