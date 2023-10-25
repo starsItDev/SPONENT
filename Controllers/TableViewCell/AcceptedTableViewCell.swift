@@ -7,8 +7,11 @@
 
 import UIKit
 
-class AcceptedTableViewCell: UITableViewCell {
+protocol AcceptedTableViewCellDelegate: AnyObject {
+    func cancelButtonTapped(inCell cell: AcceptedTableViewCell)
+}
 
+class AcceptedTableViewCell: UITableViewCell {
     
     @IBOutlet weak var acceptedImage: UIImageView!
     @IBOutlet weak var acceptedUserName: UILabel!
@@ -16,6 +19,7 @@ class AcceptedTableViewCell: UITableViewCell {
     @IBOutlet weak var acceptedMessage: UILabel!
     @IBOutlet weak var acceptedMessageBtn: UIButton!
     @IBOutlet weak var acceptedCancelBtn: UIButton!
+    weak var delegate: AcceptedTableViewCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,6 +32,7 @@ class AcceptedTableViewCell: UITableViewCell {
     @IBAction func messageButton(_ sender: UIButton) {
     }
     @IBAction func cancelButton(_ sender: UIButton) {
+        delegate?.cancelButtonTapped(inCell: self)
     }
     
 }

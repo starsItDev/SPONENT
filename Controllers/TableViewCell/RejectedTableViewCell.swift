@@ -12,6 +12,7 @@ protocol RejectedTableViewCellDelegate: AnyObject {
 }
 
 class RejectedTableViewCell: UITableViewCell {
+    
     weak var delegate: RejectedTableViewCellDelegate?
     @IBOutlet weak var rejectedImage: UIImageView!
     @IBOutlet weak var rejectedName: UILabel!

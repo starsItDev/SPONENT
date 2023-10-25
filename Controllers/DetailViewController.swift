@@ -168,7 +168,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         
         let parameters: [[String: Any]] = [
             ["key": "activityId", "value": activityID ?? "", "type": "text"],
-            ["key": "userId", "value": storedUserID!, "type": "text"]
+            ["key": "userId", "value": storedUserID ?? "", "type": "text"]
         ]
         
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -309,7 +309,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBAction func detailBackButton(_ sender: UIButton) {
        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
            tabBarController.modalPresentationStyle = .fullScreen
-           //self.present(tabBarController, animated: false, completion: nil)
            self.navigationController?.popViewController(animated: true)
       }
   }
@@ -378,7 +377,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     if let requestStatusValue = body["request_status"] as? Int {
                         self.requestStatus = requestStatusValue
                     }
-                    if self.isOwner == true{
+                    if self.isOwner == true {
                         if self.requestStatus == 0 {
                         self.requestJoinButton.titleLabel?.text = "No request yet"
                     } else if self.requestStatus > 0 {

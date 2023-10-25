@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableViewCellDelegate {
+class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableViewCellDelegate, AcceptedTableViewCellDelegate {
 
     //MARK: - Variables
     @IBOutlet weak var requestTableView: UITableView!
@@ -28,6 +28,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     var isImageRotated = false
     var rejectedTableRowCount = 3
     var activityID: String?
+   // var userID: String?
     var pending: [Requests] = []
     var accepted: [Requests] = []
     var rejected: [Requests] = []
@@ -108,7 +109,8 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         }
         task.resume()
     }
-    func acceptRequestApi() {
+
+    func acceptRequestApi(userID: String) {
         let endPoint = APIConstants.Endpoints.acceptActivity
         let urlString = APIConstants.baseURL + endPoint
         
@@ -116,7 +118,6 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
             showAlert(title: "Alert", message: "Invalid URL")
             return
         }
-        let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
@@ -126,7 +127,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         
         let parameters: [[String: Any]] = [
             ["key": "activityId", "value": activityID ?? "", "type": "text"],
-            ["key": "userId", "value": storedUserID ?? "", "type": "text"]
+            ["key": "userId", "value": userID, "type": "text"]
         ]
         
         let boundary = "Boundary-\(UUID().uuidString)"
@@ -150,13 +151,159 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
           if let responseData = String(data: data, encoding: .utf8) {
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
-                  self.showAlert(title: "alert", message: "\(responseData)")
+                  self.showAlert(title: "Alert", message: "\(responseData)")
             
            }
          }
       }
       task.resume()
    }
+    func rejectRequestApi(userID: String) {
+        let endPoint = APIConstants.Endpoints.rejectActivity
+        let urlString = APIConstants.baseURL + endPoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+    }
+       request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [[String: Any]] = [
+            ["key": "activityId", "value": activityID ?? "", "type": "text"],
+            ["key": "userId", "value": userID, "type": "text"]
+        ]
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+      let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+          if let responseData = String(data: data, encoding: .utf8) {
+              print("Response Data: \(responseData)")
+              DispatchQueue.main.async {
+                  self.showAlert(title: "Alert", message: "\(responseData)")
+            
+           }
+         }
+      }
+      task.resume()
+   }
+    func cancelRequestApi(userID: String) {
+        let endPoint = APIConstants.Endpoints.cancelActivity
+        let urlString = APIConstants.baseURL + endPoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+    }
+       request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
+        
+        let parameters: [[String: Any]] = [
+            ["key": "activityId", "value": activityID ?? "", "type": "text"],
+            ["key": "userId", "value": userID, "type": "text"]
+        ]
+        
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+      let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+          if let responseData = String(data: data, encoding: .utf8) {
+              print("Response Data: \(responseData)")
+              DispatchQueue.main.async {
+                  self.showAlert(title: "Alert", message: "\(responseData)")
+           }
+         }
+      }
+      task.resume()
+   }
+    func deleteRequestApi(userID: String) {
+        let endpoint = APIConstants.Endpoints.deleteActivityRequest
+        let urlString = APIConstants.baseURL + endpoint
+
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        let parameters = [
+          [
+            "key": "activityId",
+            "value": activityID ?? "",
+            "type": "text"
+          ], [
+            "key": "userId",
+            "value": userID,
+            "type": "text"
+          ]
+        ] as [[String: Any]]
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.setValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = Data()
+        for param in parameters {
+            let paramName = param["key"] as! String
+            let paramValue = param["value"] as! String
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(paramName)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(paramValue)\r\n".data(using: .utf8)!)
+        }
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {
+                print("Error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            if let responseData = String(data: data, encoding: .utf8) {
+                print("Response Data: \(responseData)")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Alert", message: responseData)
+                }
+            }
+        }
+        task.resume()
+    }
     
     //MARK: - Actions
     @IBAction func requestBackButton(_ sender: UIButton) {
@@ -208,20 +355,37 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         }
     }
     func acceptButtonTapped(inCell cell: RequestTableViewCell) {
-        acceptedView.isHidden = false
-        acceptedTableView.isHidden = false
-    }
-    
-    @objc func acceptBtnTapped(_sender: UIButton) {
-        acceptRequestApi()
+        let indexPath = self.requestTableView.indexPath(for: cell)
+            if let indexPath = indexPath {
+                let pendingRequest = pending[indexPath.row]
+                let userID = pendingRequest.userID
+                    acceptRequestApi(userID: userID)
+            }
     }
     func rejectButtonTapped(inCell cell: RequestTableViewCell) {
-        rejectedView.isHidden = false
-        rejectedTableView.isHidden = false
+        let indexPath = self.requestTableView.indexPath(for: cell)
+            if let indexPath = indexPath {
+                let rejectedRequest = pending[indexPath.row]
+                let userID = rejectedRequest.userID
+                    rejectRequestApi(userID: userID)
+            }
     }
+    func cancelButtonTapped(inCell cell: AcceptedTableViewCell) {
+        let indexPath = self.acceptedTableView.indexPath(for: cell)
+            if let indexPath = indexPath {
+                let cancelRequest = accepted[indexPath.row]
+                let userID = cancelRequest.userID
+                    cancelRequestApi(userID: userID)
+            }
+    }
+    
     func deleteButtonTapped(inCell cell: RejectedTableViewCell) {
-        rejectedView.isHidden = true
-        rejectedTableView.isHidden = true
+        let indexPath = self.rejectedTableView.indexPath(for: cell)
+            if let indexPath = indexPath {
+                let deleteRequest = rejected[indexPath.row]
+                let userID = deleteRequest.userID
+                    deleteRequestApi(userID: userID)
+            }
     }
 }
 
@@ -247,14 +411,12 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             cell.pendingdate?.text = pending.dateTime
             cell.pendingMessage?.text = pending.userMessage
             loadImage(from: pending.userAvatar, into: cell.pendingImage)
-            cell.acceptBtn.tag = indexPath.row
-            cell.acceptBtn.addTarget(self, action: #selector(acceptBtnTapped(_sender:)), for: .touchUpInside)
             cell.layer.borderWidth = 3
             cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
         return cell
         } else if tableView == acceptedTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AcceptedTableViewCell
-            //cell.delegate = self
+            cell.delegate = self
             let accepted = accepted[indexPath.row]
             cell.acceptedUserName?.text = accepted.userName
             cell.acceptedDate?.text = accepted.dateTime
@@ -278,7 +440,7 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 150
+        return 145
     }
 }
 

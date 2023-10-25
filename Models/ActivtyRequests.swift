@@ -13,9 +13,7 @@ struct ActivtyRequestModel: Codable {
 }
 
 struct ActivityRequestBody: Codable {
-    let pending: [Requests]
-    let accepted: [Requests]
-    let rejected: [Requests]
+    let pending, accepted, rejected: [Requests]
 }
 
 struct Requests: Codable {

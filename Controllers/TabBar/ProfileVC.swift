@@ -240,7 +240,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         let parameters = [
             [
                 "key": "user_id",
-                "value": receiverID!,
+                "value": receiverID ?? "",
                 "type": "text"
             ],
         ] as [[String: Any]]
@@ -290,7 +290,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         let parameters = [
             [
                 "key": "user_id",
-                "value": receiverID!,
+                "value": receiverID ?? "",
                 "type": "text"
             ],
         ] as [[String: Any]]
@@ -350,7 +350,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
           ],
           [
             "key": "user_id",
-            "value": receiverID!,
+            "value": receiverID ?? "",
             "type": "text"
           ]] as [[String: Any]]
         var request = URLRequest(url: url)
@@ -397,7 +397,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         let parameters = [
           [
             "key": "friendId",
-            "value": receiverID!,
+            "value": receiverID ?? "",
             "type": "text"
           ]] as [[String: Any]]
         var request = URLRequest(url: url)
@@ -443,7 +443,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         let parameters = [
           [
             "key": "friendId",
-            "value": receiverID!,
+            "value": receiverID ?? "",
             "type": "text"
           ]] as [[String: Any]]
         var request = URLRequest(url: url)

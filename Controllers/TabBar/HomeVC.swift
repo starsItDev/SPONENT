@@ -402,14 +402,14 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         addDetailsActivity.applyBorder()
         addDetailsTextView.applyBorder()
 }
-    func createLoadingView() {
-    loadingView = UIView(frame: UIScreen.main.bounds)
-    loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-    let activityIndicator = UIActivityIndicatorView(style: .large)
-    activityIndicator.center = loadingView!.center
-    loadingView?.addSubview(activityIndicator)
-    activityIndicator.startAnimating()
-}
+//    func createLoadingView() {
+//    loadingView = UIView(frame: UIScreen.main.bounds)
+//    loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+//    let activityIndicator = UIActivityIndicatorView(style: .large)
+//    activityIndicator.center = loadingView!.center
+//    loadingView?.addSubview(activityIndicator)
+//    activityIndicator.startAnimating()
+//}
     func didSelectLocation(_ locationName: String) {
          addDetailsLocLabel.text = locationName
          selectedLocation = locationName
@@ -423,17 +423,17 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
          dismiss(animated: true, completion: nil)
     }
-    func showLoadingView() {
-        if loadingView == nil {
-            createLoadingView()
-        }
-        loadingView?.isHidden = false
-        view.addSubview(loadingView!)
-    }
-    func hideLoadingView() {
-        loadingView?.removeFromSuperview()
-        loadingView = nil
-    }
+//    func showLoadingView() {
+//        if loadingView == nil {
+//            createLoadingView()
+//        }
+//        loadingView?.isHidden = false
+//        view.addSubview(loadingView!)
+//    }
+//    func hideLoadingView() {
+//        loadingView?.removeFromSuperview()
+//        loadingView = nil
+//    }
     func setupKeyboardDismiss() {
            textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
@@ -551,10 +551,10 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         let activity = activities[indexPath.row]
            if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
                let locationName = cell.homeTableLocation.text {
-               showLoadingView()
+               //showLoadingView()
                let geocoder = CLGeocoder()
                geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-                   self?.hideLoadingView()
+                   //self?.hideLoadingView()
                    guard let self = self,
                        let placemark = placemarks?.first,
                        let locationCoordinate = placemark.location?.coordinate else {
