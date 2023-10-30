@@ -38,6 +38,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let ages = ["Age 17", "Age 18", "Age 19", "Age 20", "Age 21", "Age 22", "Age 23", "Age 24", "Age 25", "Age 26", "Age 27", "Age 28", "Age 29", "Age 30", "Age 31", "Age 32", "Age 33", "Age 34", "Age 35", "Age 36", "Age 37", "Age 38", "Age 39", "Age 40", "Age 41", "Age 42", "Age 43", "Age 44", "Age 45", "Age 46", "Age 47", "Age 48", "Age 49", "Age 50", "Age 51", "Age 52", "Age 53", "Age 54", "Age 55"]
     let genders = ["Male", "Female"]
     var categories: [Category] = []
+    var updateCategoryId: String?
     
     //MARK: - Override func
     override func viewDidLoad() {
@@ -110,7 +111,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         task.resume()
     }
     func apiCall() {
-        // Check if userLocation is available
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
               let userLocation = appDelegate.userLocation,
               let name = nameTxtField.text, !name.isEmpty,
@@ -119,7 +119,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
               let age = ageLabel.text, !age.isEmpty,
               let gender = genderLabel.text, !gender.isEmpty,
               let aboutMe = aboutMeTxtField.text, !aboutMe.isEmpty,
-//              let categoryID = favCategoryLabel.text,
               let location = locationLabel.text, !location.isEmpty
         else {
             showAlert(title: "Alert", message: "Please fill in all required fields")
@@ -140,13 +139,11 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
 
-        // Create the multipart form data request body
         let boundary = "Boundary-\(UUID().uuidString)"
         request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
 
         var body = Data()
 
-        // Append text fields
         let textFields = [
             "name": name,
             "email": email,
@@ -154,7 +151,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             "age": age,
             "gender": gender,
             "aboutMe": aboutMe,
-            "category_id": 1,
+            "category_id": self.updateCategoryId ?? "",
             "location[latitude]": String(latitude),
             "location[longitude]": String(longitude),
             "location[location]": location
@@ -166,7 +163,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             body.append("\(value)\r\n".data(using: .utf8)!)
         }
 
-        // Append image
         if let image = imageView.image, let imageData = image.jpegData(compressionQuality: 0.7) {
             body.append("--\(boundary)\r\n".data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"photo\"; filename=\"photo.jpg\"\r\n".data(using: .utf8)!)
@@ -243,7 +239,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         for category in categories {
             let actionOne = UIAlertAction(title: category.title, style: .default) { [weak self] _ in
                 self?.favCategoryLabel.text = category.title
-            self?.favCategoryLabel.textColor = .black
+                self?.updateCategoryId = category.categoryID
+                self?.favCategoryLabel.textColor = .black
          }
          actions.append(actionOne)
       }
@@ -285,8 +282,14 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     //MARK: - Actions
     @IBAction func signUpForwardButton(_ sender: UIButton) {
         apiCall()
-     }
- }
+    }
+    @IBAction func signUpBackButton(_ sender: UIButton) {
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: false)
+        }
+    }
+}
 
 extension SignUpVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {

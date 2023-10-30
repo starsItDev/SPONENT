@@ -8,6 +8,15 @@
 import UIKit
 import CoreLocation
 
+struct UserProfileData {
+    var profileImage: UIImage?
+    var name: String?
+    var age: String?
+    var gender: String?
+    var category: String?
+    var aboutMe: String?
+}
+
 class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     //MARK: - Variables
@@ -26,6 +35,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var updateNameField: UITextField!
     @IBOutlet weak var updateAboutField: UITextField!
     @IBOutlet weak var updateScrollView: UIScrollView!
+    var updateCategoryId: String?
     var actions: [UIAlertAction] = []
     var activeTextField: UITextField?
     var tapGestureRecognizer: UITapGestureRecognizer?
@@ -33,6 +43,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     let Updateages = ["Age 17", "Age 18", "Age 19", "Age 20", "Age 21", "Age 22", "Age 23", "Age 24", "Age 25", "Age 26", "Age 27", "Age 28", "Age 29", "Age 30", "Age 31", "Age 32", "Age 33", "Age 34", "Age 35", "Age 36", "Age 37", "Age 38", "Age 39", "Age 40", "Age 41", "Age 42", "Age 43", "Age 44", "Age 45", "Age 46", "Age 47", "Age 48", "Age 49", "Age 50", "Age 51", "Age 52", "Age 53", "Age 54", "Age 55"]
     let Updategenders = ["Male", "Female"]
     var Updatecategories: [Category] = []
+    var userProfileData: UserProfileData?
        
     //MARK: - Override Fuction
     override func viewDidLoad() {
@@ -50,6 +61,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                switch result {
                case .success(let categoriesModel):
                    self?.Updatecategories = categoriesModel.body.categories
+                   print(self?.Updatecategories ?? "")
                case .failure(let error):
                    print("API call error: \(error)")
                }
@@ -67,6 +79,17 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 }
             }
         }
+        if let userProfileData = userProfileData {
+            updateImage.image = userProfileData.profileImage
+            updateNameField.text = userProfileData.name
+            updateAgeLabel.text = userProfileData.age
+            updateGenderLabel.text = userProfileData.gender
+            updateCategoryLabel.text = userProfileData.category
+            updateAboutField.text = userProfileData.aboutMe
+            updateAgeLabel.textColor = .black
+            updateGenderLabel.textColor = .black
+            updateCategoryLabel.textColor = .black
+        }
     }
        
     //MARK: - Helper functions
@@ -77,7 +100,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
               let age = updateAgeLabel.text, !age.isEmpty,
               let gender = updateGenderLabel.text, !gender.isEmpty,
               let aboutMe = updateAboutField.text, !aboutMe.isEmpty,
-//              let categoryID = updateCategoryLabel.text, !categoryID.isEmpty,
               let location = updateLocationLabel.text, !location.isEmpty
         else {
                 showAlert(title: "Alert", message: "Please fill in all required fields")
@@ -108,7 +130,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 "age": age,
                 "gender": gender,
                 "aboutMe": aboutMe,
-                "category_id": 1,
+                "category_id": self.updateCategoryId ?? "",
                 "location[latitude]": String(latitude),
                 "location[longitude]": String(longitude),
                 "location[location]": location
@@ -222,7 +244,8 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         for category in Updatecategories {
             let actionOne = UIAlertAction(title: category.title, style: .default) { [weak self] _ in
                 self?.updateCategoryLabel.text = category.title
-            self?.updateCategoryLabel.textColor = .black
+                self?.updateCategoryId = category.categoryID
+                self?.updateCategoryLabel.textColor = .black
             }
             actions.append(actionOne)
         }

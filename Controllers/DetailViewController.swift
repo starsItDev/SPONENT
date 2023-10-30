@@ -79,7 +79,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
       detailMapView.settings.compassButton = true
       detailMapView.settings.myLocationButton = true
       if expandMapHeight {
-          let screenHeight = UIScreen.main.bounds.height
+          let screenHeight = UIScreen.main.bounds.size.height
           detailMapHeight.constant = screenHeight
       }
         detailMapView.isMyLocationEnabled = true
@@ -307,10 +307,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
    }
     //MARK: - Actions
     @IBAction func detailBackButton(_ sender: UIButton) {
-       if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-           tabBarController.modalPresentationStyle = .fullScreen
-           self.navigationController?.popViewController(animated: true)
-      }
+        self.navigationController?.popViewController(animated: true)
   }
     @IBAction func detailDoneBtnClicked(_ sender: UIButton) {
         let searchedLocation = detailSearchBar.text ?? ""

@@ -519,6 +519,14 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         if let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "UpdateSignUpVC") as? UpdateSignUpVC {
             settingStackView.isHidden = true
             controller.modalPresentationStyle = .fullScreen
+            var userProfileData = UserProfileData()
+            userProfileData.profileImage = imgProfileView.image
+            userProfileData.name = nameLabel.text
+            userProfileData.age = ageLabel.text
+            userProfileData.gender = genderLabel.text
+            userProfileData.category = sportNameLabel.text
+            userProfileData.aboutMe = aboutMeLabel.text
+            controller.userProfileData = userProfileData
             self.present(controller, animated: false)
         }
     }
