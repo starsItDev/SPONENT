@@ -13,7 +13,7 @@ import GooglePlaces
 protocol ProfileDelegate: AnyObject {
     func didTapUserProfileSettingButton()
 }
-class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailViewControllerDelegate {
+class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDelegate {
 
     //MARK: - Variable
     @IBOutlet weak var profileScrollView: UIScrollView!
@@ -44,11 +44,15 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     @IBOutlet weak var loctionLabel: UILabel!
     @IBOutlet weak var aboutMeLabel: UILabel!
     @IBOutlet weak var myProfileLabel: UILabel!
+    @IBOutlet weak var profileImgView: UIView!
+    @IBOutlet weak var transparenView: UIView!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
     var delegate: ProfileDelegate?
     let updateSignUpVC = UpdateSignUpVC()
     var isProfileBackButtonHidden = true
     var isFollowButtonHidden = true
+    var issettingViewHidden = false
+    var isUserSettingViewHidden = true
     var receiverID: String?
     var userFollowStatus: [String: Bool] = [:]
     var userBlockStatus: [String: Bool] = [:]
@@ -75,6 +79,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         apiCall()
+        settingStackView.isHidden = true
         tabsApiCall()
     }
     
@@ -482,6 +487,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     }
     //MARK: - Actions
     @IBAction func profileSegmentControl(_ sender: UISegmentedControl) {
+        settingStackView.isHidden = true
         switch profileSegmentController.selectedSegmentIndex {
         case 0:
             profileSegmentView.isHidden = false
@@ -508,11 +514,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         }
     }
     @IBAction func profileSettingButton(_ sender: UIButton) {
-        if settingStackView.isHidden {
-            settingStackView.isHidden = false
-        } else {
-            settingStackView.isHidden = true
-        }
+        settingStackView.isHidden = issettingViewHidden
+        userSettingStackView.isHidden = isUserSettingViewHidden
         delegate?.didTapUserProfileSettingButton()
     }
     @IBAction func editProfileButton(_ sender: UIButton) {
@@ -533,6 +536,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     @IBAction func changePasswordButton(_ sender: UIButton) {
         if changePasswordView.isHidden {
             changePasswordView.isHidden = false
+            transparenView.isHidden = false
             settingStackView.isHidden = true
         }
     }
@@ -547,6 +551,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
     @IBAction func updateCancelButton(_ sender: UIButton) {
         if !changePasswordView.isHidden {
             changePasswordView.isHidden = true
+            transparenView.isHidden = true
         }
     }
     @IBAction func updateOkButton(_ sender: UIButton) {
@@ -605,6 +610,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
                 print(String(data: data, encoding: .utf8)!)
                 DispatchQueue.main.async {
                     self.changePasswordView.isHidden = true
+                    self.transparenView.isHidden = true
                 }
             }
         }
@@ -672,12 +678,20 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
         if let labelText = labelText {
             myProfileLabel.text = labelText
         }
-        dismissViewTap = UITapGestureRecognizer(target: self, action: #selector(dismissView))
-            if let tap = dismissViewTap {
-                view.addGestureRecognizer(tap)
-            }
         setupKeyboardDismiss()
         self.navigationController?.navigationBar.isHidden = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        profileSegmentView.addGestureRecognizer(tap)
+        let tapTwo = UITapGestureRecognizer(target: self, action: #selector(self.handleTapTwo(_:)))
+        profileImgView.addGestureRecognizer(tapTwo)
+    }
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        settingStackView.isHidden = true
+        userSettingStackView.isHidden = true
+    }
+    @objc func handleTapTwo(_ sender: UITapGestureRecognizer? = nil) {
+        settingStackView.isHidden = true
+        userSettingStackView.isHidden = true
     }
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
@@ -702,17 +716,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
             }
         }
     }
-    func didTapUserProfileSettingButton() {
-        if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
-            if profileVC.userSettingStackView.isHidden {
-                 profileVC.userSettingStackView.isHidden = false
-                 profileVC.settingStackView.isHidden = true
-            } else {
-                profileVC.userSettingStackView.isHidden = true
-                profileVC.settingStackView.isHidden = true
-            }
-        }
-    }
     func didSelectLocation(_ locationName: String) {
         let geocoder = CLGeocoder()
            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
@@ -722,17 +725,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileDelegate, DetailV
             }
         }
     }
-    @objc private func dismissView() {
-        guard let tap = dismissViewTap else {
-           return
-        }
-//      guard settingStackView.isHidden == false else {
-//         return
-//      }
-        settingStackView.isHidden = true
-        view.removeGestureRecognizer(tap)
-    }
 }
+
 //MARK: - Extension TableView
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
@@ -802,10 +796,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             let follower = followers[indexPath.row]
             selectedReceiverID = follower.userID
           if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
-              vc.delegate = self
               vc.isProfileBackButtonHidden = false
               vc.isFollowButtonHidden = false
               vc.receiverID = follower.userID
+              vc.issettingViewHidden = true
+              vc.isUserSettingViewHidden = false
               let selectedText = "Profile"
               vc.labelText = selectedText
               self.navigationController?.pushViewController(vc, animated: true)
@@ -814,10 +809,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             let following = followings[indexPath.row]
             selectedReceiverID = following.userID
              if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
-                 vc.delegate = self
                  vc.isProfileBackButtonHidden = false
                  vc.isFollowButtonHidden = false
                  vc.receiverID = following.userID
+                 vc.issettingViewHidden = true
+                 vc.isUserSettingViewHidden = false
                  let selectedText = "Profile"
                  vc.labelText = selectedText
                  self.navigationController?.pushViewController(vc, animated: true)
@@ -855,11 +851,16 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - Extension ProfileVC
 extension ProfileVC {
     func getActivityAPiCall(){
-        let endPoint = APIConstants.Endpoints.getActivities
-        let urlString = APIConstants.baseURL + endPoint
-//        if let storedUserID = UserDefaults.standard.object(forKey: "userID") as? String {
-//            urlString += "?id=" + storedUserID
-//        }
+        let endPoint = APIConstants.Endpoints.userActivities
+        var urlString = APIConstants.baseURL + endPoint
+        if let receiverID = receiverID {
+                urlString += "?id=" + receiverID
+            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
+                urlString += "?id=" + userID
+            } else {
+                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                return
+            }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return

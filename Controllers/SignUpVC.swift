@@ -44,6 +44,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     override func viewDidLoad() {
         super.viewDidLoad()
         styleViews()
+        nameTxtField.delegate = self
         emailTxtField.delegate = self
         passWordTxtField.delegate = self
         aboutMeTxtField.delegate = self
@@ -198,6 +199,18 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             }
         }.resume()
     }
+    
+    //MARK: - Actions
+    @IBAction func signUpForwardButton(_ sender: UIButton) {
+        ValidationCode()
+    }
+    @IBAction func signUpBackButton(_ sender: UIButton) {
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: false)
+        }
+    }
+
     //MARK: - Helper functions
     func styleViews() {
         ageView.applyBorder()
@@ -218,7 +231,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             let action = UIAlertAction(title: age, style: .default) { [weak self ] _ in
             self?.ageLabel.text = age
             self?.ageLabel.textColor = .black
-         }
+            self?.ageView.layer.borderColor = UIColor.lightGray.cgColor
+            }
          actions.append(action)
       }
          presentActionSheet(title: "Select age", message: nil, actions: actions)
@@ -229,6 +243,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             let actionTwo = UIAlertAction(title: gender, style: .default) { [weak self] _ in
             self?.genderLabel.text = gender
             self?.genderLabel.textColor = .black
+            self?.genderView.layer.borderColor = UIColor.lightGray.cgColor
          }
          actions.append(actionTwo)
       }
@@ -241,6 +256,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 self?.favCategoryLabel.text = category.title
                 self?.updateCategoryId = category.categoryID
                 self?.favCategoryLabel.textColor = .black
+                self?.favCategoryView.layer.borderColor = UIColor.lightGray.cgColor
          }
          actions.append(actionOne)
       }
@@ -278,24 +294,64 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
     }
-    
-    //MARK: - Actions
-    @IBAction func signUpForwardButton(_ sender: UIButton) {
-        apiCall()
-    }
-    @IBAction func signUpBackButton(_ sender: UIButton) {
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: false)
+    func ValidationCode() {
+        if let email = emailTxtField.text, let password = passWordTxtField.text {
+            if ageLabel.text == "Age" {
+                ageView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Select Age")
+            }
+            else if genderLabel.text == "Gender" {
+                genderView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Select gender")
+            }
+            else if nameTxtField.text == "" {
+                nameView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Please write your name")
+            }
+            else if emailTxtField.text == "" {
+                emailView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Please write your email")
+            }
+             else if !email.validateEmailId() {
+                 emailView.layer.borderColor = UIColor.red.cgColor
+                 showAlert(title: "Alert", message: "Please enter correct email")
+            }
+            else if passWordTxtField.text == "" {
+                passwdView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Please enter your password")
+            }
+            else if password.count < 6 {
+                passwdView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Password should be at least 6 characters")
+            }
+            else if favCategoryLabel.text == "Select Your Favourite Category" {
+                favCategoryView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Select your favourite category")
+            }
+            else if aboutMeTxtField.text == "" {
+                aboutView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Please write something about yourself")
+            }
+            else {
+                apiCall()
+            }
         }
     }
 }
-
+//MARK: - Extension TextField
 extension SignUpVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         activeTextField = textField
+            if textField == nameTxtField {
+                nameView.layer.borderColor = UIColor.lightGray.cgColor
+            } else if textField == emailTxtField {
+                emailView.layer.borderColor = UIColor.lightGray.cgColor
+            } else if textField == passWordTxtField {
+                passwdView.layer.borderColor = UIColor.lightGray.cgColor
+            } else if textField == aboutMeTxtField {
+                aboutView.layer.borderColor = UIColor.lightGray.cgColor
+            }
     }
-    
     func textFieldDidEndEditing(_ textField: UITextField) {
         activeTextField = nil
     }

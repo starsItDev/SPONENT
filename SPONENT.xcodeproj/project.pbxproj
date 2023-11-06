@@ -22,6 +22,7 @@
 		E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */; };
 		E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */; };
 		E08986B32AC568DD005A102D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E08986B12AC568DD005A102D /* Main.storyboard */; };
+		E0A0E21E2AF2305D0090B6C0 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0E21D2AF2305D0090B6C0 /* Validation.swift */; };
 		E0AA26CB2A864361002CDACA /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AA26CA2A864361002CDACA /* HomeVC.swift */; };
 		E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */; };
 		E0AB64602A9F0CB200F4F299 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB645F2A9F0CB200F4F299 /* GoogleMaps */; };
@@ -84,6 +85,7 @@
 		E00B8BD22AA9D9DD001422CE /* SignUpAgeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpAgeTableViewCell.swift; sourceTree = "<group>"; };
 		E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardDismiss.swift; sourceTree = "<group>"; };
 		E08986B22AC568DD005A102D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		E0A0E21D2AF2305D0090B6C0 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		E0AA26CA2A864361002CDACA /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		E0AD05872ADFF5C000DC1D2F /* MapActivities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapActivities.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				E0DF66D82A95F266006BFBFE /* UIAlertController.swift */,
 				E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */,
 				E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */,
+				E0A0E21D2AF2305D0090B6C0 /* Validation.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */,
 				E0E544332ADD38DE00B7D2F0 /* ActivityFollowingCell.swift in Sources */,
 				E0E544372ADD4BB300B7D2F0 /* Activities.swift in Sources */,
+				E0A0E21E2AF2305D0090B6C0 /* Validation.swift in Sources */,
 				E0B664D02A84FEEA00537CAE /* SceneDelegate.swift in Sources */,
 				E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */,
 				E0DD3C6B2AAEE24800D8A205 /* ActivityVC.swift in Sources */,

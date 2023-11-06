@@ -152,7 +152,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
                   self.showAlert(title: "Alert", message: "\(responseData)")
-            
+                  UserDefaults.standard.set(false, forKey: "\(userID)")
            }
          }
       }

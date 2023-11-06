@@ -14,11 +14,25 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var forgotTextField: UITextField!
     @IBOutlet weak var forgotPasswordView: GradientView!
+    @IBOutlet weak var emailErrorView: UIView!
+    @IBOutlet weak var passwordErrorView: UIView!
+    @IBOutlet weak var emailErrorLblView: UIView!
+    @IBOutlet weak var emailErrorLabel: UILabel!
+    @IBOutlet weak var passwordErrorLblView: UIView!
+    @IBOutlet weak var passwordErrorLbl: UILabel!
+    @IBOutlet weak var passwrodErrorLViewLeading: NSLayoutConstraint!
+    @IBOutlet weak var passwdErrorLViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var fbButton: UIButton!
+    @IBOutlet weak var googleButton: UIButton!
+    @IBOutlet weak var transparentView: GradientView!
     let textFieldDelegateHelper = TextFieldDelegateHelper<LoginVC>()
+    
     //MARK: - Override Func
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSetUp()
+        EmailTextField.delegate = self
+        passwordTextField.delegate = self
     }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
@@ -104,13 +118,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             }
         }.resume()
     }
+    
     //MARK: - Actions
     @IBAction func forgotOkayButton(_ sender: UIButton) {
         guard let forget = forgotTextField.text, !forget.isEmpty else {
             showAlert(title: "Alert", message: "Please enter Email")
             return
         }
-        
+        if !forget.validateEmailId() {
+            showAlert(title: "Alert", message: "Please enter correct email")
+            return
+        } else {
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
         
@@ -150,15 +168,17 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                     DispatchQueue.main.async {
                         self.showAlert(title: "Password Reset", message: "Please login to your email to get new password.")
                         self.forgotPasswordView.isHidden = true
+                        self.transparentView.isHidden = true
+                        self.forgotTextField.text = ""
                     }
                 }
             }
         }
         task.resume()
+      }
     }
-
     @IBAction func loginButton(_ sender: UIButton) {
-        apiCall()
+        ValidationCode()
     }
     @IBAction func loginAsGuestButton(_ sender: Any) {
         UserDefaults.standard.set("", forKey: "userID")
@@ -177,11 +197,74 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBAction func forgotPassword(_ sender: UIButton) {
         if forgotPasswordView.isHidden {
             forgotPasswordView.isHidden = false
+            transparentView.isHidden = false
         }
     }
     @IBAction func forgotCancelButton(_ sender: UIButton) {
         if forgotPasswordView.isHidden == false {
+            transparentView.isHidden = true
             forgotPasswordView.isHidden = true
         }
     }
+    @IBAction func facebookBtnTapped(_ sender: UIButton) {
+    }
+
+    @IBAction func googleBtnTapped(_ sender: UIButton) {
+    }
+    func ValidationCode() {
+        if let email = EmailTextField.text, let password = passwordTextField.text {
+            if email == "" {
+                emailErrorView.isHidden = false
+                emailErrorLblView.isHidden = false
+                emailErrorLabel.text = "Please enter email"
+            }
+            else if !email.validateEmailId() {
+                emailErrorView.isHidden = false
+                emailErrorLblView.isHidden = false
+                emailErrorLabel.text = "Please enter correct email"
+            }
+            else if password == "" {
+                passwordErrorView.isHidden = false
+                passwordErrorLblView.isHidden = false
+                passwrodErrorLViewLeading.constant = 200
+                passwdErrorLViewHeight.constant = 29
+                passwordErrorLbl.textAlignment = .center
+                passwordErrorLbl.text = "Please enter password"
+            }
+            else if password.count < 6 {
+                passwordErrorView.isHidden = false
+                passwordErrorLblView.isHidden = false
+                passwdErrorLViewHeight.constant = 45
+                passwordErrorLbl.textAlignment = .left
+                passwordErrorLbl.text = "Password should be at least 6 characters"
+            }
+            else {
+                apiCall()
+            }
+        }
+    }
+    @IBAction func emailErrorBtn(_ sender: UIButton) {
+        if emailErrorLblView.isHidden {
+            emailErrorLblView.isHidden = false
+        } else {
+            emailErrorLblView.isHidden = true
+        }
+    }
+    @IBAction func passwordErrorBtn(_ sender: UIButton) {
+        if passwordErrorLblView.isHidden {
+            passwordErrorLblView.isHidden = false
+        } else {
+            passwordErrorLblView.isHidden = true
+        }
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == EmailTextField {
+             emailErrorView.isHidden = true
+             emailErrorLblView.isHidden = true
+        } else if textField == passwordTextField {
+            passwordErrorView.isHidden = true
+            passwordErrorLblView.isHidden = true
+        }
+    }
 }
+

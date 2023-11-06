@@ -42,6 +42,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBOutlet weak var detailProfileImage: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var requestJoinButton: UIButton!
+    @IBOutlet weak var detailBackBtn: UIButton!
     var locationSelectedHandler: ((String) -> Void)?
     weak var delegate: DetailViewControllerDelegate?
     weak var delegatetwo: DetailDelegate?
@@ -55,8 +56,11 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var isDoneButtonHidden = true
     var activityID: String?
     var userID: String?
+    var comingFromHome = true
     var isRequestToJoin = true
+    var backBtnHidden = false
     var isOwner: Bool = false
+    var labelText: String?
     var requestStatus: Int = 0
     var selectedMarker: GMSMarker?
     var selectedRegion: GMSCoordinateBounds?
@@ -67,7 +71,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     //MARK: - Override Functions
     override func viewDidLoad() {
       super.viewDidLoad()
-      //activityDetailAPICall()
       detailSearchBar.isHidden = isSearchBarHidden
       detailViewOne.isHidden = areViewsHidden
       detailViewTwo.isHidden = areViewsHidden
@@ -75,12 +78,23 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
       detailSearchBar.delegate = self
       deleteButton.isHidden = isdelButtonHidden
       detailDoneButton.isHidden = isDoneButtonHidden
+      detailBackBtn.isHidden = backBtnHidden
       detailMapView.delegate = self
       detailMapView.settings.compassButton = true
       detailMapView.settings.myLocationButton = true
+      if let labelText = labelText {
+        detailBackLabel.text = labelText
+        let attributedText = NSAttributedString(string: labelText, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 21, weight: .bold)])
+        detailBackLabel.attributedText = attributedText
+      }
       if expandMapHeight {
           let screenHeight = UIScreen.main.bounds.size.height
           detailMapHeight.constant = screenHeight
+      }
+      if comingFromHome == false {
+          detailMapView.isUserInteractionEnabled = true
+      } else {
+          detailMapView.isUserInteractionEnabled = false
       }
         detailMapView.isMyLocationEnabled = true
         if let locationInfo = selectedLocationInfo {
@@ -95,7 +109,13 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 15)
             detailMapView.camera = camera
         }
-        
+        if let selectedLocationCoordinate = selectedLocationCoordinate {
+            let camera = GMSCameraPosition.camera(withTarget: selectedLocationCoordinate, zoom: 15)
+                detailMapView.camera = camera
+                let marker = GMSMarker(position: selectedLocationCoordinate)
+                marker.title = "Selected Location"
+                marker.map = detailMapView
+        }
         let userid = UserDefaults.standard.string(forKey: "userID")
         self.isRequestToJoin = UserDefaults.standard.bool(forKey: userid ?? "")
           if self.isRequestToJoin == false {
@@ -114,7 +134,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
              homeVC?.addDetailsLocLabel.text = annotation.title
          }
     }
-    
+
         //MARK: - API Calling
     func activityDetailAPICall() {
         let endPoint = APIConstants.Endpoints.activityDetail
@@ -192,13 +212,22 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
           if let responseData = String(data: data, encoding: .utf8) {
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
-             // self.showAlert(title: "Alert", message: "Activity Deleted Sucessfully")
-                    self.navigationController?.popViewController(animated: true)
-           }
+              self.showAlerttwo(title: "Success", message: "Activity deleted successfully") {
+                  self.navigationController?.popViewController(animated: true)
+              }
+            }
          }
       }
       task.resume()
    }
+    func showAlerttwo(title: String, message: String, completion: @escaping () -> Void) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            completion()
+        }
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
     func joinActivityApiCall() {
         let endPoint = APIConstants.Endpoints.joinActivity
         let urlString = APIConstants.baseURL + endPoint
@@ -350,8 +379,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     func updateData(with responseData: Data) {
         do {
             if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
-               let body = jsonObject["body"] as? [String: Any] {
-
+               let body = jsonObject["body"] as? [String: Any],
+               let latitude = Double(body["latitude"] as? String ?? "0"),
+               let longitude = Double(body["longitude"] as? String ?? "0") {
                 DispatchQueue.main.async {
                     self.detailTitleLbl.text = body["owner_title"] as? String
                     self.detailActivityLbl.text = body["activity"] as? String
@@ -363,6 +393,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     self.detailGenderLbl.text = body["gender"] as? String
                     self.detailParticipantLbl.text = body["number"] as? String
                     self.detailLocationLbl.text = body["location"] as? String
+                    self.selectedLocationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                     self.activityID = body["activity_id"] as? String
                     self.userID = body["owner_id"] as? String
                     if let avatarURLString = body["avatar"] as? String {

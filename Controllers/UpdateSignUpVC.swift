@@ -49,6 +49,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         styleViews()
+        updateNameField.delegate = self
         updateAboutField.delegate = self
         setupKeyboardDismiss()
         setupTapGesture(for: updateAgeView, action: #selector(showAgeActionSheet))
@@ -286,17 +287,35 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBAction func backButton(_ sender: UIButton) {
         dismiss(animated: false, completion: nil)
     }
+    func ValidationCode() {
+        if updateNameField.text == "" {
+            updateNameView.layer.borderColor = UIColor.red.cgColor
+            showAlert(title: "Alert", message: "Please write your name")
+        }
+        else if updateAboutField.text == "" {
+            updateAboutView.layer.borderColor = UIColor.red.cgColor
+            showAlert(title: "Alert", message: "Please write something about yourself")
+        }
+        else {
+            apiCall()
+        }
+    }
     @IBAction func forwardButton(_ sender: UIButton) {
-        apiCall()
+        ValidationCode()
     }
 }
 
    //MARK: - Extension TextField
    extension UpdateSignUpVC: UITextFieldDelegate {
 
-   func textFieldDidBeginEditing(_ textField: UITextField) {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
         activeTextField = textField
-   }
+            if textField == updateNameField {
+                updateNameView.layer.borderColor = UIColor.lightGray.cgColor
+            } else if textField == updateAboutField {
+                updateAboutView.layer.borderColor = UIColor.lightGray.cgColor
+            }
+    }
    func textFieldDidEndEditing(_ textField: UITextField) {
         activeTextField = nil
    }

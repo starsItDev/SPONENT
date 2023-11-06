@@ -15,6 +15,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     @IBOutlet weak var connectTableView: UITableView!
     @IBOutlet weak var chatView: GradientView!
     @IBOutlet weak var chatTextField: UITextField!
+    @IBOutlet weak var transparentView: UIView!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ConnectVC>()
     var connections: [Connection] = []
     var selectedReceiverID: String?
@@ -73,15 +74,17 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     }
     //MARK: - Helper functions
     func chatImageViewTapped(in cell: ConnectTableViewCell) {
-            chatView.isHidden = false
+        chatView.isHidden = false
+        transparentView.isHidden = false
     }
     func setupKeyboardDismiss() {
-           textFieldDelegateHelper.configureTapGesture(for: view, in: self)
+        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
     
     //MARK: - Actions
     @IBAction func chatCancelButton(_ sender: UIButton) {
         chatView.isHidden = true
+        transparentView.isHidden = true
     }
 }
 
@@ -93,6 +96,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectTableViewCell
+        cell.delegate = self
         cell.layer.borderWidth = 3
         cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
         let connection = connections[indexPath.row]
@@ -113,6 +117,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         chatView.isHidden = true
+        transparentView.isHidden = true
         let conversation = connections[indexPath.row]
         selectedReceiverID = conversation.userID
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
