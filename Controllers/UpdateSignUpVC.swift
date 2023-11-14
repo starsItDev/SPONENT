@@ -15,6 +15,7 @@ struct UserProfileData {
     var gender: String?
     var category: String?
     var aboutMe: String?
+    var categoryID: Int?
 }
 
 class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -35,7 +36,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var updateNameField: UITextField!
     @IBOutlet weak var updateAboutField: UITextField!
     @IBOutlet weak var updateScrollView: UIScrollView!
-    var updateCategoryId: String?
     var actions: [UIAlertAction] = []
     var activeTextField: UITextField?
     var tapGestureRecognizer: UITapGestureRecognizer?
@@ -44,6 +44,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     let Updategenders = ["Male", "Female"]
     var Updatecategories: [Category] = []
     var userProfileData: UserProfileData?
+    var categoryID: Int?
        
     //MARK: - Override Fuction
     override func viewDidLoad() {
@@ -86,6 +87,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
             updateAgeLabel.text = userProfileData.age
             updateGenderLabel.text = userProfileData.gender
             updateCategoryLabel.text = userProfileData.category
+            self.categoryID = userProfileData.categoryID
             updateAboutField.text = userProfileData.aboutMe
             updateAgeLabel.textColor = .black
             updateGenderLabel.textColor = .black
@@ -97,10 +99,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     func apiCall(){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
               let userlocation = appDelegate.userLocation,
-              let name = updateNameField.text, !name.isEmpty,
-              let age = updateAgeLabel.text, !age.isEmpty,
-              let gender = updateGenderLabel.text, !gender.isEmpty,
-              let aboutMe = updateAboutField.text, !aboutMe.isEmpty,
               let location = updateLocationLabel.text, !location.isEmpty
         else {
                 showAlert(title: "Alert", message: "Please fill in all required fields")
@@ -127,14 +125,14 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
 
         var body = Data()
         let textFields = [
-                "name": name,
-                "age": age,
-                "gender": gender,
-                "aboutMe": aboutMe,
-                "category_id": self.updateCategoryId ?? "",
-                "location[latitude]": String(latitude),
-                "location[longitude]": String(longitude),
-                "location[location]": location
+            "name": updateNameField.text ?? "",
+            "age": updateAgeLabel.text ?? "",
+            "gender": updateGenderLabel.text ?? "",
+            "aboutMe": updateAboutField.text ?? "",
+            "category_id": self.categoryID ?? "",
+            "location[latitude]": String(latitude),
+            "location[longitude]": String(longitude),
+            "location[location]": location
         ] as [String : Any]
         for (key, value) in textFields {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
@@ -245,7 +243,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         for category in Updatecategories {
             let actionOne = UIAlertAction(title: category.title, style: .default) { [weak self] _ in
                 self?.updateCategoryLabel.text = category.title
-                self?.updateCategoryId = category.categoryID
+                self?.categoryID = Int(category.categoryID)
                 self?.updateCategoryLabel.textColor = .black
             }
             actions.append(actionOne)

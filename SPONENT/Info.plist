@@ -2,8 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GIDClientID</key>
+	<string>389772383867-p2p10dfbp95kf07l6n559irhsnfrb47c.apps.googleusercontent.com</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to show nearby events.</string>
+	<string>We need your location to show nearby events.</string>
+    <key>CFBundleURLTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleURLName</key>
+                <string></string>
+                <key>CFBundleURLSchemes</key>
+                <array>
+                    <string>com.googleusercontent.apps.389772383867-p2p10dfbp95kf07l6n559irhsnfrb47c</string>
+                </array>
+            </dict>
+        </array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
     
     //MARK: - Variables
     @IBOutlet weak var ageView: UIView!
@@ -31,6 +31,11 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var passWordTxtField: UITextField!
     @IBOutlet weak var aboutMeTxtField: UITextField!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var confirmPasswdView: UIView!
+    @IBOutlet weak var passwordEye: UIButton!
+    @IBOutlet weak var confirmPasswdText: UITextField!
+    @IBOutlet weak var confirmPasswdEye: UIButton!
+    @IBOutlet weak var categoryTopConstraint: NSLayoutConstraint!
     var actions: [UIAlertAction] = []
     var activeTextField: UITextField?
     var tapGestureRecognizer: UITapGestureRecognizer?
@@ -39,14 +44,30 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let genders = ["Male", "Female"]
     var categories: [Category] = []
     var updateCategoryId: String?
-    
+    var locationManager:CLLocationManager!
+    var name: String?
+    var email: String?
+    var isSocialLogin: Bool?
+    var socialID: String?
+    var socialType: String?
+
     //MARK: - Override func
     override func viewDidLoad() {
         super.viewDidLoad()
+        if isSocialLogin ?? false {
+            nameTxtField.text = self.name
+            emailTxtField.text = self.email
+            nameTxtField.isUserInteractionEnabled = false
+            emailTxtField.isUserInteractionEnabled = false
+            passwdView.isHidden = true
+            confirmPasswdView.isHidden = true
+            NSLayoutConstraint(item: favCategoryView!, attribute: .top, relatedBy: .equal, toItem: emailView, attribute: .bottom, multiplier: 1, constant: 12).isActive = true
+        }
         styleViews()
         nameTxtField.delegate = self
         emailTxtField.delegate = self
         passWordTxtField.delegate = self
+        confirmPasswdText.delegate = self
         aboutMeTxtField.delegate = self
         setupKeyboardDismiss()
         setupTapGesture(for: ageView, action: #selector(showAgeActionSheet))
@@ -61,23 +82,52 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                    print("API call error: \(error)")
                }
            }
+        locationManager = CLLocationManager()
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.requestAlwaysAuthorization()
+
+            if CLLocationManager.locationServicesEnabled(){
+                locationManager.startUpdatingLocation()
+            }
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
-                let geocoder = CLGeocoder()
-                geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-                  if let placemark = placemarks?.first {
-                     if let locality = placemark.locality {
-                        self.locationLabel.text = locality
-                        self.locationLabel.textColor = .black
-                    } else {
-                        self.locationLabel.text = "\(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)"
+                    let geocoder = CLGeocoder()
+                    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+                        if let placemark = placemarks?.first {
+                            if let locationName = placemark.name {
+                                self.locationLabel.text = locationName
+                                self.locationLabel.textColor = .black
+                            } else {
+                                self.locationLabel.text = "Location Not Found"
+                            }
+                        }
                     }
                 }
-            }
-        }
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     //MARK: - API Calling
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        let userLocation :CLLocation = locations[0] as CLLocation
+//
+//        let geocoder = CLGeocoder()
+//        geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+//            if (error != nil){
+//                print("error in reverseGeocode")
+//            }
+//            let placemark = placemarks! as [CLPlacemark]
+//            if placemark.count>0{
+//                let placemark = placemarks![0]
+//                //print(placemark.region!)
+//               // print(placemark.subThoroughfare!)
+//               // print(placemark.thoroughfare!)
+//                print(placemark.name!)
+//
+//                self.locationLabel.text = "\(placemark.name!), \(placemark.locality!)"
+//                self.locationLabel.textColor = .black
+//            }
+//        }
+//    }
     func apiCalltwo(completion: @escaping (Result<CategoriesModel, Error>) -> Void) {
         let endpoint = APIConstants.Endpoints.categories
         let urlString = APIConstants.baseURL + endpoint
@@ -114,15 +164,9 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     func apiCall() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
               let userLocation = appDelegate.userLocation,
-              let name = nameTxtField.text, !name.isEmpty,
-              let email = emailTxtField.text, !email.isEmpty,
-              let password = passWordTxtField.text, !password.isEmpty,
-              let age = ageLabel.text, !age.isEmpty,
-              let gender = genderLabel.text, !gender.isEmpty,
-              let aboutMe = aboutMeTxtField.text, !aboutMe.isEmpty,
               let location = locationLabel.text, !location.isEmpty
         else {
-            showAlert(title: "Alert", message: "Please fill in all required fields")
+            showAlert(title: "Alert", message: "Please enable location for Signup")
             return
         }
 
@@ -145,19 +189,23 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
 
         var body = Data()
 
-        let textFields = [
-            "name": name,
-            "email": email,
-            "password": password,
-            "age": age,
-            "gender": gender,
-            "aboutMe": aboutMe,
+        var textFields = [
+            "name": nameTxtField.text ?? "",
+            "email": emailTxtField.text ?? "",
+            "password": passWordTxtField.text ?? "",
+            "age": ageLabel.text ?? "",
+            "gender": genderLabel.text ?? "",
+            "aboutMe": aboutMeTxtField.text ?? "",
             "category_id": self.updateCategoryId ?? "",
             "location[latitude]": String(latitude),
             "location[longitude]": String(longitude),
             "location[location]": location
         ] as [String : Any]
 
+        if isSocialLogin ?? false {
+            textFields.updateValue(self.socialID ?? "", forKey: "socialId")
+            textFields.updateValue(self.socialType ?? "", forKey: "socialType")
+        }
         for (key, value) in textFields {
             body.append("--\(boundary)\r\n".data(using: .utf8)!)
             body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
@@ -177,24 +225,38 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         request.httpBody = body
 
         URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                guard error == nil else {
                     self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                    return
                 }
-                return
-            }
-
-            if let httpResponse = response as? HTTPURLResponse {
-                DispatchQueue.main.async {
-                    if httpResponse.statusCode == 200 {
-                        print("OKKKKK")
-                        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
-                            vc.modalPresentationStyle = .fullScreen
-                            self.present(vc, animated: false)
-                         }
-                    } else {
-                        self.showAlert(title: "Error", message: "Invalid Email or Password")
+                guard let data = data else {
+                    print("Data not received.")
+                    return
+                }
+                do {
+                    if let httpResponse = response as? HTTPURLResponse {
+                        if httpResponse.statusCode == 200 {
+                            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                                let body = json["body"] as? [String: Any]
+                                if let userId = body?["user_id"] as? String,
+                                   let apikey = body?["apikey"] as? String {
+                                    UserDefaults.standard.set(userId, forKey: "userID")
+                                    UserDefaults.standard.set(apikey, forKey: "apikey")
+                                    print(apikey)
+                                    
+                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+                                        tabBarController.modalPresentationStyle = .fullScreen
+                                        self.present(tabBarController, animated: false, completion: nil)
+                                    }
+                                }
+                            }
+                        } else {
+                            self.showAlert(title: "Error", message: "Invalid Email or Password")
+                        }
                     }
+                } catch {
+                    print("Error parsing JSON: \(error)")
                 }
             }
         }.resume()
@@ -210,7 +272,33 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             self.present(vc, animated: false)
         }
     }
-
+    @IBAction func passwdEyeBtn(_ sender: UIButton) {
+        if passWordTxtField.isSecureTextEntry {
+            passWordTxtField.isSecureTextEntry = false
+            let eyeImage = UIImage(systemName: "eye")
+            passwordEye.setImage(eyeImage, for: .normal)
+            passwordEye.tintColor = .darkGray
+        } else {
+            passWordTxtField.isSecureTextEntry = true
+            let eyeSlashImage = UIImage(systemName: "eye.slash")
+            passwordEye.setImage(eyeSlashImage, for: .normal)
+            passwordEye.tintColor = .lightGray
+        }
+    }
+    @IBAction func confirmPasswdEyeBtn(_ sender: UIButton) {
+        if confirmPasswdText.isSecureTextEntry {
+            confirmPasswdText.isSecureTextEntry = false
+            let eyeImage = UIImage(systemName: "eye")
+            confirmPasswdEye.setImage(eyeImage, for: .normal)
+            confirmPasswdEye.tintColor = .darkGray
+        } else {
+            confirmPasswdText.isSecureTextEntry = true
+            let eyeSlashImage = UIImage(systemName: "eye.slash")
+            confirmPasswdEye.setImage(eyeSlashImage, for: .normal)
+            confirmPasswdEye.tintColor = .lightGray
+        }
+    }
+    
     //MARK: - Helper functions
     func styleViews() {
         ageView.applyBorder()
@@ -218,6 +306,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         nameView.applyBorder()
         emailView.applyBorder()
         passwdView.applyBorder()
+        confirmPasswdView.applyBorder()
         favCategoryView.applyBorder()
         aboutView.applyBorder()
         locationView.applyBorder()
@@ -295,49 +384,72 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         scrollView.scrollIndicatorInsets = contentInsets
     }
     func ValidationCode() {
-        if let email = emailTxtField.text, let password = passWordTxtField.text {
+        if let email = emailTxtField.text, let password = passWordTxtField.text, let confirm = confirmPasswdText.text {
+
+        if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == "" || passWordTxtField.text == "" || confirmPasswdText.text == "" || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
             if ageLabel.text == "Age" {
                 ageView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Select Age")
             }
-            else if genderLabel.text == "Gender" {
+            if genderLabel.text == "Gender" {
                 genderView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Select gender")
             }
-            else if nameTxtField.text == "" {
+            if nameTxtField.text == "" {
                 nameView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Please write your name")
             }
-            else if emailTxtField.text == "" {
+            if emailTxtField.text == "" {
                 emailView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Please write your email")
             }
-             else if !email.validateEmailId() {
-                 emailView.layer.borderColor = UIColor.red.cgColor
-                 showAlert(title: "Alert", message: "Please enter correct email")
-            }
-            else if passWordTxtField.text == "" {
+            if passWordTxtField.text == "" {
                 passwdView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Please enter your password")
             }
-            else if password.count < 6 {
+            if confirmPasswdText.text == "" {
+                confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+            }
+            if favCategoryLabel.text == "Select Your Favourite Category" {
+                favCategoryView.layer.borderColor = UIColor.red.cgColor
+            }
+            if aboutMeTxtField.text == "" {
+                aboutView.layer.borderColor = UIColor.red.cgColor
+            }
+            showAlert(title: "Alert", message: "Please fill in all required fields")
+        } else {
+            emailView.layer.borderColor = UIColor.lightGray.cgColor
+            passwdView.layer.borderColor = UIColor.lightGray.cgColor
+            confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
+            
+            if !email.validateEmailId() {
+                emailView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Please enter a correct email")
+                return
+            } else {
+                emailView.layer.borderColor = UIColor.lightGray.cgColor
+            }
+            if password.count < 6 {
                 passwdView.layer.borderColor = UIColor.red.cgColor
                 showAlert(title: "Alert", message: "Password should be at least 6 characters")
+                return
+            } else {
+                passwdView.layer.borderColor = UIColor.lightGray.cgColor
             }
-            else if favCategoryLabel.text == "Select Your Favourite Category" {
-                favCategoryView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Select your favourite category")
+            if confirm.count < 6 {
+                confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Confirm password should be at least 6 characters")
+                return
+            } else {
+                confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
             }
-            else if aboutMeTxtField.text == "" {
-                aboutView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Please write something about yourself")
+            if password != confirm {
+                passwdView.layer.borderColor = UIColor.red.cgColor
+                confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+                showAlert(title: "Alert", message: "Both passwords should be the same")
+                return
             }
-            else {
-                apiCall()
-            }
-        }
-    }
+            apiCall()
+         }
+      }
+   }
 }
+
 //MARK: - Extension TextField
 extension SignUpVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -348,8 +460,10 @@ extension SignUpVC: UITextFieldDelegate {
                 emailView.layer.borderColor = UIColor.lightGray.cgColor
             } else if textField == passWordTxtField {
                 passwdView.layer.borderColor = UIColor.lightGray.cgColor
+            } else if textField == confirmPasswdText {
+                confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
             } else if textField == aboutMeTxtField {
-                aboutView.layer.borderColor = UIColor.lightGray.cgColor
+               aboutView.layer.borderColor = UIColor.lightGray.cgColor
             }
     }
     func textFieldDidEndEditing(_ textField: UITextField) {

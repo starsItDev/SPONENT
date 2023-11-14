@@ -52,6 +52,9 @@
 		E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */; };
 		E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */; };
 		E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C3656A2AB1BA4300B7E6FB /* MessagesTableViewCell.swift */; };
+		E0CAC4DE2AFB6A5200D9A876 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = E0CAC4DD2AFB6A5200D9A876 /* GoogleSignIn */; };
+		E0CAC4E12AFB702500D9A876 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = E0CAC4E02AFB702500D9A876 /* GoogleSignIn */; };
+		E0CAC4E32AFB702500D9A876 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E0CAC4E22AFB702500D9A876 /* GoogleSignInSwift */; };
 		E0CACB602ACFDD3F00B62057 /* UserActivityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CACB5F2ACFDD3F00B62057 /* UserActivityModel.swift */; };
 		E0CE876A2AE7949E00311914 /* ActivtyRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CE87692AE7949E00311914 /* ActivtyRequests.swift */; };
 		E0D10A902AE13F9A00BA188E /* AcceptedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D10A8F2AE13F9A00BA188E /* AcceptedTableViewCell.swift */; };
@@ -88,6 +91,7 @@
 		E0A0E21D2AF2305D0090B6C0 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		E0AA26CA2A864361002CDACA /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		E0ACDE182B01FFDA004FE395 /* SPONENT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SPONENT.entitlements; sourceTree = "<group>"; };
 		E0AD05872ADFF5C000DC1D2F /* MapActivities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapActivities.swift; sourceTree = "<group>"; };
 		E0AD40702A8CF150007576C3 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		E0AE75712AD7D25500BE7DAC /* ProfileActivityCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileActivityCell.swift; sourceTree = "<group>"; };
@@ -140,9 +144,12 @@
 				E0AB64602A9F0CB200F4F299 /* GoogleMaps in Frameworks */,
 				E0AB64642A9F0CB200F4F299 /* GoogleMapsCore in Frameworks */,
 				E0FCE59C2AB1E98A0010D419 /* MessageKit in Frameworks */,
+				E0CAC4E12AFB702500D9A876 /* GoogleSignIn in Frameworks */,
 				E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */,
 				E0AB64682A9F0CB200F4F299 /* GooglePlaces in Frameworks */,
 				E0AB64622A9F0CB200F4F299 /* GoogleMapsBase in Frameworks */,
+				E0CAC4DE2AFB6A5200D9A876 /* GoogleSignIn in Frameworks */,
+				E0CAC4E32AFB702500D9A876 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -253,6 +260,7 @@
 		E0B664CC2A84FEEA00537CAE /* SPONENT */ = {
 			isa = PBXGroup;
 			children = (
+				E0ACDE182B01FFDA004FE395 /* SPONENT.entitlements */,
 				E0B664DB2A84FEEB00537CAE /* Info.plist */,
 			);
 			path = SPONENT;
@@ -372,6 +380,9 @@
 				76D5C5ED2AB069DA00C6E4DC /* Kingfisher */,
 				E0FCE59B2AB1E98A0010D419 /* MessageKit */,
 				769569B42AC5900300A99725 /* SocketIO */,
+				E0CAC4DD2AFB6A5200D9A876 /* GoogleSignIn */,
+				E0CAC4E02AFB702500D9A876 /* GoogleSignIn */,
+				E0CAC4E22AFB702500D9A876 /* GoogleSignInSwift */,
 			);
 			productName = SPONENT;
 			productReference = E0B664CA2A84FEEA00537CAE /* SPONENT.app */;
@@ -406,6 +417,8 @@
 				76D5C5EC2AB069DA00C6E4DC /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				E0FCE59A2AB1E98A0010D419 /* XCRemoteSwiftPackageReference "MessageKit" */,
 				769569B32AC5900300A99725 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
+				E0CAC4DC2AFB6A5200D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				E0CAC4DF2AFB702500D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = E0B664CB2A84FEEA00537CAE /* Products */;
 			projectDirPath = "";
@@ -629,6 +642,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SPONENT/SPONENT.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 78WAT2H6ZN;
@@ -658,6 +672,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SPONENT/SPONENT.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 78WAT2H6ZN;
@@ -730,6 +745,22 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		E0CAC4DC2AFB6A5200D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		E0CAC4DF2AFB702500D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		E0FCE59A2AB1E98A0010D419 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit";
@@ -775,6 +806,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;
 			productName = GooglePlaces;
+		};
+		E0CAC4DD2AFB6A5200D9A876 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0CAC4DC2AFB6A5200D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		E0CAC4E02AFB702500D9A876 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0CAC4DF2AFB702500D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		E0CAC4E22AFB702500D9A876 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0CAC4DF2AFB702500D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 		E0FCE59B2AB1E98A0010D419 /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;

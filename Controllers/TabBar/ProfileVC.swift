@@ -65,6 +65,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
     var selectedLocationLongitude: Double?
     var labelText: String?
     var dismissViewTap: UITapGestureRecognizer?
+    var categoryID: Int?
 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -207,6 +208,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
                     self.loctionLabel.text = body["location"] as? String
                     self.aboutMeLabel.text = body["about_me"] as? String
                     self.sportNameLabel.text = body["category_name"] as? String
+                    self.categoryID = body["category_id"] as? Int
                     if let avatarURLString = body["avatar"] as? String {
                         self.loadImage(from: avatarURLString, into: self.imgProfileView, placeholder: UIImage(named: "placeholderImage"))
                     }
@@ -328,7 +330,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
-                    //self.blockButton.setTitle("Block", for: .normal)
                     self.showAlert(title: "Unblocked User", message: responseData)
                 }
             }
@@ -485,6 +486,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
         }
         task.resume()
     }
+    
     //MARK: - Actions
     @IBAction func profileSegmentControl(_ sender: UISegmentedControl) {
         settingStackView.isHidden = true
@@ -499,16 +501,19 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
             profileActivityView.isHidden = false
             profileFollowerView.isHidden = true
             profileFollowingView.isHidden = true
+            getActivityAPiCall()
         case 2:
             profileSegmentView.isHidden = true
             profileActivityView.isHidden = true
             profileFollowerView.isHidden = false
             profileFollowingView.isHidden = true
+            followingAPICall()
         case 3:
             profileSegmentView.isHidden = true
             profileActivityView.isHidden = true
             profileFollowerView.isHidden = true
             profileFollowingView.isHidden = false
+            followingAPICall()
         default:
             break
         }
@@ -529,6 +534,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
             userProfileData.gender = genderLabel.text
             userProfileData.category = sportNameLabel.text
             userProfileData.aboutMe = aboutMeLabel.text
+            userProfileData.categoryID = self.categoryID
             controller.userProfileData = userProfileData
             self.present(controller, animated: false)
         }
@@ -543,6 +549,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
     @IBAction func signOutButton(_ sender: UIButton) {
         UserDefaults.standard.set("", forKey: "userID")
         UserDefaults.standard.set("", forKey: "apikey")
+        UserDefaults.standard.set("", forKey: "password")
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
@@ -552,18 +559,58 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
         if !changePasswordView.isHidden {
             changePasswordView.isHidden = true
             transparenView.isHidden = true
+            oldPasswordField.text = ""
+            newPasswordField.text = ""
+            confirmPasswordField.text = ""
         }
     }
     @IBAction func updateOkButton(_ sender: UIButton) {
-        guard let oldPassword = oldPasswordField.text,
-              let newPassword = newPasswordField.text,
-              let confirmPassword = confirmPasswordField.text,
-              !oldPassword.isEmpty,
-              !newPassword.isEmpty,
-              !confirmPassword.isEmpty else {
-                showAlert(title: "Alert", message: "Please fill in all text fields.")
-                return
-        }
+        if let oldPassword = oldPasswordField.text,
+        let newPassword = newPasswordField.text,
+           let confirmPassword = confirmPasswordField.text {
+
+               if oldPassword == "" || newPassword == "" || confirmPassword == "" {
+                  
+                   if oldPassword == "" {
+                       oldPasswordField.layer.borderColor = UIColor.red.cgColor
+                   }
+                   if newPassword == "" {
+                       newPasswordField.layer.borderColor = UIColor.red.cgColor
+                   }
+                   if confirmPassword == "" {
+                       confirmPasswordField.layer.borderColor = UIColor.red.cgColor
+                   }
+                   showAlert(title: "Alert", message: "Please fill in all required fields")
+               } else {
+                   if let storedPassword = UserDefaults.standard.string(forKey: "password"), oldPassword != storedPassword {
+                            oldPasswordField.layer.borderColor = UIColor.red.cgColor
+                            showAlert(title: "Alert", message: "Incorrect old password")
+                        return
+               }
+                   oldPasswordField.layer.borderColor = UIColor.lightGray.cgColor
+                   newPasswordField.layer.borderColor = UIColor.lightGray.cgColor
+                   confirmPasswordField.layer.borderColor = UIColor.lightGray.cgColor
+                   
+                   if newPassword.count < 6 {
+                       newPasswordField.layer.borderColor = UIColor.red.cgColor
+                       showAlert(title: "Alert", message: "Password should be at least 6 characters")
+                       return
+                   } else {
+                       newPasswordField.layer.borderColor = UIColor.lightGray.cgColor
+                   }
+                   if confirmPassword.count < 6 {
+                       confirmPasswordField.layer.borderColor = UIColor.red.cgColor
+                       showAlert(title: "Alert", message: "Confirm password should be at least 6 characters")
+                       return
+                   } else {
+                       confirmPasswordField.layer.borderColor = UIColor.lightGray.cgColor
+                   }
+                   if newPassword != confirmPassword {
+                       newPasswordField.layer.borderColor = UIColor.red.cgColor
+                       confirmPasswordField.layer.borderColor = UIColor.red.cgColor
+                       showAlert(title: "Alert", message: "Both passwords should be the same")
+                       return
+                   }
         
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = Data()
@@ -611,11 +658,14 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
                 DispatchQueue.main.async {
                     self.changePasswordView.isHidden = true
                     self.transparenView.isHidden = true
+                    self.showAlert(title: "Alert", message: "Password changed successfully")
                 }
             }
         }
         task.resume()
-    }
+      }
+   }
+}
     @IBAction func followButton(_ sender: UIButton) {
         if let userID = receiverID {
             if userFollowStatus[userID] == true {
@@ -641,7 +691,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
                 userBlockStatus[userID] = false
                 blockButton.setTitle("Block", for: .normal)
                 UserDefaults.standard.set(false, forKey: "BlockStatus_\(userID)")
-
             } else {
                 blockapiCall()
                 userBlockStatus[userID] = true
@@ -649,6 +698,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
                 UserDefaults.standard.set(true, forKey: "BlockStatus_\(userID)")
             }
         }
+        userSettingStackView.isHidden = true
     }
     @IBAction func reportButton(_ sender: UIButton) {
         reportApiCall()
@@ -665,6 +715,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
         changePasswordView.isHidden = true
         profileBackButton.isHidden = isProfileBackButtonHidden
         followButton.isHidden = isFollowButtonHidden
+        oldPasswordField.delegate = self
+        newPasswordField.delegate = self
+        confirmPasswordField.delegate = self
         oldPasswordField.layer.cornerRadius = 5
         oldPasswordField.layer.borderWidth = 1.0
         oldPasswordField.layer.borderColor = UIColor.gray.cgColor
@@ -699,7 +752,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
     func updateFollowButtonTitle() {
         if let userID = receiverID {
             let followStatus = UserDefaults.standard.bool(forKey: "FollowStatus_\(userID)")
-            if followStatus == true {
+            userFollowStatus[userID] = followStatus
+            if followStatus {
                 followButton.setTitle("Unfollow", for: .normal)
             } else {
                 followButton.setTitle("Follow", for: .normal)
@@ -709,7 +763,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
     func updateBlockButtonTitle() {
         if let userID = receiverID {
             let blockStatus = UserDefaults.standard.bool(forKey: "BlockStatus_\(userID)")
-            if blockStatus == true {
+            userBlockStatus[userID] = blockStatus
+            if blockStatus {
                 blockButton.setTitle("Unblock", for: .normal)
             } else {
                 blockButton.setTitle("Block", for: .normal)
@@ -723,6 +778,15 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
                    self?.selectedLocationLatitude = locationCoordinate.latitude
                    self?.selectedLocationLongitude = locationCoordinate.longitude
             }
+        }
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == oldPasswordField {
+            oldPasswordField.layer.borderColor = UIColor.lightGray.cgColor
+        } else if textField == newPasswordField {
+            newPasswordField.layer.borderColor = UIColor.lightGray.cgColor
+        } else if textField == confirmPasswordField {
+            confirmPasswordField.layer.borderColor = UIColor.lightGray.cgColor
         }
     }
 }

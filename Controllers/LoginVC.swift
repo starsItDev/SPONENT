@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import GoogleSignIn
+import AuthenticationServices
 
 class LoginVC: UIViewController, UITextFieldDelegate {
     
@@ -23,9 +25,14 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwrodErrorLViewLeading: NSLayoutConstraint!
     @IBOutlet weak var passwdErrorLViewHeight: NSLayoutConstraint!
     @IBOutlet weak var fbButton: UIButton!
-    @IBOutlet weak var googleButton: UIButton!
     @IBOutlet weak var transparentView: GradientView!
+    @IBOutlet weak var loginPasswdEye: UIButton!
+    @IBOutlet weak var googleSignIn: UIButton!
+    @IBOutlet weak var socialStackView: UIStackView!
+    @IBOutlet weak var appleSignIn: ASAuthorizationAppleIDButton!
     let textFieldDelegateHelper = TextFieldDelegateHelper<LoginVC>()
+    var socialEmail: String?
+    var socialName: String?
     
     //MARK: - Override Func
     override func viewDidLoad() {
@@ -33,12 +40,22 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         uiSetUp()
         EmailTextField.delegate = self
         passwordTextField.delegate = self
+        appleSignIn.addTarget(self, action: #selector(appleBtnTapped), for: .touchUpInside)
+        customizeAppleSignInButton()
     }
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
     
     //MARK: - HelperFuntions
+    func customizeAppleSignInButton() {
+        let appleSignInButton = UIButton(type: .custom)
+        let appleLogoImage = UIImage(named: "icons8-apple-logo-48")
+        appleSignInButton.setBackgroundImage(appleLogoImage, for: .normal)
+        appleSignInButton.addTarget(self, action: #selector(appleBtnTapped), for: .touchUpInside)
+        socialStackView.addArrangedSubview(appleSignInButton)
+        appleSignIn.isHidden = true
+    }
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
@@ -60,7 +77,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             "email" : username,
             "password": password
         ]
-        // Create the multipart form data request body
+
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = ""
         
@@ -100,6 +117,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                    let apikey = body?["apikey"] as? String {
                                     UserDefaults.standard.set(userId, forKey: "userID")
                                     UserDefaults.standard.set(apikey, forKey: "apikey")
+                                    UserDefaults.standard.set(password, forKey: "password")
                                     print(apikey)
                                     
                                     if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
@@ -208,8 +226,131 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func facebookBtnTapped(_ sender: UIButton) {
     }
-
+   
     @IBAction func googleBtnTapped(_ sender: UIButton) {
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
+            guard error == nil else { return }
+            guard let signInResult = signInResult else { return }
+            let user = signInResult.user
+            self.socialEmail = user.profile?.email
+            self.socialName = user.profile?.name
+            let id = user.userID
+            let type = "google"
+            let pushId = ""
+            let pushType = "ios"
+            
+            let parameters = [
+                "id": id ?? "",
+                "type": type,
+                "pushId": pushId,
+                 "pushType": pushType
+                ] as [String: Any]
+
+                self.SocialapiCall(parameters: parameters)
+        }
+    }
+    @objc func appleBtnTapped() {
+      let appleIDProvider = ASAuthorizationAppleIDProvider()
+      let request = appleIDProvider.createRequest()
+      request.requestedScopes = [.fullName, .email]
+      let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+      authorizationController.delegate = self
+      authorizationController.performRequests()
+    }
+    func SocialapiCall(parameters: [String: Any]) {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        var body = ""
+        
+        for (key, value) in parameters {
+            body += "--\(boundary)\r\n"
+            body += "Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n"
+            body += "\(value)\r\n"
+        }
+        
+        let endpoint = APIConstants.Endpoints.socialLogin
+        let urlString = APIConstants.baseURL + endpoint
+        
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.httpBody = body.data(using: .utf8)
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                guard error == nil else {
+                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                    return
+                }
+                guard let data = data else {
+                    print("Data not received.")
+                    return
+                }
+                do {
+                    if let httpResponse = response as? HTTPURLResponse {
+                        if httpResponse.statusCode == 200 {
+                            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                                let body = json["body"] as? [String: Any]
+                                if let userId = body?["user_id"] as? String,
+                                   let apikey = body?["apikey"] as? String {
+                                    UserDefaults.standard.set(userId, forKey: "userID")
+                                    UserDefaults.standard.set(apikey, forKey: "apikey")
+                                    print(apikey)
+                                
+                                if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+                                    tabBarController.modalPresentationStyle = .fullScreen
+                                    self.present(tabBarController, animated: false, completion: nil)
+                                }
+                            }
+                        }
+                    } else if httpResponse.statusCode == 201 {
+                            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                                let body = json["body"] as? [String: Any]
+                                if let userExist = body?["userExist"] as? Bool,
+                                  userExist == false {
+                                    if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
+                                            vc.name = self.socialName
+                                            vc.email = self.socialEmail
+                                            vc.isSocialLogin = true
+                                            vc.socialID = parameters["id"] as? String
+                                            vc.socialType = parameters["type"] as? String
+                                        
+                                            vc.modalPresentationStyle = .fullScreen
+                                            self.present(vc, animated: false, completion: nil)
+                                    }
+                                } else if let userId = body?["user_id"] as? String,
+                                          let apikey = body?["apikey"] as? String {
+                                    UserDefaults.standard.set(userId, forKey: "userID")
+                                    UserDefaults.standard.set(apikey, forKey: "apikey")
+                                }
+                            }
+                        }
+                          else {
+                            self.showAlert(title: "Error", message: "SignIn Failed")
+                        }
+                    }
+                } catch {
+                    print("Error parsing JSON: \(error)")
+                }
+            }
+        }.resume()
+    }
+    @IBAction func loginEyeBtn(_ sender: UIButton) {
+        if passwordTextField.isSecureTextEntry {
+            passwordTextField.isSecureTextEntry = false
+            let eyeImage = UIImage(systemName: "eye")
+            loginPasswdEye.setImage(eyeImage, for: .normal)
+            loginPasswdEye.tintColor = .white
+        } else {
+            passwordTextField.isSecureTextEntry = true
+            let eyeSlashImage = UIImage(systemName: "eye.slash")
+            loginPasswdEye.setImage(eyeSlashImage, for: .normal)
+            loginPasswdEye.tintColor = .white
+        }
     }
     func ValidationCode() {
         if let email = EmailTextField.text, let password = passwordTextField.text {
@@ -217,22 +358,26 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                 emailErrorView.isHidden = false
                 emailErrorLblView.isHidden = false
                 emailErrorLabel.text = "Please enter email"
+                loginPasswdEye.isHidden = true
             }
             else if !email.validateEmailId() {
                 emailErrorView.isHidden = false
                 emailErrorLblView.isHidden = false
                 emailErrorLabel.text = "Please enter correct email"
+                loginPasswdEye.isHidden = true
             }
             else if password == "" {
                 passwordErrorView.isHidden = false
+                loginPasswdEye.isHidden = true
                 passwordErrorLblView.isHidden = false
-                passwrodErrorLViewLeading.constant = 200
+                passwrodErrorLViewLeading.constant = 185
                 passwdErrorLViewHeight.constant = 29
                 passwordErrorLbl.textAlignment = .center
                 passwordErrorLbl.text = "Please enter password"
             }
             else if password.count < 6 {
                 passwordErrorView.isHidden = false
+                loginPasswdEye.isHidden = true
                 passwordErrorLblView.isHidden = false
                 passwdErrorLViewHeight.constant = 45
                 passwordErrorLbl.textAlignment = .left
@@ -261,10 +406,39 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         if textField == EmailTextField {
              emailErrorView.isHidden = true
              emailErrorLblView.isHidden = true
+             loginPasswdEye.isHidden = false
         } else if textField == passwordTextField {
             passwordErrorView.isHidden = true
             passwordErrorLblView.isHidden = true
+            loginPasswdEye.isHidden = false
         }
     }
 }
 
+//MARK: - Apple button delegate
+extension LoginVC: ASAuthorizationControllerDelegate{
+  func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if let appleIDCredential = authorization.credential as?  ASAuthorizationAppleIDCredential {
+            let formatter = PersonNameComponentsFormatter()
+            let fullName = appleIDCredential.fullName
+            self.socialName = formatter.string(from: fullName!)
+            self.socialEmail = appleIDCredential.email
+            let id = appleIDCredential.user
+            let type = "apple"
+            let pushId = ""
+            let pushType = "ios"
+        
+        let appleParameters = [
+            "id": id,
+            "type": type,
+            "pushId": pushId,
+             "pushType": pushType
+            ] as [String: Any]
+
+            self.SocialapiCall(parameters: appleParameters)
+    }
+  }
+  func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+    print("Failed!")
+  }
+}
