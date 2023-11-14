@@ -203,8 +203,12 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         ] as [String : Any]
 
         if isSocialLogin ?? false {
+            let socialLoginPassword = "social_login_password"
             textFields.updateValue(self.socialID ?? "", forKey: "socialId")
             textFields.updateValue(self.socialType ?? "", forKey: "socialType")
+            textFields.updateValue(socialLoginPassword , forKey: "password")
+            confirmPasswdText.text = "social_login_password"
+            passWordTxtField.text = "social_login_password"
         }
         for (key, value) in textFields {
             body.append("--\(boundary)\r\n".data(using: .utf8)!)
@@ -386,7 +390,9 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     func ValidationCode() {
         if let email = emailTxtField.text, let password = passWordTxtField.text, let confirm = confirmPasswdText.text {
 
-        if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == "" || passWordTxtField.text == "" || confirmPasswdText.text == "" || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
+        if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == ""
+//            || passWordTxtField.text == "" || confirmPasswdText.text == ""
+            || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
             if ageLabel.text == "Age" {
                 ageView.layer.borderColor = UIColor.red.cgColor
             }
@@ -399,11 +405,13 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             if emailTxtField.text == "" {
                 emailView.layer.borderColor = UIColor.red.cgColor
             }
-            if passWordTxtField.text == "" {
-                passwdView.layer.borderColor = UIColor.red.cgColor
-            }
-            if confirmPasswdText.text == "" {
-                confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+            if isSocialLogin == false {
+                if passWordTxtField.text == "" {
+                    passwdView.layer.borderColor = UIColor.red.cgColor
+                }
+                if confirmPasswdText.text == "" {
+                    confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+                }
             }
             if favCategoryLabel.text == "Select Your Favourite Category" {
                 favCategoryView.layer.borderColor = UIColor.red.cgColor
@@ -424,25 +432,27 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             } else {
                 emailView.layer.borderColor = UIColor.lightGray.cgColor
             }
-            if password.count < 6 {
-                passwdView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Password should be at least 6 characters")
-                return
-            } else {
-                passwdView.layer.borderColor = UIColor.lightGray.cgColor
-            }
-            if confirm.count < 6 {
-                confirmPasswdView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Confirm password should be at least 6 characters")
-                return
-            } else {
-                confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
-            }
-            if password != confirm {
-                passwdView.layer.borderColor = UIColor.red.cgColor
-                confirmPasswdView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Both passwords should be the same")
-                return
+            if isSocialLogin == false {
+                if password.count < 6 {
+                    passwdView.layer.borderColor = UIColor.red.cgColor
+                    showAlert(title: "Alert", message: "Password should be at least 6 characters")
+                    return
+                } else {
+                    passwdView.layer.borderColor = UIColor.lightGray.cgColor
+                }
+                if confirm.count < 6 {
+                    confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+                    showAlert(title: "Alert", message: "Confirm password should be at least 6 characters")
+                    return
+                } else {
+                    confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
+                }
+                if password != confirm {
+                    passwdView.layer.borderColor = UIColor.red.cgColor
+                    confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+                    showAlert(title: "Alert", message: "Both passwords should be the same")
+                    return
+                }
             }
             apiCall()
          }
