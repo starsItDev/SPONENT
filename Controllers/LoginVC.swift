@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FacebookLogin
+import FBSDKLoginKit
 import GoogleSignIn
 import AuthenticationServices
 
@@ -24,9 +26,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordErrorLbl: UILabel!
     @IBOutlet weak var passwrodErrorLViewLeading: NSLayoutConstraint!
     @IBOutlet weak var passwdErrorLViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var fbButton: UIButton!
     @IBOutlet weak var transparentView: GradientView!
     @IBOutlet weak var loginPasswdEye: UIButton!
+    @IBOutlet weak var fbButton: UIButton!
     @IBOutlet weak var googleSignIn: UIButton!
     @IBOutlet weak var socialStackView: UIStackView!
     @IBOutlet weak var appleSignIn: ASAuthorizationAppleIDButton!
@@ -48,6 +50,51 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
     
     //MARK: - HelperFuntions
+    func facebookLogin() {
+        let loginManager = LoginManager()
+        loginManager.logIn(permissions: [.publicProfile, .email], viewController: self) { (result) in
+            switch result {
+            case .cancelled:
+                print("cancelled")
+            case .failed(let error):
+                print(error.localizedDescription)
+            case .success(_, _, _):
+                self.getFBData()
+            }
+        }
+    }
+    func getFBData() {
+        if AccessToken.current != nil {
+            GraphRequest(graphPath: "me", parameters: ["fields": "id, email, name"]).start {
+                (connection, result, error) in
+                if error == nil {
+                    let result = result as! [String: AnyObject] as NSDictionary
+                    self.socialName = result.object(forKey: "name") as? String
+                    self.socialEmail = result.object(forKey: "email") as? String
+                    let id = result.object(forKey: "id") as! String
+                    let type = "facebook"
+                    let pushId = ""
+                    let pushType = "ios"
+                    
+                    let fbParameters: [String: Any] = [
+                        "id": id ,
+                       "type": type,
+                       "pushId": pushId,
+                       "pushType": pushType
+                   ]
+                    self.SocialapiCall(parameters: fbParameters)
+
+                } else {
+                    print(error?.localizedDescription as Any)
+               }
+            }
+        } else {
+            print("access token is nil")
+        }
+    }
+    @IBAction func facebookBtn(_ sender: UIButton) {
+        self.facebookLogin()
+    }
     func customizeAppleSignInButton() {
         let appleSignInButton = UIButton(type: .custom)
         let appleLogoImage = UIImage(named: "icons8-apple-logo-48")
@@ -199,12 +246,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         ValidationCode()
     }
     @IBAction func loginAsGuestButton(_ sender: Any) {
+        EmailTextField.text = "guest@starsfun.com"
+        passwordTextField.text = "123786un"
+        apiCall()
         UserDefaults.standard.set("", forKey: "userID")
         UserDefaults.standard.set("", forKey: "apikey")
-        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-            tabBarController.modalPresentationStyle = .fullScreen
-            self.present(tabBarController, animated: false, completion: nil)
-        }
     }
     @IBAction func signUpButton(_ sender: UIButton) {
         if let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
@@ -224,9 +270,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             forgotPasswordView.isHidden = true
         }
     }
-    @IBAction func facebookBtnTapped(_ sender: UIButton) {
-    }
-   
     @IBAction func googleBtnTapped(_ sender: UIButton) {
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { signInResult, error in
             guard error == nil else { return }

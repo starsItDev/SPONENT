@@ -40,20 +40,27 @@
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="NzN-63-TWh">
                                 <rect key="frame" x="72" y="211" width="270" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vex-Yj-VLm">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vex-Yj-VLm">
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="icons8-facebook-100" title=" ">
-                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="small"/>
-                                        </buttonConfiguration>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="icons8-facebook-100">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content=" ">
+                                                    <attributes>
+                                                        <font key="NSFont" metaFont="system" size="18"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                            <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="small"/>
+                                        </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                 <real key="value" value="68"/>
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="facebookBtnTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hIN-gA-cdO"/>
+                                            <action selector="facebookBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gwd-Ta-RUy"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Agk-Tl-9bX">
@@ -588,7 +595,7 @@
                         <outlet property="emailErrorLabel" destination="Ivd-Hk-Q98" id="AZS-TV-O76"/>
                         <outlet property="emailErrorLblView" destination="efA-lA-kdt" id="R0F-zV-avW"/>
                         <outlet property="emailErrorView" destination="pxR-hi-ovf" id="6az-Ua-Adb"/>
-                        <outlet property="fbButton" destination="vex-Yj-VLm" id="NZl-fd-VwH"/>
+                        <outlet property="fbButton" destination="vex-Yj-VLm" id="n1j-VC-WTY"/>
                         <outlet property="forgotPasswordView" destination="HpS-oj-p49" id="8Jt-J8-3cj"/>
                         <outlet property="forgotTextField" destination="TTE-hU-fmM" id="o9f-mb-jW9"/>
                         <outlet property="googleSignIn" destination="Agk-Tl-9bX" id="RCf-91-VhC"/>

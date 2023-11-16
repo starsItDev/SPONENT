@@ -9,6 +9,8 @@ import UIKit
 import Kingfisher
 import GoogleMaps
 import GooglePlaces
+import GoogleSignIn
+import FBSDKLoginKit
 
 protocol ProfileDelegate: AnyObject {
     func didTapUserProfileSettingButton()
@@ -550,6 +552,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
         UserDefaults.standard.set("", forKey: "userID")
         UserDefaults.standard.set("", forKey: "apikey")
         UserDefaults.standard.set("", forKey: "password")
+        let loginManager = LoginManager()
+        loginManager.logOut()
+        GIDSignIn.sharedInstance.signOut()
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
@@ -917,6 +922,8 @@ extension ProfileVC {
     func getActivityAPiCall(){
         let endPoint = APIConstants.Endpoints.userActivities
         var urlString = APIConstants.baseURL + endPoint
+        urlString += "?limit=100"
+
         if let receiverID = receiverID {
                 urlString += "?id=" + receiverID
             } else if let userID = UserDefaults.standard.string(forKey: "userID") {

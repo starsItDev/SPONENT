@@ -87,7 +87,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.requestAlwaysAuthorization()
 
-            if CLLocationManager.locationServicesEnabled(){
+            if CLLocationManager.locationServicesEnabled() {
                 locationManager.startUpdatingLocation()
             }
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
@@ -388,42 +388,32 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         scrollView.scrollIndicatorInsets = contentInsets
     }
     func ValidationCode() {
-        if let email = emailTxtField.text, let password = passWordTxtField.text, let confirm = confirmPasswdText.text {
-
-        if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == ""
-//            || passWordTxtField.text == "" || confirmPasswdText.text == ""
-            || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
-            if ageLabel.text == "Age" {
+        guard  let email = emailTxtField.text, let password = passWordTxtField.text, let confirm = confirmPasswdText.text else {
+            return
+        }
+        if isSocialLogin == true {
+           if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == "" || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
+                if ageLabel.text == "Age" {
                 ageView.layer.borderColor = UIColor.red.cgColor
-            }
-            if genderLabel.text == "Gender" {
+                }
+                if genderLabel.text == "Gender" {
                 genderView.layer.borderColor = UIColor.red.cgColor
-            }
-            if nameTxtField.text == "" {
-                nameView.layer.borderColor = UIColor.red.cgColor
-            }
-            if emailTxtField.text == "" {
+                }
+                if nameTxtField.text == "" {
+                   nameView.layer.borderColor = UIColor.red.cgColor
+                }
+                if emailTxtField.text == "" {
                 emailView.layer.borderColor = UIColor.red.cgColor
-            }
-            if isSocialLogin == false {
-                if passWordTxtField.text == "" {
-                    passwdView.layer.borderColor = UIColor.red.cgColor
                 }
-                if confirmPasswdText.text == "" {
-                    confirmPasswdView.layer.borderColor = UIColor.red.cgColor
-                }
-            }
-            if favCategoryLabel.text == "Select Your Favourite Category" {
+                if favCategoryLabel.text == "Select Your Favourite Category" {
                 favCategoryView.layer.borderColor = UIColor.red.cgColor
-            }
-            if aboutMeTxtField.text == "" {
+                }
+                if aboutMeTxtField.text == "" {
                 aboutView.layer.borderColor = UIColor.red.cgColor
             }
             showAlert(title: "Alert", message: "Please fill in all required fields")
         } else {
             emailView.layer.borderColor = UIColor.lightGray.cgColor
-            passwdView.layer.borderColor = UIColor.lightGray.cgColor
-            confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
             
             if !email.validateEmailId() {
                 emailView.layer.borderColor = UIColor.red.cgColor
@@ -432,7 +422,48 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             } else {
                 emailView.layer.borderColor = UIColor.lightGray.cgColor
             }
-            if isSocialLogin == false {
+            apiCall()
+         }
+    } else {
+        if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == "" || passWordTxtField.text == "" || confirmPasswdText.text == ""
+            || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
+                if ageLabel.text == "Age" {
+                    ageView.layer.borderColor = UIColor.red.cgColor
+                }
+                if genderLabel.text == "Gender" {
+                    genderView.layer.borderColor = UIColor.red.cgColor
+                }
+                if nameTxtField.text == "" {
+                    nameView.layer.borderColor = UIColor.red.cgColor
+                }
+                if emailTxtField.text == "" {
+                    emailView.layer.borderColor = UIColor.red.cgColor
+                }
+                if passWordTxtField.text == "" {
+                    passwdView.layer.borderColor = UIColor.red.cgColor
+                }
+                if confirmPasswdText.text == "" {
+                    confirmPasswdView.layer.borderColor = UIColor.red.cgColor
+                }
+                if favCategoryLabel.text == "Select Your Favourite Category" {
+                    favCategoryView.layer.borderColor = UIColor.red.cgColor
+                }
+                if aboutMeTxtField.text == "" {
+                    aboutView.layer.borderColor = UIColor.red.cgColor
+                }
+            showAlert(title: "Alert", message: "Please fill in all required fields")
+            } else {
+                emailView.layer.borderColor = UIColor.lightGray.cgColor
+                passwdView.layer.borderColor = UIColor.lightGray.cgColor
+                confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
+                
+                if !email.validateEmailId() {
+                    emailView.layer.borderColor = UIColor.red.cgColor
+                    showAlert(title: "Alert", message: "Please enter a correct email")
+                    return
+                } else {
+                    emailView.layer.borderColor = UIColor.lightGray.cgColor
+                }
                 if password.count < 6 {
                     passwdView.layer.borderColor = UIColor.red.cgColor
                     showAlert(title: "Alert", message: "Password should be at least 6 characters")
@@ -453,9 +484,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                     showAlert(title: "Alert", message: "Both passwords should be the same")
                     return
                 }
-            }
             apiCall()
-         }
+          }
       }
    }
 }

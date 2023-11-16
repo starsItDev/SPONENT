@@ -23,6 +23,7 @@
 		E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */; };
 		E08986B32AC568DD005A102D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E08986B12AC568DD005A102D /* Main.storyboard */; };
 		E0A0E21E2AF2305D0090B6C0 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A0E21D2AF2305D0090B6C0 /* Validation.swift */; };
+		E0A96F212B050018008E8360 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A96F202B050018008E8360 /* RootViewController.swift */; };
 		E0AA26CB2A864361002CDACA /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AA26CA2A864361002CDACA /* HomeVC.swift */; };
 		E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */; };
 		E0AB64602A9F0CB200F4F299 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = E0AB645F2A9F0CB200F4F299 /* GoogleMaps */; };
@@ -48,6 +49,8 @@
 		E0B9593A2AE259E10030A930 /* RejectedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B959392AE259E10030A930 /* RejectedTableViewCell.swift */; };
 		E0BFDFE22ACD37D1006D594D /* ConnectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE12ACD37D1006D594D /* ConnectModel.swift */; };
 		E0BFDFE62ACD7697006D594D /* KingFisher Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */; };
+		E0C05ED72B0494A80097F489 /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = E0C05ED62B0494A80097F489 /* FacebookCore */; };
+		E0C05ED92B0494A80097F489 /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = E0C05ED82B0494A80097F489 /* FacebookLogin */; };
 		E0C33ADB2AAB2D65007E719A /* ConnectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADA2AAB2D65007E719A /* ConnectVC.swift */; };
 		E0C33ADD2AAB3795007E719A /* ConnectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C33ADC2AAB3795007E719A /* ConnectTableViewCell.swift */; };
 		E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0C365682AB1BA2700B7E6FB /* MessagesVC.swift */; };
@@ -89,6 +92,7 @@
 		E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyBoardDismiss.swift; sourceTree = "<group>"; };
 		E08986B22AC568DD005A102D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E0A0E21D2AF2305D0090B6C0 /* Validation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
+		E0A96F202B050018008E8360 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		E0AA26CA2A864361002CDACA /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		E0AA26CC2A8649F6002CDACA /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		E0ACDE182B01FFDA004FE395 /* SPONENT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SPONENT.entitlements; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 				E0FCE59C2AB1E98A0010D419 /* MessageKit in Frameworks */,
 				E0CAC4E12AFB702500D9A876 /* GoogleSignIn in Frameworks */,
 				E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */,
+				E0C05ED92B0494A80097F489 /* FacebookLogin in Frameworks */,
+				E0C05ED72B0494A80097F489 /* FacebookCore in Frameworks */,
 				E0AB64682A9F0CB200F4F299 /* GooglePlaces in Frameworks */,
 				E0AB64622A9F0CB200F4F299 /* GoogleMapsBase in Frameworks */,
 				E0CAC4DE2AFB6A5200D9A876 /* GoogleSignIn in Frameworks */,
@@ -277,6 +283,7 @@
 				E00B8BD42AA9FA37001422CE /* KeyBoardDismiss.swift */,
 				E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */,
 				E0A0E21D2AF2305D0090B6C0 /* Validation.swift */,
+				E0A96F202B050018008E8360 /* RootViewController.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -383,6 +390,8 @@
 				E0CAC4DD2AFB6A5200D9A876 /* GoogleSignIn */,
 				E0CAC4E02AFB702500D9A876 /* GoogleSignIn */,
 				E0CAC4E22AFB702500D9A876 /* GoogleSignInSwift */,
+				E0C05ED62B0494A80097F489 /* FacebookCore */,
+				E0C05ED82B0494A80097F489 /* FacebookLogin */,
 			);
 			productName = SPONENT;
 			productReference = E0B664CA2A84FEEA00537CAE /* SPONENT.app */;
@@ -419,6 +428,7 @@
 				769569B32AC5900300A99725 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */,
 				E0CAC4DC2AFB6A5200D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				E0CAC4DF2AFB702500D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				E0C05ED52B0494A80097F489 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = E0B664CB2A84FEEA00537CAE /* Products */;
 			projectDirPath = "";
@@ -477,6 +487,7 @@
 				E0B9593A2AE259E10030A930 /* RejectedTableViewCell.swift in Sources */,
 				E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */,
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
+				E0A96F212B050018008E8360 /* RootViewController.swift in Sources */,
 				E0B664EC2A8500B500537CAE /* CornerRadius.swift in Sources */,
 				E0CACB602ACFDD3F00B62057 /* UserActivityModel.swift in Sources */,
 				E0AA26CB2A864361002CDACA /* HomeVC.swift in Sources */,
@@ -745,6 +756,14 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		E0C05ED52B0494A80097F489 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 		E0CAC4DC2AFB6A5200D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -806,6 +825,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E0AB645E2A9F0CB200F4F299 /* XCRemoteSwiftPackageReference "GoogleMaps-SP" */;
 			productName = GooglePlaces;
+		};
+		E0C05ED62B0494A80097F489 /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0C05ED52B0494A80097F489 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		E0C05ED82B0494A80097F489 /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E0C05ED52B0494A80097F489 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
 		};
 		E0CAC4DD2AFB6A5200D9A876 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
