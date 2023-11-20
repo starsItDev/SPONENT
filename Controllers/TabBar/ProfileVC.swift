@@ -36,8 +36,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
     @IBOutlet weak var profileBackButton: UIButton!
     @IBOutlet weak var profileActivityTableView: UITableView!
     @IBOutlet weak var profileFollowerTableView: UITableView!
-    @IBOutlet weak var profileFollowingTableView: UITableView!
     @IBOutlet weak var blockButton: UIButton!
+    @IBOutlet weak var profileFollowingTableView: UITableView!
     @IBOutlet weak var followButton: UIButton!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var ageLabel: UILabel!
@@ -389,7 +389,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
-                    self.showAlert(title: "Report", message: responseData)
+                    self.showAlert(title: "Alert", message: responseData)
                 }
             }
         }

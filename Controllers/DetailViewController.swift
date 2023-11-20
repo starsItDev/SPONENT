@@ -410,12 +410,14 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     } else if self.requestStatus > 0 {
                         self.requestJoinButton.titleLabel?.text = "View Requests"
                       }
+                    self.deleteButton.isHidden = false
                     } else {
                         if self.isRequestToJoin{
                             self.requestJoinButton.titleLabel?.text = "Request To join"
                         } else {
                             self.requestJoinButton.titleLabel?.text = "Cancel request"
                         }
+                        self.deleteButton.isHidden = true
                     }
                 }
             }

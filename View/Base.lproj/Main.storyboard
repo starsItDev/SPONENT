@@ -5365,7 +5365,7 @@
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="Block"/>
                                                         <connections>
-                                                            <action selector="blockButton:" destination="rDg-wl-3Nf" eventType="touchUpInside" id="g3f-5H-ncc"/>
+                                                            <action selector="blockButton:" destination="rDg-wl-3Nf" eventType="touchUpInside" id="V6o-Kf-a8J"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q7N-nh-hkw">
@@ -6102,7 +6102,7 @@
                     <connections>
                         <outlet property="aboutMeLabel" destination="lul-mc-ozA" id="WkQ-gr-6iu"/>
                         <outlet property="ageLabel" destination="lOA-TO-0U8" id="q3g-gb-NxX"/>
-                        <outlet property="blockButton" destination="6J3-eL-UD7" id="tof-N3-wSI"/>
+                        <outlet property="blockButton" destination="6J3-eL-UD7" id="FWm-i8-olS"/>
                         <outlet property="changePasswordView" destination="ayH-iG-Q35" id="gDH-fX-YcO"/>
                         <outlet property="confirmPasswordField" destination="t3M-lr-Db7" id="paW-i6-QeM"/>
                         <outlet property="followButton" destination="RDc-q9-e8u" id="0em-4X-xyb"/>
