@@ -37,10 +37,12 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         activityRequestAPI()
-//      acceptedViewheight.constant = 0
-//      acceptedTableHeight.constant = 0
-//      rejectedViewHeight.constant = 0
-//      rejectedTableHeight.constant = 0
+        requestTableView.rowHeight = UITableView.automaticDimension
+        requestTableView.estimatedRowHeight = 135
+        acceptedTableView.rowHeight = UITableView.automaticDimension
+        acceptedTableView.estimatedRowHeight = 135
+        rejectedTableView.rowHeight = UITableView.automaticDimension
+        rejectedTableView.estimatedRowHeight = 135
     }
     
    //MARK: - API Functions
@@ -83,7 +85,9 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                         self.pendingViewheight.constant = 0
                         self.pendingTableHeight.constant = 0
                     } else {
-                    self.requestTableView.reloadData()
+                        self.requestTableView.reloadData()
+                        let contentHeight = self.requestTableView.contentSize.height
+                        self.pendingTableHeight.constant = contentHeight
                     }
                     if self.accepted.count == 0 {
                         self.acceptedTableView.isHidden = true
@@ -91,7 +95,9 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                         self.acceptedViewheight.constant = 0
                         self.acceptedTableHeight.constant = 0
                     } else {
-                    self.acceptedTableView.reloadData()
+                        self.acceptedTableView.reloadData()
+                        let contentHeight = self.acceptedTableView.contentSize.height
+                        self.acceptedTableHeight.constant = contentHeight
                     }
                     if self.rejected.count == 0 {
                         self.rejectedTableView.isHidden = true
@@ -99,7 +105,9 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                         self.rejectedViewHeight.constant = 0
                         self.rejectedTableHeight.constant = 0
                     } else {
-                    self.rejectedTableView.reloadData()
+                        self.rejectedTableView.reloadData()
+                        let contentHeight = self.rejectedTableView.contentSize.height
+                        self.rejectedTableHeight.constant = contentHeight
                     }
                 }
             }
@@ -318,7 +326,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         } else {
             pendingImage.transform = CGAffineTransform(rotationAngle: 0)
             requestTableView.isHidden = false
-            pendingTableHeight.constant = 280
+            pendingTableHeight.constant = requestTableView.contentSize.height
         }
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -333,7 +341,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         } else {
             acceptedImage.transform = CGAffineTransform(rotationAngle: 0)
             acceptedTableView.isHidden = false
-            acceptedTableHeight.constant = 280
+            acceptedTableHeight.constant = acceptedTableView.contentSize.height
         }
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -348,7 +356,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         } else {
             rejectedImage.transform = CGAffineTransform(rotationAngle: 0)
             rejectedTableView.isHidden = false
-            rejectedTableHeight.constant = 280
+            rejectedTableHeight.constant = rejectedTableView.contentSize.height
         }
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
@@ -378,7 +386,6 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                     cancelRequestApi(userID: userID)
             }
     }
-    
     func deleteButtonTapped(inCell cell: RejectedTableViewCell) {
         let indexPath = self.rejectedTableView.indexPath(for: cell)
             if let indexPath = indexPath {
@@ -413,6 +420,7 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             loadImage(from: pending.userAvatar, into: cell.pendingImage)
             cell.layer.borderWidth = 3
             cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            cell.autoresizingMask = [.flexibleHeight]
         return cell
         } else if tableView == acceptedTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AcceptedTableViewCell
@@ -424,6 +432,7 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             loadImage(from: accepted.userAvatar, into: cell.acceptedImage)
             cell.layer.borderWidth = 3
             cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            cell.autoresizingMask = [.flexibleHeight]
             return cell
         } else if tableView == rejectedTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RejectedTableViewCell
@@ -435,6 +444,7 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             loadImage(from: rejected.userAvatar, into: cell.rejectedImage)
             cell.layer.borderWidth = 3
             cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            cell.autoresizingMask = [.flexibleHeight]
             return cell
         }
         return UITableViewCell()

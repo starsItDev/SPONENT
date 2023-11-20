@@ -212,7 +212,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
                     self.sportNameLabel.text = body["category_name"] as? String
                     self.categoryID = body["category_id"] as? Int
                     if let avatarURLString = body["avatar"] as? String {
-                        self.loadImage(from: avatarURLString, into: self.imgProfileView, placeholder: UIImage(named: "placeholderImage"))
+                        self.loadImage(from: avatarURLString, into: self.imgProfileView)
                     }
                 }
             }
@@ -923,11 +923,11 @@ extension ProfileVC {
         let endPoint = APIConstants.Endpoints.userActivities
         var urlString = APIConstants.baseURL + endPoint
         urlString += "?limit=100"
-
+        
         if let receiverID = receiverID {
-                urlString += "?id=" + receiverID
+                urlString += "&id=" + receiverID
             } else if let userID = UserDefaults.standard.string(forKey: "userID") {
-                urlString += "?id=" + userID
+                urlString += "&id=" + userID
             } else {
                 showAlert(title: "Alert", message: "Both receiverID and userID are missing")
                 return

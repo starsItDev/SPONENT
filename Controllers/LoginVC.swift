@@ -148,7 +148,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard error == nil else {
-                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                    self.showAlert(title: "Error", message: "Please check your internet connection")
                     return
                 }
                 guard let data = data else {

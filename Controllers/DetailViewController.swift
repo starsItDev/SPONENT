@@ -348,7 +348,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func requestToJoinBtn(_ sender: UIButton) {
-        
         if self.isOwner {
             if self.requestStatus == 0 {
                 self.isRequestToJoin = false
