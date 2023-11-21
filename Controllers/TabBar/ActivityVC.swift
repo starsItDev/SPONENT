@@ -38,7 +38,7 @@ class ActivityVC: UIViewController, DetailViewControllerDelegate {
         activitySegmentController.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .normal)
     }
 
-//    //MARK: - API CAllING
+    //MARK: - API CAllING
     func activitiesAPiCall(){
         let endPoint = APIConstants.Endpoints.activityMine
         var urlString = APIConstants.baseURL + endPoint
@@ -138,7 +138,6 @@ class ActivityVC: UIViewController, DetailViewControllerDelegate {
     
    //MARK: - Extension TableView
 extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == pendingtableView {
             return pending.count
@@ -210,7 +209,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 99
     }
-//        let defaultHeight: CGFloat = 99.0
+//  let defaultHeight: CGFloat = 99.0
 //        if tableView == pendingtableView {
 //            let cell = tableView.cellForRow(at: indexPath) as? ActivityPendingCell
 //            if let cell = cell {

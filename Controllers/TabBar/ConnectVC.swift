@@ -90,7 +90,6 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
 
  //MARK: - Extension TableView
  extension ConnectVC: UITableViewDelegate, UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return connections.count
     }
@@ -134,7 +133,6 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
 
   //MARK: - Extension ProfileDelegate
   extension ConnectVC: ProfileDelegate {
-      
     func didTapUserProfileSettingButton() {
        if let profileVC = self.navigationController?.viewControllers.first(where: { $0 is ProfileVC }) as? ProfileVC {
            if profileVC.userSettingStackView.isHidden {

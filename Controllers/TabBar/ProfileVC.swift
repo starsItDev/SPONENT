@@ -87,53 +87,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
     }
     
     //MARK: - API CAllING
-    func followingAPICall() {
-        let endPoint = APIConstants.Endpoints.following
-        var urlString = APIConstants.baseURL + endPoint
-        if let receiverID = receiverID {
-                urlString += "?id=" + receiverID
-            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
-                urlString += "?id=" + userID
-            } else {
-                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
-                return
-            }
-        guard let url = URL(string: urlString) else {
-            showAlert(title: "Alert", message: "Invalid URL")
-            return
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
-            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
-        }
-        request.addValue("ci_session=f78d9f7ae33419e3cf756d7252f41ceb1a369386", forHTTPHeaderField: "Cookie")
-
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
-                return
-            }
-
-            guard let data = data else {
-                self.showAlert(title: "Alert", message: "No data received")
-                return
-            }
-            do {
-                let decoder = JSONDecoder()
-                let responseData = try decoder.decode(FollowingModel.self, from: data)
-                self.followings = responseData.body.connections
-                print(responseData.body)
-                DispatchQueue.main.async {
-                    self.profileFollowingTableView.reloadData()
-                }
-            }
-            catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }
-        task.resume()
-    }
     func apiCall() {
         let endpoint = APIConstants.Endpoints.appUser
         var urlString = APIConstants.baseURL + endpoint
@@ -917,7 +870,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//MARK: - Extension ProfileVC
+//MARK: - Segments API
 extension ProfileVC {
     func getActivityAPiCall(){
         let endPoint = APIConstants.Endpoints.userActivities
@@ -1007,6 +960,53 @@ extension ProfileVC {
                 print(responseData.body)
                 DispatchQueue.main.async {
                     self.profileFollowerTableView.reloadData()
+                }
+            }
+            catch {
+                print("Error decoding JSON: \(error)")
+            }
+        }
+        task.resume()
+    }
+    func followingAPICall() {
+        let endPoint = APIConstants.Endpoints.following
+        var urlString = APIConstants.baseURL + endPoint
+        if let receiverID = receiverID {
+                urlString += "?id=" + receiverID
+            } else if let userID = UserDefaults.standard.string(forKey: "userID") {
+                urlString += "?id=" + userID
+            } else {
+                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                return
+            }
+        guard let url = URL(string: urlString) else {
+            showAlert(title: "Alert", message: "Invalid URL")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
+            request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
+        }
+        request.addValue("ci_session=f78d9f7ae33419e3cf756d7252f41ceb1a369386", forHTTPHeaderField: "Cookie")
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                self.showAlert(title: "Alert", message: "An error occurred: \(error.localizedDescription)")
+                return
+            }
+
+            guard let data = data else {
+                self.showAlert(title: "Alert", message: "No data received")
+                return
+            }
+            do {
+                let decoder = JSONDecoder()
+                let responseData = try decoder.decode(FollowingModel.self, from: data)
+                self.followings = responseData.body.connections
+                print(responseData.body)
+                DispatchQueue.main.async {
+                    self.profileFollowingTableView.reloadData()
                 }
             }
             catch {
