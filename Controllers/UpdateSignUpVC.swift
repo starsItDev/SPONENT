@@ -18,7 +18,7 @@ struct UserProfileData {
     var categoryID: Int?
 }
 
-class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     //MARK: - Variables
     @IBOutlet weak var signUpImageView: UIView!
@@ -72,7 +72,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
                 let geocoder = CLGeocoder()
                 geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
                   if let placemark = placemarks?.first {
-                     if let locality = placemark.locality {
+                     if let locality = placemark.name {
                         self.updateLocationLabel.text = locality
                         self.updateLocationLabel.textColor = .black
                     } else {
@@ -95,7 +95,7 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
        
-    //MARK: - Helper functions
+    //MARK: - API Calling
     func apiCall(){
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
               let userlocation = appDelegate.userLocation,
@@ -201,7 +201,8 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
         task.resume()
     }
-  
+     
+    //MARK: - Helper functions
     func styleViews() {
         updateAgeView.applyBorder()
         updateGenderView.applyBorder()
@@ -212,6 +213,28 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                updateImage.image = selectedImage
+            }
+            picker.dismiss(animated: true, completion: nil)
+     }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+         picker.dismiss(animated: true, completion: nil)
+    }
+    func ValidationCode() {
+        if updateNameField.text == "" {
+            updateNameView.layer.borderColor = UIColor.red.cgColor
+            showAlert(title: "Alert", message: "Please write your name")
+        }
+        else if updateAboutField.text == "" {
+            updateAboutView.layer.borderColor = UIColor.red.cgColor
+            showAlert(title: "Alert", message: "Please write something about yourself")
+        }
+        else {
+            apiCall()
+        }
     }
     @objc func showAgeActionSheet() {
         view.endEditing(true)
@@ -257,15 +280,6 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true, completion: nil)
     }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                updateImage.image = selectedImage
-            }
-            picker.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.dismiss(animated: true, completion: nil)
-    }
     @objc func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
@@ -282,30 +296,18 @@ class UpdateSignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavig
         updateScrollView.contentInset = contentInsets
         updateScrollView.scrollIndicatorInsets = contentInsets
     }
+     
+     //MARK: - Actions
     @IBAction func backButton(_ sender: UIButton) {
         dismiss(animated: false, completion: nil)
-    }
-    func ValidationCode() {
-        if updateNameField.text == "" {
-            updateNameView.layer.borderColor = UIColor.red.cgColor
-            showAlert(title: "Alert", message: "Please write your name")
-        }
-        else if updateAboutField.text == "" {
-            updateAboutView.layer.borderColor = UIColor.red.cgColor
-            showAlert(title: "Alert", message: "Please write something about yourself")
-        }
-        else {
-            apiCall()
-        }
     }
     @IBAction func forwardButton(_ sender: UIButton) {
         ValidationCode()
     }
 }
 
-   //MARK: - Extension TextField
-   extension UpdateSignUpVC: UITextFieldDelegate {
-
+ //MARK: - Extension TextField
+ extension UpdateSignUpVC: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         activeTextField = textField
             if textField == updateNameField {

@@ -135,7 +135,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
          }
     }
 
-        //MARK: - API Calling
+    //MARK: - API Calling
     func activityDetailAPICall() {
         let endPoint = APIConstants.Endpoints.activityDetail
         var urlString = APIConstants.baseURL + endPoint
@@ -169,7 +169,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         }
         task.resume()
     }
-        
     func deleteAPICall() {
         let endPoint = APIConstants.Endpoints.deleteActivity
         let urlString = APIConstants.baseURL + endPoint
@@ -183,7 +182,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         request.httpMethod = "POST"
         if let apiKey = UserDefaults.standard.string(forKey: "apikey") {
             request.addValue(apiKey, forHTTPHeaderField: "authorizuser")
-    }
+       }
        request.addValue("ci_session=117c57138897e041c1da019bb55d6e38d6eade11", forHTTPHeaderField: "Cookie")
         
         let parameters: [[String: Any]] = [
@@ -337,7 +336,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     //MARK: - Actions
     @IBAction func detailBackButton(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
-  }
+    }
     @IBAction func detailDoneBtnClicked(_ sender: UIButton) {
         let searchedLocation = detailSearchBar.text ?? ""
         if !searchedLocation.isEmpty {
@@ -372,6 +371,11 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     }
     @IBAction func deleteButton(_ sender: UIButton) {
         deleteAPICall()
+    }
+    @IBAction func shareButton(_ sender: UIButton) {
+        let appStoreLink = URL(string: "https://apps.apple.com")!
+        let activityController = UIActivityViewController(activityItems: [appStoreLink], applicationActivities: nil)
+        present(activityController, animated: true)
     }
     
     //MARK: - Helper Functions
@@ -409,15 +413,17 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                         self.requestJoinButton.titleLabel?.text = "No request yet"
                     } else if self.requestStatus > 0 {
                         self.requestJoinButton.titleLabel?.text = "View Requests"
-                      }
-                    self.deleteButton.isHidden = false
+                    }
+                    if self.isdelButtonHidden == false {
+                        self.deleteButton.isHidden = false
+                    }
                     } else {
                         if self.isRequestToJoin{
-                            self.requestJoinButton.titleLabel?.text = "Request To join"
+                           self.requestJoinButton.titleLabel?.text = "Request To join"
                         } else {
-                            self.requestJoinButton.titleLabel?.text = "Cancel request"
+                           self.requestJoinButton.titleLabel?.text = "Cancel request"
                         }
-                        self.deleteButton.isHidden = true
+                    self.deleteButton.isHidden = true
                     }
                 }
             }

@@ -83,51 +83,94 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                }
            }
         locationManager = CLLocationManager()
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.requestAlwaysAuthorization()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.startUpdatingLocation()
+        }
+//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
+//                    let geocoder = CLGeocoder()
+//                    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+//                        if let placemark = placemarks?.first {
+//                            if let locationName = placemark.name {
+//                                self.locationLabel.text = locationName
+//                            } else {
+//                                self.locationLabel.text = "Location Name Not Found"
+//                            }
 
-            if CLLocationManager.locationServicesEnabled() {
-                locationManager.startUpdatingLocation()
-            }
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
-                    let geocoder = CLGeocoder()
-                    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-                        if let placemark = placemarks?.first {
-                            if let locationName = placemark.name {
-                                self.locationLabel.text = locationName
-                                self.locationLabel.textColor = .black
-                            } else {
-                                self.locationLabel.text = "Location Not Found"
-                            }
-                        }
-                    }
-                }
+//                            if let country = placemark.country {
+//                                self.locationLabel.text! += ", \(country)"
+//                            }
+//                            if let name = placemark.subAdministrativeArea {
+//                                self.locationLabel.text! += ", \(name)"
+//                            }
+//                            if let nametwo = placemark.thoroughfare {
+//                                self.locationLabel.text! += ", \(nametwo)"
+//                            }
+//                            if let subThoroughfare = placemark.subLocality {
+//                                self.locationLabel.text! += ", \(subThoroughfare)"
+//                            }
+                       // }
+                    //}
+                //}
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     //MARK: - API Calling
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        let userLocation :CLLocation = locations[0] as CLLocation
-//
-//        let geocoder = CLGeocoder()
-//        geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-//            if (error != nil){
-//                print("error in reverseGeocode")
-//            }
-//            let placemark = placemarks! as [CLPlacemark]
-//            if placemark.count>0{
-//                let placemark = placemarks![0]
-//                //print(placemark.region!)
-//               // print(placemark.subThoroughfare!)
-//               // print(placemark.thoroughfare!)
-//                print(placemark.name!)
-//
-//                self.locationLabel.text = "\(placemark.name!), \(placemark.locality!)"
-//                self.locationLabel.textColor = .black
-//            }
-//        }
-//    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let userLocation = locations.first else {
+            print("Error: No user location found.")
+            return
+        }
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+            if let error = error {
+                print("Error in reverseGeocode: \(error)")
+                return
+            }
+            if let placemark = placemarks?.first {
+                print(placemark)
+                var locationString = ""
+                if let name = placemark.name {
+                    locationString += "\(name), "
+                }
+                if let country = placemark.country {
+                    locationString += "\(country), "
+                }
+                if let subLocality = placemark.subLocality {
+                    locationString += "\(subLocality), "
+                }
+                if let subAdminArea = placemark.subAdministrativeArea {
+                    locationString += "\(subAdminArea)"
+                }
+                locationString = String(locationString.dropLast(2))
+                self.locationLabel.text = locationString
+                self.locationLabel.textColor = .black
+            }
+        }
+    }
+    //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    //        let userLocation :CLLocation = locations[0] as CLLocation
+    //
+    //        let geocoder = CLGeocoder()
+    //        geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+    //            if (error != nil){
+    //                print("error in reverseGeocode")
+    //            }
+    //            let placemark = placemarks! as [CLPlacemark]
+    //            if placemark.count>0{
+    //                let placemark = placemarks![0]
+    //                //print(placemark.region!)
+    //               // print(placemark.subThoroughfare!)
+    //               // print(placemark.thoroughfare!)
+    //                print(placemark.name!)
+    //
+    //                self.locationLabel.text = "\(placemark.name!), \(placemark.locality!)"
+    //                self.locationLabel.textColor = .black
+    //            }
+    //        }
+    //    }
     func apiCalltwo(completion: @escaping (Result<CategoriesModel, Error>) -> Void) {
         let endpoint = APIConstants.Endpoints.categories
         let urlString = APIConstants.baseURL + endpoint
@@ -304,20 +347,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     }
     
     //MARK: - Helper functions
-    func styleViews() {
-        ageView.applyBorder()
-        genderView.applyBorder()
-        nameView.applyBorder()
-        emailView.applyBorder()
-        passwdView.applyBorder()
-        confirmPasswdView.applyBorder()
-        favCategoryView.applyBorder()
-        aboutView.applyBorder()
-        locationView.applyBorder()
-    }
-    func setupKeyboardDismiss() {
-           textFieldDelegateHelper.configureTapGesture(for: view, in: self)
-    }
     @objc func showAgeActionSheet() {
          actions.removeAll()
          for age in ages {
@@ -361,15 +390,6 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         imagePicker.sourceType = .photoLibrary
         present(imagePicker, animated: true, completion: nil)
     }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-             imageView.image = selectedImage
-        }
-            picker.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.dismiss(animated: true, completion: nil)
-    }
     @objc func keyboardWillShow(_ notification: Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height, right: 0.0)
@@ -381,11 +401,19 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             }
         }
     }
-
     @objc func keyboardWillHide(_ notification: Notification) {
         let contentInsets = UIEdgeInsets.zero
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+         if let selectedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+             imageView.image = selectedImage
+        }
+            picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            picker.dismiss(animated: true, completion: nil)
     }
     func ValidationCode() {
         guard  let email = emailTxtField.text, let password = passWordTxtField.text, let confirm = confirmPasswdText.text else {
@@ -488,6 +516,20 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
           }
       }
    }
+    func styleViews() {
+        ageView.applyBorder()
+        genderView.applyBorder()
+        nameView.applyBorder()
+        emailView.applyBorder()
+        passwdView.applyBorder()
+        confirmPasswdView.applyBorder()
+        favCategoryView.applyBorder()
+        aboutView.applyBorder()
+        locationView.applyBorder()
+    }
+    func setupKeyboardDismiss() {
+        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
+    }
 }
 
 //MARK: - Extension TextField

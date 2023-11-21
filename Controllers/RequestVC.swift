@@ -362,6 +362,8 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
             self.view.layoutIfNeeded()
         }
     }
+    
+    //MARK: - Helper functions
     func acceptButtonTapped(inCell cell: RequestTableViewCell) {
         let indexPath = self.requestTableView.indexPath(for: cell)
             if let indexPath = indexPath {

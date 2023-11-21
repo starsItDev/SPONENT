@@ -6,6 +6,8 @@
     <string>389772383867-p2p10dfbp95kf07l6n559irhsnfrb47c.apps.googleusercontent.com</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>We need your location to show nearby events.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+        <string>We need your location to show nearby events.</string>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
