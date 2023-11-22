@@ -17,7 +17,7 @@ protocol DetailDelegate: AnyObject {
     func didTapAddDetailDoneButton()
 }
 
-class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate, GMSMapViewDelegate{
+class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
 
     //MARK: - Variable
     @IBOutlet weak var detailScrollView: UIScrollView!
@@ -106,8 +106,10 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             detailMapView.camera = cameraUpdate
         }
         if let userLocationCoordinate = userLocationCoordinate {
-            let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 15)
-            detailMapView.camera = camera
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { 
+                let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 18)
+                self.detailMapView.camera = camera
+            }
         }
         if let selectedLocationCoordinate = selectedLocationCoordinate {
             let camera = GMSCameraPosition.camera(withTarget: selectedLocationCoordinate, zoom: 15)
@@ -333,6 +335,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
       }
       task.resume()
    }
+    
     //MARK: - Actions
     @IBAction func detailBackButton(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)

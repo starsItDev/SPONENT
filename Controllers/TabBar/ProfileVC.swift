@@ -15,7 +15,7 @@ import FBSDKLoginKit
 protocol ProfileDelegate: AnyObject {
     func didTapUserProfileSettingButton()
 }
-class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDelegate {
+class ProfileVC: UIViewController, UITextFieldDelegate {
 
     //MARK: - Variable
     @IBOutlet weak var profileScrollView: UIScrollView!
@@ -729,15 +729,15 @@ class ProfileVC: UIViewController, UITextFieldDelegate, DetailViewControllerDele
             }
         }
     }
-    func didSelectLocation(_ locationName: String) {
-        let geocoder = CLGeocoder()
-           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-               if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-                   self?.selectedLocationLatitude = locationCoordinate.latitude
-                   self?.selectedLocationLongitude = locationCoordinate.longitude
-            }
-        }
-    }
+//    func didSelectLocation(_ locationName: String) {
+//        let geocoder = CLGeocoder()
+//           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+//               if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
+//                   self?.selectedLocationLatitude = locationCoordinate.latitude
+//                   self?.selectedLocationLongitude = locationCoordinate.longitude
+//            }
+//        }
+//    }
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == oldPasswordField {
             oldPasswordField.layer.borderColor = UIColor.lightGray.cgColor
@@ -857,11 +857,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                    self.selectedMarker?.map = nil
                    self.selectedMarker = nil
                    detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                   detailController.delegate = self
+                   //detailController.delegate = self
                    cell.accessoryView = nil
-                   let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
-                   detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
-                  self.navigationController?.pushViewController(detailController, animated: false)
+                   self.navigationController?.pushViewController(detailController, animated: false)
                      }
                  }
              }

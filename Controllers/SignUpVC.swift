@@ -89,67 +89,59 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         if CLLocationManager.locationServicesEnabled(){
             locationManager.startUpdatingLocation()
         }
-//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
-//                    let geocoder = CLGeocoder()
-//                    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-//                        if let placemark = placemarks?.first {
-//                            if let locationName = placemark.name {
-//                                self.locationLabel.text = locationName
-//                            } else {
-//                                self.locationLabel.text = "Location Name Not Found"
-//                            }
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
+                    let geocoder = CLGeocoder()
+                    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+                        if let placemark = placemarks?.first {
+                            if let locationName = placemark.name {
+                                self.locationLabel.text = locationName
+                                self.locationLabel.textColor = .black
+                            } else {
+                                self.locationLabel.text = "Location Name Not Found"
+                            }
 
-//                            if let country = placemark.country {
-//                                self.locationLabel.text! += ", \(country)"
-//                            }
-//                            if let name = placemark.subAdministrativeArea {
-//                                self.locationLabel.text! += ", \(name)"
-//                            }
-//                            if let nametwo = placemark.thoroughfare {
-//                                self.locationLabel.text! += ", \(nametwo)"
-//                            }
-//                            if let subThoroughfare = placemark.subLocality {
-//                                self.locationLabel.text! += ", \(subThoroughfare)"
-//                            }
-                       // }
-                    //}
-                //}
+                            if let country = placemark.country {
+                                self.locationLabel.text! += ", \(country)"
+                            }
+                        }
+                    }
+                }
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     //MARK: - API Calling
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let userLocation = locations.first else {
-            print("Error: No user location found.")
-            return
-        }
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-            if let error = error {
-                print("Error in reverseGeocode: \(error)")
-                return
-            }
-            if let placemark = placemarks?.first {
-                print(placemark)
-                var locationString = ""
-                if let name = placemark.name {
-                    locationString += "\(name), "
-                }
-                if let country = placemark.country {
-                    locationString += "\(country), "
-                }
-                if let subLocality = placemark.subLocality {
-                    locationString += "\(subLocality), "
-                }
-                if let subAdminArea = placemark.subAdministrativeArea {
-                    locationString += "\(subAdminArea)"
-                }
-                locationString = String(locationString.dropLast(2))
-                self.locationLabel.text = locationString
-                self.locationLabel.textColor = .black
-            }
-        }
-    }
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        guard let userLocation = locations.first else {
+//            print("Error: No user location found.")
+//            return
+//        }
+//        let geocoder = CLGeocoder()
+//        geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+//            if let error = error {
+//                print("Error in reverseGeocode: \(error)")
+//                return
+//            }
+//            if let placemark = placemarks?.first {
+//                print(placemark)
+//                var locationString = ""
+//                if let name = placemark.name {
+//                    locationString += "\(name), "
+//                }
+//                if let country = placemark.country {
+//                    locationString += "\(country), "
+//                }
+//                if let subLocality = placemark.subLocality {
+//                    locationString += "\(subLocality), "
+//                }
+//                if let subAdminArea = placemark.subAdministrativeArea {
+//                    locationString += "\(subAdminArea)"
+//                }
+//                locationString = String(locationString.dropLast(2))
+//                self.locationLabel.text = locationString
+//                self.locationLabel.textColor = .black
+//            }
+//        }
+//    }
     //    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     //        let userLocation :CLLocation = locations[0] as CLLocation
     //
