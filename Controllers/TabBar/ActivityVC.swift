@@ -263,6 +263,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 detailController.comingFromCell = false
                  detailController.activityID = pending.activityID
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil
@@ -289,6 +290,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 detailController.comingFromCell = false
                  detailController.activityID = current.activityID
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil
@@ -315,6 +317,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 detailController.comingFromCell = false
                  detailController.activityID = following.activityID
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil
@@ -341,6 +344,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 detailController.comingFromCell = false
                  detailController.activityID = past.activityID
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil

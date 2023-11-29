@@ -520,6 +520,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             oldPasswordField.text = ""
             newPasswordField.text = ""
             confirmPasswordField.text = ""
+            oldPasswordField.layer.borderColor = UIColor.gray.cgColor
+            newPasswordField.layer.borderColor = UIColor.gray.cgColor
+            confirmPasswordField.layer.borderColor = UIColor.gray.cgColor
         }
     }
     @IBAction func updateOkButton(_ sender: UIButton) {
@@ -853,6 +856,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                              return
               }
               if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                   detailController.comingFromCell = false
                    detailController.activityID = activity.activityID
                    self.selectedMarker?.map = nil
                    self.selectedMarker = nil
