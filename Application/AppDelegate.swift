@@ -30,8 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         locationManager.requestWhenInUseAuthorization()
         GMSServices.provideAPIKey("AIzaSyAa4XBFBGFJWSjcEdfCHniqmUOEPlKG0L0")
         GMSPlacesClient.provideAPIKey("AIzaSyBlfZiL0XCaYgADnu9O0lvRfGLUBo_s8HI")
-        if CLLocationManager.locationServicesEnabled() {
-                    locationManager.startUpdatingLocation()
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.locationManager.startUpdatingLocation()
+            }
         }
         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
             if error != nil || user == nil {
