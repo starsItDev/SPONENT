@@ -8,7 +8,7 @@
 import UIKit
 
 class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableViewCellDelegate, AcceptedTableViewCellDelegate {
-
+    
     //MARK: - Variables
     @IBOutlet weak var requestTableView: UITableView!
     @IBOutlet weak var pendingImage: UIButton!
@@ -28,7 +28,6 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     var isImageRotated = false
     var rejectedTableRowCount = 3
     var activityID: String?
-   // var userID: String?
     var pending: [Requests] = []
     var accepted: [Requests] = []
     var rejected: [Requests] = []
@@ -161,6 +160,7 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
               DispatchQueue.main.async {
                   self.showAlert(title: "Alert", message: "\(responseData)")
                   UserDefaults.standard.set(false, forKey: "\(userID)")
+                  //self.currentUserID = userID
            }
          }
       }
@@ -208,7 +208,6 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
                   self.showAlert(title: "Alert", message: "\(responseData)")
-            
            }
          }
       }
@@ -366,18 +365,32 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     //MARK: - Helper functions
     func acceptButtonTapped(inCell cell: RequestTableViewCell) {
         let indexPath = self.requestTableView.indexPath(for: cell)
-            if let indexPath = indexPath {
-                let pendingRequest = pending[indexPath.row]
-                let userID = pendingRequest.userID
-                    acceptRequestApi(userID: userID)
+        if let indexPath = indexPath {
+            let pendingRequest = pending[indexPath.row]
+            let userID = pendingRequest.userID
+            let name = pendingRequest.userName
+            let activityName = pendingRequest.activity
+            acceptRequestApi(userID: userID)
+            let message = "\(name) has accepted your request for \(activityName)"
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
             }
+            appDelegate.dispatchNotification(message: "\(message)", userID: userID)
+        }
     }
     func rejectButtonTapped(inCell cell: RequestTableViewCell) {
         let indexPath = self.requestTableView.indexPath(for: cell)
             if let indexPath = indexPath {
                 let rejectedRequest = pending[indexPath.row]
                 let userID = rejectedRequest.userID
-                    rejectRequestApi(userID: userID)
+                let name = rejectedRequest.userName
+                let activityName = rejectedRequest.activity
+                rejectRequestApi(userID: userID)
+                let message = "\(name) has rejected your request for \(activityName)"
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                }
+                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
             }
     }
     func cancelButtonTapped(inCell cell: AcceptedTableViewCell) {
@@ -385,7 +398,14 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
             if let indexPath = indexPath {
                 let cancelRequest = accepted[indexPath.row]
                 let userID = cancelRequest.userID
-                    cancelRequestApi(userID: userID)
+                let name = cancelRequest.userName
+                let activityName = cancelRequest.activity
+                cancelRequestApi(userID: userID)
+                let message = "\(name) has cancelled your request for \(activityName)"
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                }
+                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
             }
     }
     func deleteButtonTapped(inCell cell: RejectedTableViewCell) {
@@ -421,7 +441,9 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             cell.pendingMessage?.text = pending.userMessage
             loadImage(from: pending.userAvatar, into: cell.pendingImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
             cell.autoresizingMask = [.flexibleHeight]
         return cell
         } else if tableView == acceptedTableView {
@@ -433,7 +455,9 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             cell.acceptedMessage?.text = accepted.userMessage
             loadImage(from: accepted.userAvatar, into: cell.acceptedImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
             cell.autoresizingMask = [.flexibleHeight]
             return cell
         } else if tableView == rejectedTableView {
@@ -445,7 +469,9 @@ extension RequestVC: UITableViewDelegate, UITableViewDataSource {
             cell.rejectedMessage?.text = rejected.userMessage
             loadImage(from: rejected.userAvatar, into: cell.rejectedImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
             cell.autoresizingMask = [.flexibleHeight]
             return cell
         }

@@ -11,9 +11,10 @@ import GooglePlaces
 import CoreLocation
 import GoogleSignIn
 import FacebookCore
+import UserNotifications
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     var locationManager = CLLocationManager()
@@ -43,6 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController
                 window?.rootViewController = vc
                 window?.makeKeyAndVisible()
+        UNUserNotificationCenter.current().delegate = self
+        checkForPermissions()
         return true
     }
     func application(
@@ -73,8 +76,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                    locationManager.stopUpdatingLocation()
         }
     }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+           completionHandler([.alert, .sound])
+    }
+    func checkForPermissions() {
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .authorized:
+                break
+            case .denied:
+                return
+            case .notDetermined:
+                notificationCenter.requestAuthorization(options: [.alert, .sound]) { didAllow, error in
+                    if didAllow {
+                        self.dispatchNotification(message: "Notifications Allowed For Sponent", userID: "")
+                    }
+                }
+            default:
+                return
+            }
+        }
+    }
+    func dispatchNotification(message: String, userID: String) {
+            UNUserNotificationCenter.current().delegate = self
+            let identifier = "NotificationIdentifier"
+            let notificationCenter = UNUserNotificationCenter.current()
+            let content = UNMutableNotificationContent()
+            content.title = "Sponent"
+            content.body = message
+            content.sound = .default
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+            notificationCenter.requestAuthorization(completionHandler: {(granted, error) in
+            if let error = error {
+                print("Failed to schedule notification: \(error.localizedDescription)")
+            } else {
+                print("Notification scheduled successfully for user: \(userID)")
+            }
+        })
+//            notificationCenter.add(request) { error in
+//                if let error = error {
+//                    print("Failed to schedule notification: \(error.localizedDescription)")
+//                } else {
+//                    print("Notification scheduled successfully for user: \(userID)")
+//                }
+//            }
+    }
+    
     // MARK: UISceneSession Lifecycle
-
+    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
         // Use this method to select a configuration to create the new scene with.

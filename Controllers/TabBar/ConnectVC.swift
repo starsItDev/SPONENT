@@ -85,6 +85,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     @IBAction func chatCancelButton(_ sender: UIButton) {
         chatView.isHidden = true
         transparentView.isHidden = true
+        chatTextField.text = ""
     }
 }
 
@@ -97,7 +98,9 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ConnectTableViewCell
         cell.delegate = self
         cell.layer.borderWidth = 3
-        cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+        if let borderColor = UIColor(named: "ControllerViews") {
+            cell.layer.borderColor = borderColor.cgColor
+        }
         let connection = connections[indexPath.row]
         cell.connectCellLabel?.text = connection.title
         loadImage(from: connection.photoURL , into: cell.connectImageView)

@@ -18,6 +18,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var forgotTextField: UITextField!
     @IBOutlet weak var forgotPasswordView: GradientView!
+    @IBOutlet var loginView: UIView!
     @IBOutlet weak var emailErrorView: UIView!
     @IBOutlet weak var passwordErrorView: UIView!
     @IBOutlet weak var emailErrorLblView: UIView!
@@ -32,6 +33,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var googleSignIn: UIButton!
     @IBOutlet weak var socialStackView: UIStackView!
     @IBOutlet weak var appleSignIn: ASAuthorizationAppleIDButton!
+    @IBOutlet weak var loginBtn: UIButton!
+    @IBOutlet weak var signUpBtn: UIButton!
+    @IBOutlet weak var loginGuest: UIButton!
     let textFieldDelegateHelper = TextFieldDelegateHelper<LoginVC>()
     var socialEmail: String?
     var socialName: String?

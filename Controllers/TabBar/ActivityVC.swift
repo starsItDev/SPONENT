@@ -162,7 +162,9 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
             loadImage(from: pending.catAvatar, into: cell.catAvatarImage)
             loadImage(from: pending.avatar, into: cell.pendingTableImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
             return cell
         } else if tableView == currentTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ActivityCurrentCell
@@ -175,7 +177,9 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
             loadImage(from: current.catAvatar, into: cell.catAvatarImage)
             loadImage(from: current.avatar, into: cell.currentTableImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
              return cell
         } else if tableView == followingTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActivityFollowingCell
@@ -188,7 +192,9 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
             loadImage(from: following.catAvatar, into: cell.catAvatarImage)
             loadImage(from: following.avatar, into: cell.followingTableImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
             return cell
         } else if tableView == pastTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ActivityPastCell
@@ -201,7 +207,9 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
             loadImage(from: past.catAvatar, into: cell.catAvatarImage)
             loadImage(from: past.avatar, into: cell.pastTableImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
              return cell
         }
         return UITableViewCell()

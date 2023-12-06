@@ -11,7 +11,7 @@ import GooglePlaces
 import Kingfisher
 import Starscream
 
-class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate, UITabBarControllerDelegate {
+class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate, UITabBarControllerDelegate, CLLocationManagerDelegate {
     
     //MARK: - Variable
     @IBOutlet weak var homeTableView: UITableView!
@@ -39,7 +39,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     @IBOutlet weak var addDetailsLocation: UIView!
     @IBOutlet weak var addDetailsLocLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
-    //var locationManager = CLLocationManager()
+    var locationManager = CLLocationManager()
     var selectedCoordinate: CLLocationCoordinate2D?
     var actions: [UIAlertAction] = []
     var selectedLocation: String?
@@ -58,11 +58,11 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     let randomSkills = ["Any", "Expert", "Perfect", "Middle", "Average"]
     var activityID: String?
     var updateCategoryId: String?
-
+    var range: String?
+    
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        userActivityAPiCall()
         apiCall { [weak self] result in
                switch result {
                case .success(let categoriesModel):
@@ -72,6 +72,10 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                    print("API call error: \(error)")
                }
            }
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         homeView.isHidden = false
         homeMapView.isHidden = true
         addDetails.isHidden = true
@@ -79,6 +83,23 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         styleViews()
         tabBarController?.delegate = self
         homeMapView.delegate = self
+        if traitCollection.userInterfaceStyle == .dark {
+            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: " Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            sportTypeLabel.textColor = .white
+            ageLabel.textColor = .white
+            genderLabel.textColor = .white
+            participantLabel.textColor = .white
+            skillLabel.textColor = .white
+            addDetailsLocLabel.textColor = .white
+        } else {
+            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: " Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            sportTypeLabel.textColor = .lightGray
+            ageLabel.textColor = .lightGray
+            genderLabel.textColor = .lightGray
+            participantLabel.textColor = .lightGray
+            skillLabel.textColor = .lightGray
+            addDetailsLocLabel.textColor = .black
+        }
         self.navigationController?.navigationBar.isHidden = true
         setupTapGesture(for: sportTypeView, action: #selector(showSportActionSheet))
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
@@ -89,13 +110,27 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshHomeTableView(_:)), for: .valueChanged)
         homeTableView.refreshControl = refreshControl
-  }
-   
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userActivityAPiCall(sportCategoryID: updateCategoryId, range: range)
+    }
+//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        updateBorderColor()
+//    }
+    
     //MARK: - API Calling
-    func userActivityAPiCall(){
-        let endPoint = APIConstants.Endpoints.userActivities
-        let urlString = APIConstants.baseURL + endPoint
-        
+    func userActivityAPiCall(sportCategoryID: String?, range: String?) {
+        let endPoint = APIConstants.Endpoints.getActivities
+        var urlString = APIConstants.baseURL + endPoint
+        urlString += "?limit=100"
+          if let sportCategoryID = sportCategoryID {
+              urlString += "&categoryId=\(sportCategoryID)"
+          }
+        if let range = range {
+              urlString += "&distance=\(range)"
+          }
         guard let url = URL(string: urlString) else {
             showAlert(title: "Alert", message: "Invalid URL")
             return
@@ -187,20 +222,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
         }
         task.resume()
-    }
-
-    func createMarkerView(imageURL: String) -> UIImageView {
-        guard var urlComponents = URLComponents(string: imageURL) else {
-            fatalError("Invalid image URL")
-        }
-        urlComponents.scheme = "https"
-        guard let secureURL = urlComponents.url else {
-            fatalError("Invalid secure image URL")
-        }
-        let markerView = UIImageView()
-        markerView.contentMode = .scaleAspectFit
-        markerView.kf.setImage(with: secureURL)
-        return markerView
     }
     func apiCall(completion: @escaping (Result<CategoriesModel, Error>) -> Void) {
         let endpoint = APIConstants.Endpoints.categories
@@ -332,6 +353,11 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                             UserDefaults.standard.set(activityId, forKey: "activityID")
                             if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
                                 vc.modalPresentationStyle = .fullScreen
+                                if let latitude = self.selectedLocationLatitude, let longitude = self.selectedLocationLongitude {
+                                    vc.selectedLocationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                                } else {
+                                    vc.selectedLocationCoordinate = CLLocationCoordinate2D(latitude: 0, longitude: 0)
+                                }
                                 self.navigationController?.pushViewController(vc, animated: false)
                             }
                         } else {
@@ -352,7 +378,11 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             let actionOne = UIAlertAction(title: sport.title, style: .default) { [weak self] _ in
                 self?.sportTypeLabel.text = sport.title
                 self?.updateCategoryId = sport.categoryID
-                self?.sportTypeLabel.textColor = .black
+                if self?.traitCollection.userInterfaceStyle == .dark {
+                    self?.sportTypeLabel.textColor = .white
+                } else {
+                    self?.sportTypeLabel.textColor = .black
+                }
             }
             actions.append(actionOne)
         }
@@ -363,8 +393,12 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
          for gender in randomGenders {
              let actionTwo = UIAlertAction(title: gender, style: .default) { [weak self] _ in
             self?.genderLabel.text = gender
-            self?.genderLabel.textColor = .black
-        }
+                 if self?.traitCollection.userInterfaceStyle == .dark {
+                     self?.genderLabel.textColor = .white
+                 } else {
+                     self?.genderLabel.textColor = .black
+                 }
+             }
          actions.append(actionTwo)
      }
          presentActionSheet(title: "Select Gender", message: nil, actions: actions)
@@ -374,8 +408,11 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         for ageType in ages {
             let action = UIAlertAction(title: ageType.title, style: .default) { [weak self ] _ in
                 self?.ageLabel.text = ageType.title
-                self?.ageLabel.textColor = .black
-
+                if self?.traitCollection.userInterfaceStyle == .dark {
+                    self?.ageLabel.textColor = .white
+                } else {
+                    self?.ageLabel.textColor = .black
+                }
             }
             actions.append(action)
         }
@@ -386,8 +423,12 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
          for player in randomParticipants {
             let action = UIAlertAction(title: player, style: .default) { [weak self] _ in
             self?.participantLabel.text = player
-            self?.participantLabel.textColor = .black
-       }
+                if self?.traitCollection.userInterfaceStyle == .dark {
+                    self?.participantLabel.textColor = .white
+                } else {
+                    self?.participantLabel.textColor = .black
+                }
+            }
          actions.append(action)
      }
          presentActionSheet(title: "Select player", message: nil, actions: actions)
@@ -397,18 +438,35 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
          for skill in randomSkills {
             let action = UIAlertAction(title: skill, style: .default) { [weak self] _ in
            self?.skillLabel.text = skill
-           self?.skillLabel.textColor = .black
-       }
+                if self?.traitCollection.userInterfaceStyle == .dark {
+                    self?.skillLabel.textColor = .white
+                } else {
+                    self?.skillLabel.textColor = .black
+                }
+            }
          actions.append(action)
      }
          presentActionSheet(title: "Select skill", message: nil, actions: actions)
   }
     @objc func refreshHomeTableView(_ sender: UIRefreshControl) {
-        userActivityAPiCall()
+        userActivityAPiCall(sportCategoryID: updateCategoryId, range: range)
+    }
+    func createMarkerView(imageURL: String) -> UIImageView {
+        guard var urlComponents = URLComponents(string: imageURL) else {
+            fatalError("Invalid image URL")
+        }
+        urlComponents.scheme = "https"
+        guard let secureURL = urlComponents.url else {
+            fatalError("Invalid secure image URL")
+        }
+        let markerView = UIImageView()
+        markerView.contentMode = .scaleAspectFit
+        markerView.kf.setImage(with: secureURL)
+        return markerView
     }
     func styleViews() {
         sportTypeView.applyBorder()
-    // datePickerView.applyBorder()
+      //datePickerView.applyBorder()
         genderView.applyBorder()
         ageView.applyBorder()
         participantView.applyBorder()
@@ -417,7 +475,20 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         addDetailsActivity.applyBorder()
         addDetailsTextView.applyBorder()
 }
-//    func createLoadingView() {
+    func didSelectLocation(_ locationName: String) {
+        addDetailsLocLabel.text = locationName
+        selectedLocation = locationName
+        homeSegmentController.selectedSegmentIndex = 2
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+            if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
+                self?.selectedLocationLatitude = locationCoordinate.latitude
+                self?.selectedLocationLongitude = locationCoordinate.longitude
+            }
+        }
+            // dismiss(animated: true, completion: nil)
+   }
+//  func createLoadingView() {
 //    loadingView = UIView(frame: UIScreen.main.bounds)
 //    loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
 //    let activityIndicator = UIActivityIndicatorView(style: .large)
@@ -425,20 +496,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
 //    loadingView?.addSubview(activityIndicator)
 //    activityIndicator.startAnimating()
 //}
-    func didSelectLocation(_ locationName: String) {
-         addDetailsLocLabel.text = locationName
-         selectedLocation = locationName
-         homeSegmentController.selectedSegmentIndex = 2
-         let geocoder = CLGeocoder()
-            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-                if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-                    self?.selectedLocationLatitude = locationCoordinate.latitude
-                    self?.selectedLocationLongitude = locationCoordinate.longitude
-                }
-            }
-         dismiss(animated: true, completion: nil)
-    }
-//    func showLoadingView() {
+//  func showLoadingView() {
 //        if loadingView == nil {
 //            createLoadingView()
 //        }
@@ -458,6 +516,27 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                 homeSegmentControl(homeSegmentController)
             }
     }
+    func clearTextFields() {
+        sportTypeLabel.text = ""
+        addDetailsActivity.text = ""
+        addDetailsTextView.text = ""
+        genderLabel.text = "Any"
+        ageLabel.text = "Any"
+        participantLabel.text = "Any"
+        skillLabel.text = "Any"
+        addDetailsLocLabel.text = ""
+    }
+//    func updateBorderColor() {
+//        if traitCollection.userInterfaceStyle == .dark {
+//            if let darkModeBorderColor = UIColor(named: "BorderColor") {
+//                layer.borderColor = darkModeBorderColor.cgColor
+//            }
+//        } else {
+//            if let lightModeBorderColor = UIColor(named: "BorderColor") {
+//                layer.borderColor = lightModeBorderColor.cgColor
+//            }
+//        }
+//    }
 
     //MARK: - Actions
     @IBAction func homeSegmentControl(_ sender: UISegmentedControl) {
@@ -480,29 +559,40 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
       }
   }
     @IBAction func homeSportButton(_ sender: UIButton) {
-    actions.removeAll()
-    for sport in sports {
-        let title = "  Sport: " + sport.title + "  "
-        let action = UIAlertAction(title: sport.title, style: .default) { _ in
-            self.updateCategoryId = sport.categoryID
-            self.homeSportBtn.setTitle(title, for: .normal)
-    }
-        actions.append(action)
-    }
+        actions.removeAll()
+        let all = UIAlertAction(title: "All", style: .default) { [weak self] _ in
+            self?.updateCategoryId = "0"
+            self?.homeSportBtn.setTitle("  Sport: All  ", for: .normal)
+            self?.userActivityAPiCall(sportCategoryID: self?.updateCategoryId, range: self?.range)
+        }
+        actions.append(all)
+        for sport in sports {
+            let title = "  Sport: " + sport.title + "  "
+            let action = UIAlertAction(title: sport.title, style: .default) { _ in
+                self.updateCategoryId = sport.categoryID
+                self.homeSportBtn.setTitle(title, for: .normal)
+                self.userActivityAPiCall(sportCategoryID: sport.categoryID, range: self.range)
+            }
+            actions.append(action)
+        }
         presentActionSheet(title: "Select Sport", message: nil, actions: actions)
-}
+    }
     @IBAction func homeRangeButton(_ sender: UIButton) {
         actions.removeAll()
         let range = ["10 miles", "20 miles", "30 miles", "40 miles", "50 miles", "100 miles"]
         for range in range {
-             let action = UIAlertAction(title: range, style: .default) { _ in
-             let attributedTitle = NSAttributedString(string: "   With in: \(range)   ", attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .semibold)])
-                 sender.setAttributedTitle(attributedTitle, for: .normal)
+            let action = UIAlertAction(title: range, style: .default) { _ in
+                let attributedTitle = NSAttributedString(string: "   With in: \(range)   ", attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .semibold)])
+                sender.setAttributedTitle(attributedTitle, for: .normal)
+                if let selectedRange = Int(range.replacingOccurrences(of: " miles", with: "")) {
+                    self.range = String(selectedRange)
+                    self.userActivityAPiCall(sportCategoryID: self.updateCategoryId, range: self.range)
+              }
            }
             actions.append(action)
-       }
-            presentActionSheet(title: "Select Range", message: nil, actions: actions)
-   }
+        }
+        presentActionSheet(title: "Select Range", message: nil, actions: actions)
+    }
     @IBAction func addDetailsLocBtn(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController,
                let userLocation = (UIApplication.shared.delegate as? AppDelegate)?.locationManager.location?.coordinate {
@@ -517,6 +607,10 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                    vc.isShareButtonHidden = true
                    vc.isdelButtonHidden = true
                    vc.isDoneButtonHidden = false
+                   //vc.comingFromHome = true
+                   vc.backBtnHidden = true
+                   let selectedText = "Select Location"
+                   vc.labelText = selectedText
                    vc.selectedLocationCoordinate = selectedCoordinate
                    vc.locationSelectedHandler = { [weak self] locationName in
                        self?.addDetailsLocLabel.text = locationName
@@ -528,38 +622,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
           }
       }
     @IBAction func addDetailDoneButton(_ sender: UIButton) {
-        if selectedLocationLatitude == nil || selectedLocationLongitude == nil {
-            if let locationName = addDetailsLocLabel.text {
-                let geocoder = CLGeocoder()
-                geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-                    if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-                        self?.selectedLocationLatitude = locationCoordinate.latitude
-                        self?.selectedLocationLongitude = locationCoordinate.longitude
-                        self?.CreateActivityAPICall()
-                        self?.clearTextFields()
-                        
-                    } else {
-                        self?.showAlert(title: "Alert", message: "Failed to geocode the location")
-                    }
-                }
-            } else {
-                showAlert(title: "Alert", message: "Please select a valid location")
-            }
-        } else {
-            CreateActivityAPICall()
-            clearTextFields()
-        }
-        
-    }
-    func clearTextFields() {
-        sportTypeLabel.text = ""
-        addDetailsActivity.text = ""
-        addDetailsTextView.text = ""
-        genderLabel.text = "Any"
-        ageLabel.text = "Any"
-        participantLabel.text = "Any"
-        skillLabel.text = "Any"
-        addDetailsLocLabel.text = ""
+        CreateActivityAPICall()
+        clearTextFields()
     }
 }
 
@@ -573,7 +637,9 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as!
         HomeTableViewCell
         cell.layer.borderWidth = 3
-        cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+        if let borderColor = UIColor(named: "ControllerViews") {
+            cell.layer.borderColor = borderColor.cgColor
+        }
         let activities = activities[indexPath.row]
         cell.titleLabel?.text = activities.ownerTitle
         cell.activityTitle?.text = activities.activity
@@ -585,43 +651,32 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let defaultHeight: CGFloat = 99.0
-//        let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell
-//        if let cell = cell {
-//            let labelHeight = cell.homeTableLocation.intrinsicContentSize.height
-//            if labelHeight > defaultHeight {
-//                return UITableView.automaticDimension
-//            }
-//        }
         return 99
-    }    
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let activity = activities[indexPath.row]
-           if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
-               let locationName = cell.homeTableLocation.text {
-               //showLoadingView()
-               let geocoder = CLGeocoder()
-               geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-                   //self?.hideLoadingView()
-                   guard let self = self,
-                       let placemark = placemarks?.first,
-                       let locationCoordinate = placemark.location?.coordinate else {
-                           cell.accessoryView = nil
-                           return
+        if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
+           let locationName = cell.homeTableLocation.text {
+            //showLoadingView()
+            let geocoder = CLGeocoder()
+            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+                //self?.hideLoadingView()
+                guard let self = self,
+                      let placemark = placemarks?.first,
+                      let locationCoordinate = placemark.location?.coordinate else {
+                    cell.accessoryView = nil
+                    return
+                }
+                if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                    detailController.comingFromCell = false
+                    detailController.activityID = activity.activityID
+                    detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
+                    detailController.delegate = self
+                    cell.accessoryView = nil
+                    self.navigationController?.pushViewController(detailController, animated: true)
+                }
             }
-            if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                 detailController.activityID = activity.activityID
-                 self.selectedMarker?.map = nil
-                 self.selectedMarker = nil
-                 detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                 detailController.delegate = self
-                 cell.accessoryView = nil
-//               let camera = GMSCameraPosition.camera(withLatitude:                              locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
-                 //detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
-                self.navigationController?.pushViewController(detailController, animated: false)
-                   }
-               }
-           }
-           tableView.deselectRow(at: indexPath, animated: true)
-     }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }

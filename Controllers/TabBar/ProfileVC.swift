@@ -639,6 +639,11 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                 userFollowStatus[userID] = true
                 UserDefaults.standard.set(true, forKey: "FollowStatus_\(userID)")
                 friendshipAddAPI()
+                let message = "Owner has started following you"
+                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                    return
+                }
+                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
             }
         }
     }
@@ -777,7 +782,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             loadImage(from: activities.catAvatar, into: cell.catAvatarImage)
             loadImage(from: activities.avatar, into: cell.activityTableImage)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
              return cell
         } else if tableView == profileFollowerTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowerCell
@@ -785,7 +792,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cell.followerNameLabel?.text = follower.title
             loadImage(from: follower.photoURL, into: cell.followerImageView)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
             return cell
         } else if tableView == profileFollowingTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowingCell
@@ -793,7 +802,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cell.followingNameLabel?.text = following.title
             loadImage(from: following.photoURL, into: cell.followingImageView)
             cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0).cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                cell.layer.borderColor = borderColor.cgColor
+            }
             return cell
         }
         return UITableViewCell()

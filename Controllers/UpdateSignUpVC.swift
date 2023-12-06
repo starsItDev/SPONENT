@@ -74,8 +74,12 @@ struct UserProfileData {
                   if let placemark = placemarks?.first {
                      if let locality = placemark.name {
                         self.updateLocationLabel.text = locality
-                        self.updateLocationLabel.textColor = .black
-                    } else {
+                         if self.traitCollection.userInterfaceStyle == .dark {
+                             self.updateLocationLabel.textColor = .white
+                         } else {
+                             self.updateLocationLabel.textColor = .black
+                         }
+                     } else {
                         self.updateLocationLabel.text = "\(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)"
                     }
                 }
@@ -89,9 +93,19 @@ struct UserProfileData {
             updateCategoryLabel.text = userProfileData.category
             self.categoryID = userProfileData.categoryID
             updateAboutField.text = userProfileData.aboutMe
-            updateAgeLabel.textColor = .black
-            updateGenderLabel.textColor = .black
-            updateCategoryLabel.textColor = .black
+            if self.traitCollection.userInterfaceStyle == .dark {
+                updateAgeLabel.textColor = .white
+                updateGenderLabel.textColor = .white
+                updateNameField.textColor = .white
+                updateAboutField.textColor = .white
+                updateCategoryLabel.textColor = .white
+            } else {
+                updateAgeLabel.textColor = .black
+                updateGenderLabel.textColor = .black
+                updateNameField.textColor = .black
+                updateAboutField.textColor = .black
+                updateCategoryLabel.textColor = .black
+            }
         }
     }
        
@@ -242,8 +256,12 @@ struct UserProfileData {
         for age in Updateages {
             let action = UIAlertAction(title: age, style: .default) { [weak self ] _ in
             self?.updateAgeLabel.text = age
-            self?.updateAgeLabel.textColor = .black
-         }
+                if self?.traitCollection.userInterfaceStyle == .dark {
+                    self?.updateAgeLabel.textColor = .white
+                } else {
+                    self?.updateAgeLabel.textColor = .black
+                }
+            }
         actions.append(action)
      }
         presentActionSheet(title: "Select age", message: nil, actions: actions)
@@ -254,7 +272,11 @@ struct UserProfileData {
         for gender in Updategenders {
             let actionTwo = UIAlertAction(title: gender, style: .default) { [weak self] _ in
             self?.updateGenderLabel.text = gender
-            self?.updateGenderLabel.textColor = .black
+                if self?.traitCollection.userInterfaceStyle == .dark {
+                    self?.updateGenderLabel.textColor = .white
+                } else {
+                    self?.updateGenderLabel.textColor = .black
+                }
             }
             actions.append(actionTwo)
         }
@@ -267,7 +289,11 @@ struct UserProfileData {
             let actionOne = UIAlertAction(title: category.title, style: .default) { [weak self] _ in
                 self?.updateCategoryLabel.text = category.title
                 self?.categoryID = Int(category.categoryID)
-                self?.updateCategoryLabel.textColor = .black
+                if self?.traitCollection.userInterfaceStyle == .dark {
+                    self?.updateCategoryLabel.textColor = .white
+                } else {
+                    self?.updateCategoryLabel.textColor = .black
+                }
             }
             actions.append(actionOne)
         }

@@ -56,18 +56,18 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var isDoneButtonHidden = true
     var activityID: String?
     var userID: String?
-    var comingFromHome = true
     var isRequestToJoin = true
     var backBtnHidden = false
     var isOwner: Bool = false
     var labelText: String?
+    var comingFromCell: Bool = true
     var requestStatus: Int = 0
     var selectedMarker: GMSMarker?
     var selectedRegion: GMSCoordinateBounds?
     var selectedLocationCoordinate: CLLocationCoordinate2D?
     var userLocationCoordinate: CLLocationCoordinate2D?
     var selectedLocationInfo: (name: String, coordinate: CLLocationCoordinate2D)?
-
+    
     //MARK: - Override Functions
     override func viewDidLoad() {
       super.viewDidLoad()
@@ -90,11 +90,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
       if expandMapHeight {
           let screenHeight = UIScreen.main.bounds.size.height
           detailMapHeight.constant = screenHeight
-      }
-      if comingFromHome == false {
-          detailMapView.isUserInteractionEnabled = true
-      } else {
-          detailMapView.isUserInteractionEnabled = false
       }
         detailMapView.isMyLocationEnabled = true
         if let locationInfo = selectedLocationInfo {
@@ -126,9 +121,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
               requestJoinButton.setTitle("Request to Join", for: .normal)
         }
     }
-     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-   }
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+      return .portrait
+    }
     override func viewWillAppear(_ animated: Bool) {
       super.viewWillAppear(animated)
         activityDetailAPICall()
@@ -359,19 +354,18 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                 self.requestJoinButton.setTitle("View Requests", for: .normal)
                 if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "RequestVC") as? RequestVC {
                     vc.activityID = self.activityID
-                    //vc.userID = self.userID
-                   self.navigationController?.pushViewController(vc, animated: false)
+                    self.navigationController?.pushViewController(vc, animated: false)
                }
             }
          } else {
-            if isRequestToJoin {
-                joinActivityApiCall()
-            } else {
-                cancelActivityApiCall()
-            }
-            isRequestToJoin.toggle()
-        }
-    }
+             if self.isRequestToJoin {
+                 joinActivityApiCall()
+             } else {
+                 cancelActivityApiCall()
+             }
+             isRequestToJoin.toggle()
+         }
+     }
     @IBAction func deleteButton(_ sender: UIButton) {
         deleteAPICall()
     }
@@ -434,6 +428,14 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             print("Error parsing JSON: \(error)")
        }
     }
+//  func requestAccepted(activityID: String, userID: String) {
+//        if self.isRequestToJoin == false {
+//            self.isRequestAccepted = true
+//            if self.activityID == activityID && self.userID == userID {
+//                self.requestJoinButton.setTitle("Request Accepted", for: .normal)
+//            }
+//        }
+//    }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        searchBar.resignFirstResponder()
        guard let searchText = searchBar.text, !searchText.isEmpty
@@ -478,13 +480,13 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             }
         }
     }
-    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
-            if let locationName = marker.title {
-                delegate?.didSelectLocation(locationName)
-                dismiss(animated: true, completion: nil)
-            }
-            return true
-        }
+//  func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+//            if let locationName = marker.title {
+//                delegate?.didSelectLocation(locationName)
+//                //dismiss(animated: true, completion: nil)
+//            }
+//            return true
+//        }
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
            let geocoder = GMSGeocoder()
            geocoder.reverseGeocodeCoordinate(coordinate) { [weak self] (response, error) in
@@ -493,7 +495,11 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             }
                let locationName = result.lines?.joined(separator: ", ") ?? ""
                self.delegate?.didSelectLocation(locationName)
-               self.dismiss(animated: true, completion: nil)
-           }
-       }
-   }
+               if self.comingFromCell {
+                    self.dismiss(animated: true, completion: nil)
+              } else {
+                  print("comingFromCell == false")
+            }
+        }
+    }
+}
