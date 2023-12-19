@@ -639,11 +639,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                 userFollowStatus[userID] = true
                 UserDefaults.standard.set(true, forKey: "FollowStatus_\(userID)")
                 friendshipAddAPI()
-                let message = "Owner has started following you"
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
-                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
             }
         }
     }
@@ -810,22 +805,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == profileActivityTableView {
-              let defaultHeight: CGFloat = 99.0
-              let cell = tableView.cellForRow(at: indexPath) as? ProfileActivityCell
-              if let cell = cell {
-                  let labelHeight = cell.activityTableLocation.intrinsicContentSize.height
-                  if labelHeight > defaultHeight {
-                      return UITableView.automaticDimension
-                  }
-              }
-              return defaultHeight
-          } else if tableView == profileFollowerTableView {
-               return 99
-            } else if tableView == profileFollowingTableView {
-                 return 99
-             }
-        return 0
+        return 99
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == profileFollowerTableView {

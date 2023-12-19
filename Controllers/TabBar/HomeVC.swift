@@ -115,10 +115,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         super.viewWillAppear(animated)
         userActivityAPiCall(sportCategoryID: updateCategoryId, range: range)
     }
-//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        super.traitCollectionDidChange(previousTraitCollection)
-//        updateBorderColor()
-//    }
     
     //MARK: - API Calling
     func userActivityAPiCall(sportCategoryID: String?, range: String?) {
@@ -526,17 +522,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         skillLabel.text = "Any"
         addDetailsLocLabel.text = ""
     }
-//    func updateBorderColor() {
-//        if traitCollection.userInterfaceStyle == .dark {
-//            if let darkModeBorderColor = UIColor(named: "BorderColor") {
-//                layer.borderColor = darkModeBorderColor.cgColor
-//            }
-//        } else {
-//            if let lightModeBorderColor = UIColor(named: "BorderColor") {
-//                layer.borderColor = lightModeBorderColor.cgColor
-//            }
-//        }
-//    }
 
     //MARK: - Actions
     @IBAction func homeSegmentControl(_ sender: UISegmentedControl) {
@@ -545,6 +530,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
              homeView.isHidden = false
              homeMapView.isHidden = true
              addDetails.isHidden = true
+             userActivityAPiCall(sportCategoryID: updateCategoryId, range: range)
        case 1:
              homeView.isHidden = true
              homeMapView.isHidden = false
@@ -607,7 +593,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                    vc.isShareButtonHidden = true
                    vc.isdelButtonHidden = true
                    vc.isDoneButtonHidden = false
-                   //vc.comingFromHome = true
                    vc.backBtnHidden = true
                    let selectedText = "Select Location"
                    vc.labelText = selectedText

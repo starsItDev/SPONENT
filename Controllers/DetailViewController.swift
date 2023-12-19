@@ -428,14 +428,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             print("Error parsing JSON: \(error)")
        }
     }
-//  func requestAccepted(activityID: String, userID: String) {
-//        if self.isRequestToJoin == false {
-//            self.isRequestAccepted = true
-//            if self.activityID == activityID && self.userID == userID {
-//                self.requestJoinButton.setTitle("Request Accepted", for: .normal)
-//            }
-//        }
-//    }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
        searchBar.resignFirstResponder()
        guard let searchText = searchBar.text, !searchText.isEmpty
