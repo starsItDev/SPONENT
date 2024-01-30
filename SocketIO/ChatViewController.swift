@@ -296,7 +296,6 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
     }
     // MARK: - IBAction Methods
     @IBAction private func sendButtonTapped(_ sender: Any) {
-        
         if socketManager.isSocketConnected {
             if let messageText = messageTextField.text, !messageText.isEmpty {
                 let currentDate = Date()
@@ -322,6 +321,8 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
                 let chatMessage = ChatMessage(message: messageText, time: currentTimeString, senderId: "")
                 chatMessages.append(chatMessage)
                 tableView.reloadData()
+                let indexPath = IndexPath(row: chatMessages.count - 1, section: 0)
+                tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
                 messageTextField.resignFirstResponder()
                 messageTextField.text = ""
             } else {
