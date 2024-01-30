@@ -83,9 +83,12 @@ class MessagesVC: UIViewController {
         let conversation = conversations[indexPath.row]
         selectedReceiverID = conversation.receiverID
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        if let chatController = storyboard.instantiateViewController(withIdentifier: "ChatVC") as? ChatVC {
-              chatController.receiverName = conversation.nameReceiver
-              chatController.receiverID = conversation.receiverID
+        if let chatController = storyboard.instantiateViewController(withIdentifier: "ChatViewController") as? ChatViewController {
+            self.tabBarController?.tabBar.isHidden = true
+             chatController.messageSenderName = conversation.nameReceiver
+             chatController.messageSenderImage = conversation.avatarReceiver
+            // Assuming chatController.receiverID is of type String?
+            chatController.receiverID = String(conversation.receiverID)
               navigationController?.pushViewController(chatController, animated: true)
         }
     }

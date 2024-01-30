@@ -2,55 +2,69 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>GIDClientID</key>
-    <string>389772383867-p2p10dfbp95kf07l6n559irhsnfrb47c.apps.googleusercontent.com</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need your location to show nearby events.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-        <string>We need your location to show nearby events.</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLName</key>
-            <string></string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.googleusercontent.apps.389772383867-p2p10dfbp95kf07l6n559irhsnfrb47c</string>
-                <!-- Facebook URL Scheme -->
-                <string>fb1532763860828316</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>1532763860828316</string>
-    <key>FacebookClientToken</key>
-    <string>34bec28023b384a8032011e8da8db967</string>
-    <key>FacebookDisplayName</key>
-    <string>Sponent</string>
-    <key>UIApplicationSceneManifest</key>
+	<key>GIDClientID</key>
+	<string>389772383867-p2p10dfbp95kf07l6n559irhsnfrb47c.apps.googleusercontent.com</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to capture photos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show nearby events.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>We need your location to show nearby events.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string></string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.389772383867-p2p10dfbp95kf07l6n559irhsnfrb47c</string>
+				<string>fb1532763860828316</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1532763860828316</string>
+	<key>FacebookClientToken</key>
+	<string>34bec28023b384a8032011e8da8db967</string>
+	<key>FacebookDisplayName</key>
+	<string>Sponent</string>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<key>UISceneStoryboardFile</key>
+					<string>Main</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+	</array>
+    <key>NSAppTransportSecurity</key>
     <dict>
-        <key>UIApplicationSupportsMultipleScenes</key>
-        <false/>
-        <key>UISceneConfigurations</key>
+        <key>NSExceptionDomains</key>
         <dict>
-            <key>UIWindowSceneSessionRoleApplication</key>
-            <array>
-                <dict>
-                    <key>UISceneConfigurationName</key>
-                    <string>Default Configuration</string>
-                    <key>UISceneDelegateClassName</key>
-                    <string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
-                    <key>UISceneStoryboardFile</key>
-                    <string>Main</string>
-                </dict>
-            </array>
+            <key>playwithmeapp.com</key>
+            <dict>
+                <!-- Allow cleartext HTTP -->
+                <key>NSIncludesSubdomains</key>
+                <true/>
+                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
         </dict>
     </dict>
-    <!-- Facebook LSApplicationQueriesSchemes -->
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-    </array>
 </dict>
 </plist>

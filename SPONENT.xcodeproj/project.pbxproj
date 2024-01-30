@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		761825072AB435D70018073E /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761825062AB435D70018073E /* Categories.swift */; };
+		767DCDA82B68D7160005D0E8 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDA72B68D7160005D0E8 /* MessageCell.swift */; };
+		767DCDAA2B68D72B0005D0E8 /* MessageCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDA92B68D72B0005D0E8 /* MessageCell2.swift */; };
+		767DCDAC2B68D7410005D0E8 /* ImageCellTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDAB2B68D7410005D0E8 /* ImageCellTV.swift */; };
+		767DCDAE2B68D9A90005D0E8 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDAD2B68D9A90005D0E8 /* MessageModel.swift */; };
+		767DCDB02B68DACD0005D0E8 /* TypingBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDAF2B68DACD0005D0E8 /* TypingBubbleView.swift */; };
+		767DCDB32B68DC0B0005D0E8 /* GSImageViewerController in Frameworks */ = {isa = PBXBuildFile; productRef = 767DCDB22B68DC0B0005D0E8 /* GSImageViewerController */; };
+		767DCDB62B68DC860005D0E8 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 767DCDB52B68DC860005D0E8 /* IQKeyboardManagerSwift */; };
+		767EB86D2B68CC4800425758 /* SocketIOManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767EB86C2B68CC4800425758 /* SocketIOManager.swift */; };
+		767EB86F2B68CC7400425758 /* DecryptionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767EB86E2B68CC7400425758 /* DecryptionHandler.swift */; };
+		767EB8732B68CD2300425758 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767EB8722B68CD2300425758 /* ChatViewController.swift */; };
 		7686A3C02ACC4DAD0083F7DC /* MessageCellUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */; };
 		769569B52AC5900300A99725 /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 769569B42AC5900300A99725 /* SocketIO */; };
 		769841CE2ACAC3DE0061046D /* Inbox Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769841CD2ACAC3DE0061046D /* Inbox Model.swift */; };
@@ -79,6 +89,14 @@
 
 /* Begin PBXFileReference section */
 		761825062AB435D70018073E /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		767DCDA72B68D7160005D0E8 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		767DCDA92B68D72B0005D0E8 /* MessageCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell2.swift; sourceTree = "<group>"; };
+		767DCDAB2B68D7410005D0E8 /* ImageCellTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCellTV.swift; sourceTree = "<group>"; };
+		767DCDAD2B68D9A90005D0E8 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		767DCDAF2B68DACD0005D0E8 /* TypingBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypingBubbleView.swift; sourceTree = "<group>"; };
+		767EB86C2B68CC4800425758 /* SocketIOManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketIOManager.swift; sourceTree = "<group>"; };
+		767EB86E2B68CC7400425758 /* DecryptionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecryptionHandler.swift; sourceTree = "<group>"; };
+		767EB8722B68CD2300425758 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		7686A3BF2ACC4DAD0083F7DC /* MessageCellUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCellUser.swift; sourceTree = "<group>"; };
 		769841CD2ACAC3DE0061046D /* Inbox Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Inbox Model.swift"; sourceTree = "<group>"; };
 		769841CF2ACB03E60061046D /* MassageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MassageModel.swift; sourceTree = "<group>"; };
@@ -148,9 +166,11 @@
 				E0AB64602A9F0CB200F4F299 /* GoogleMaps in Frameworks */,
 				E0AB64642A9F0CB200F4F299 /* GoogleMapsCore in Frameworks */,
 				E0FCE59C2AB1E98A0010D419 /* MessageKit in Frameworks */,
+				767DCDB62B68DC860005D0E8 /* IQKeyboardManagerSwift in Frameworks */,
 				E0CAC4E12AFB702500D9A876 /* GoogleSignIn in Frameworks */,
 				E0AB64662A9F0CB200F4F299 /* GoogleMapsM4B in Frameworks */,
 				E0C05ED92B0494A80097F489 /* FacebookLogin in Frameworks */,
+				767DCDB32B68DC0B0005D0E8 /* GSImageViewerController in Frameworks */,
 				E0C05ED72B0494A80097F489 /* FacebookCore in Frameworks */,
 				E0AB64682A9F0CB200F4F299 /* GooglePlaces in Frameworks */,
 				E0AB64622A9F0CB200F4F299 /* GoogleMapsBase in Frameworks */,
@@ -162,6 +182,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		767DCDA62B68D6D20005D0E8 /* ChatVCTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				767DCDA72B68D7160005D0E8 /* MessageCell.swift */,
+				767DCDA92B68D72B0005D0E8 /* MessageCell2.swift */,
+				767DCDAB2B68D7410005D0E8 /* ImageCellTV.swift */,
+				767DCDAD2B68D9A90005D0E8 /* MessageModel.swift */,
+			);
+			path = ChatVCTableViewCell;
+			sourceTree = "<group>";
+		};
+		767EB86B2B68CC1800425758 /* SocketIO */ = {
+			isa = PBXGroup;
+			children = (
+				767EB86C2B68CC4800425758 /* SocketIOManager.swift */,
+				767EB86E2B68CC7400425758 /* DecryptionHandler.swift */,
+				767EB8722B68CD2300425758 /* ChatViewController.swift */,
+				767DCDA62B68D6D20005D0E8 /* ChatVCTableViewCell */,
+			);
+			path = SocketIO;
+			sourceTree = "<group>";
+		};
 		76ADC4722ACC4BDC002D7476 /* ChatVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -251,6 +293,7 @@
 				E0B664E42A84FF6300537CAE /* Controllers */,
 				E0AFE7592A8F7C0E001D3992 /* Sources */,
 				E0B664CC2A84FEEA00537CAE /* SPONENT */,
+				767EB86B2B68CC1800425758 /* SocketIO */,
 				E0B664CB2A84FEEA00537CAE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -284,6 +327,7 @@
 				E0BFDFE52ACD7697006D594D /* KingFisher Image.swift */,
 				E0A0E21D2AF2305D0090B6C0 /* Validation.swift */,
 				E0A96F202B050018008E8360 /* RootViewController.swift */,
+				767DCDAF2B68DACD0005D0E8 /* TypingBubbleView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -392,6 +436,8 @@
 				E0CAC4E22AFB702500D9A876 /* GoogleSignInSwift */,
 				E0C05ED62B0494A80097F489 /* FacebookCore */,
 				E0C05ED82B0494A80097F489 /* FacebookLogin */,
+				767DCDB22B68DC0B0005D0E8 /* GSImageViewerController */,
+				767DCDB52B68DC860005D0E8 /* IQKeyboardManagerSwift */,
 			);
 			productName = SPONENT;
 			productReference = E0B664CA2A84FEEA00537CAE /* SPONENT.app */;
@@ -429,6 +475,8 @@
 				E0CAC4DC2AFB6A5200D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				E0CAC4DF2AFB702500D9A876 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				E0C05ED52B0494A80097F489 /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				767DCDB12B68DC0B0005D0E8 /* XCRemoteSwiftPackageReference "GSImageViewerController" */,
+				767DCDB42B68DC850005D0E8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = E0B664CB2A84FEEA00537CAE /* Products */;
 			projectDirPath = "";
@@ -468,7 +516,10 @@
 				E003374F2AD916A4001E55A6 /* FollowersModel.swift in Sources */,
 				E0E544312ADD38C400B7D2F0 /* ActivityCurrentCell.swift in Sources */,
 				E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */,
+				767DCDB02B68DACD0005D0E8 /* TypingBubbleView.swift in Sources */,
+				767EB86D2B68CC4800425758 /* SocketIOManager.swift in Sources */,
 				E0DD3C712AAEFF7D00D8A205 /* RequestVC.swift in Sources */,
+				767EB8732B68CD2300425758 /* ChatViewController.swift in Sources */,
 				E0DF66D92A95F266006BFBFE /* UIAlertController.swift in Sources */,
 				E0C3656B2AB1BA4300B7E6FB /* MessagesTableViewCell.swift in Sources */,
 				E0CE876A2AE7949E00311914 /* ActivtyRequests.swift in Sources */,
@@ -484,6 +535,7 @@
 				761825072AB435D70018073E /* Categories.swift in Sources */,
 				E0B381362AB8370B00015401 /* UpdateSignUpVC.swift in Sources */,
 				E00337512AD948B5001E55A6 /* FollowingModel.swift in Sources */,
+				767DCDAE2B68D9A90005D0E8 /* MessageModel.swift in Sources */,
 				E0B9593A2AE259E10030A930 /* RejectedTableViewCell.swift in Sources */,
 				E0AA26CD2A8649F6002CDACA /* HomeTableViewCell.swift in Sources */,
 				E0AD40712A8CF150007576C3 /* ProfileVC.swift in Sources */,
@@ -496,11 +548,15 @@
 				E0DF66D32A95D150006BFBFE /* MapPlaces.swift in Sources */,
 				E0D10A902AE13F9A00BA188E /* AcceptedTableViewCell.swift in Sources */,
 				E0AFE26F2ACED46400E00A97 /* MessageCellSender.swift in Sources */,
+				767DCDA82B68D7160005D0E8 /* MessageCell.swift in Sources */,
 				E0AD05882ADFF5C000DC1D2F /* MapActivities.swift in Sources */,
 				E0AE75772AD7F38200BE7DAC /* ProfileFollowingCell.swift in Sources */,
 				E0C365692AB1BA2700B7E6FB /* MessagesVC.swift in Sources */,
+				767EB86F2B68CC7400425758 /* DecryptionHandler.swift in Sources */,
 				E0E544332ADD38DE00B7D2F0 /* ActivityFollowingCell.swift in Sources */,
+				767DCDAA2B68D72B0005D0E8 /* MessageCell2.swift in Sources */,
 				E0E544372ADD4BB300B7D2F0 /* Activities.swift in Sources */,
+				767DCDAC2B68D7410005D0E8 /* ImageCellTV.swift in Sources */,
 				E0A0E21E2AF2305D0090B6C0 /* Validation.swift in Sources */,
 				E0B664D02A84FEEA00537CAE /* SceneDelegate.swift in Sources */,
 				E00B8BD52AA9FA37001422CE /* KeyBoardDismiss.swift in Sources */,
@@ -665,6 +721,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -695,6 +752,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -732,6 +790,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		767DCDB12B68DC0B0005D0E8 /* XCRemoteSwiftPackageReference "GSImageViewerController" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wxxsw/GSImageViewerController.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		767DCDB42B68DC850005D0E8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		769569B32AC5900300A99725 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/socketio/socket.io-client-swift.git";
@@ -791,6 +865,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		767DCDB22B68DC0B0005D0E8 /* GSImageViewerController */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 767DCDB12B68DC0B0005D0E8 /* XCRemoteSwiftPackageReference "GSImageViewerController" */;
+			productName = GSImageViewerController;
+		};
+		767DCDB52B68DC860005D0E8 /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 767DCDB42B68DC850005D0E8 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
+		};
 		769569B42AC5900300A99725 /* SocketIO */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 769569B32AC5900300A99725 /* XCRemoteSwiftPackageReference "socket.io-client-swift" */;
