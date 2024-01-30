@@ -6198,7 +6198,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" name="LoginPageTwo"/>
+                                                    <color key="backgroundColor" red="0.82083326580000004" green="0.60249710079999996" blue="0.31350904699999999" alpha="0.93156170371352442" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="b3o-67-bYC" secondAttribute="bottom" constant="12" id="8Uo-Zy-JVZ"/>
                                                         <constraint firstAttribute="bottom" secondItem="eKZ-yn-MdT" secondAttribute="bottom" constant="10" id="GfP-M1-NWA"/>
@@ -6257,7 +6257,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
-                                                    <color key="backgroundColor" red="0.47325485940000001" green="0.82559460399999995" blue="0.76542800659999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.55106392036245755" green="0.73789174179035932" blue="0.68057602640000003" alpha="0.8835821088576159" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="3j0-vL-Gtj" secondAttribute="bottom" constant="12" id="JUL-pj-aRb"/>
                                                         <constraint firstItem="ICP-BW-vc5" firstAttribute="leading" secondItem="3j0-vL-Gtj" secondAttribute="trailing" constant="8" id="PdI-US-HaH"/>
@@ -6366,7 +6366,7 @@
                                     <outlet property="delegate" destination="R0b-q8-eN6" id="CVf-m9-OX3"/>
                                 </connections>
                             </tableView>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="dSt-vh-10l">
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="dSt-vh-10l">
                                 <rect key="frame" x="20" y="835.5" width="374" height="35.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Reb-SW-xaI">
@@ -6378,8 +6378,8 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="camera.viewfinder" catalog="system" title=" "/>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder=" Write a Message " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6iZ-sj-9X0">
-                                        <rect key="frame" x="0.0" y="0.0" width="259" height="35.5"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder=" Write a Message " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6iZ-sj-9X0">
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="35.5"/>
                                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -6390,7 +6390,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BXL-wt-uc7">
-                                        <rect key="frame" x="264" y="0.0" width="35" height="35.5"/>
+                                        <rect key="frame" x="266" y="0.0" width="35" height="35.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="35" id="CLO-QL-tvb"/>
                                         </constraints>
@@ -6546,7 +6546,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zyw-tV-BZv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4758" y="2194"/>
+            <point key="canvasLocation" x="4757.971014492754" y="2193.75"/>
         </scene>
     </scenes>
     <resources>
