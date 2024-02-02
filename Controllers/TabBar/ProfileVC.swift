@@ -693,7 +693,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             myProfileLabel.text = labelText
         }
         setupKeyboardDismiss()
-        self.navigationController?.navigationBar.isHidden = true
+//        self.navigationController?.navigationBar.isHidden = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         profileSegmentView.addGestureRecognizer(tap)
         let tapTwo = UITapGestureRecognizer(target: self, action: #selector(self.handleTapTwo(_:)))

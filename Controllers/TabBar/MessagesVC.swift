@@ -21,7 +21,11 @@ class MessagesVC: UIViewController {
         super.viewDidLoad()
         InboxapiCall()
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        
+    }
     //MARK: - API Call
     func InboxapiCall() {
         var request = URLRequest(url: URL(string: "https://playwithmeapp.com/api/app/inbox")!, timeoutInterval: Double.infinity)
