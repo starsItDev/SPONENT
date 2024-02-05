@@ -6157,7 +6157,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gTU-J4-GDc">
-                                <rect key="frame" x="0.0" y="118" width="414" height="687.5"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="715.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="MessageCell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MessageCell" rowHeight="48" id="ChL-Ep-ODf" customClass="MessageCell" customModule="SPONENT" customModuleProvider="target">
@@ -6431,7 +6431,7 @@
                                 </variation>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QOj-5H-7JU" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AfM-6V-Tun">
                                         <rect key="frame" x="5" y="68" width="35" height="32"/>
@@ -6475,8 +6475,8 @@
                                             <action selector="profileBtn:" destination="R0b-q8-eN6" eventType="touchUpInside" id="3j2-d8-7md"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eRN-hJ-mht">
-                                        <rect key="frame" x="50" y="98" width="0.0" height="0.0"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eRN-hJ-mht">
+                                        <rect key="frame" x="50" y="73" width="0.0" height="0.0"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -6485,7 +6485,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="SKr-nh-2R0" secondAttribute="trailing" constant="10" id="5UW-iq-d3i"/>
-                                    <constraint firstAttribute="height" constant="110" id="CU1-9j-U1B"/>
+                                    <constraint firstAttribute="height" constant="85" id="CU1-9j-U1B"/>
                                     <constraint firstItem="S4c-bV-Zau" firstAttribute="leading" secondItem="AfM-6V-Tun" secondAttribute="trailing" constant="8" id="IbV-FS-rsl"/>
                                     <constraint firstItem="Euu-1y-9WG" firstAttribute="top" secondItem="QOj-5H-7JU" secondAttribute="top" constant="15" id="Nbx-WO-Qs8"/>
                                     <constraint firstAttribute="trailing" secondItem="Euu-1y-9WG" secondAttribute="trailing" id="OKQ-7f-9R9"/>
@@ -6505,6 +6505,14 @@
                                         <color key="value" name="LoginPageTwo"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
+                                <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="AfM-6V-Tun"/>
+                                        <exclude reference="SKr-nh-2R0"/>
+                                        <exclude reference="S4c-bV-Zau"/>
+                                        <exclude reference="Euu-1y-9WG"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NfQ-S6-4gi" customClass="TypingBubble" customModule="MessageKit">
                                 <rect key="frame" x="20" y="767" width="70" height="25"/>
@@ -6520,6 +6528,7 @@
                         <constraints>
                             <constraint firstItem="Ak2-gY-xXQ" firstAttribute="trailing" secondItem="dSt-vh-10l" secondAttribute="trailing" constant="20" id="1Zh-gz-lkD"/>
                             <constraint firstItem="gTU-J4-GDc" firstAttribute="leading" secondItem="Ak2-gY-xXQ" secondAttribute="leading" id="6dY-vT-2jE"/>
+                            <constraint firstItem="gTU-J4-GDc" firstAttribute="top" secondItem="QOj-5H-7JU" secondAttribute="bottom" constant="5" id="9WZ-ys-83S"/>
                             <constraint firstItem="NfQ-S6-4gi" firstAttribute="leading" secondItem="Ak2-gY-xXQ" secondAttribute="leading" constant="20" id="EEk-1B-uDI"/>
                             <constraint firstItem="Ak2-gY-xXQ" firstAttribute="trailing" secondItem="QOj-5H-7JU" secondAttribute="trailing" id="MlI-MP-5TU"/>
                             <constraint firstItem="dSt-vh-10l" firstAttribute="leading" secondItem="Ak2-gY-xXQ" secondAttribute="leading" constant="20" id="UTL-wi-hdd"/>
@@ -6527,7 +6536,6 @@
                             <constraint firstItem="QOj-5H-7JU" firstAttribute="leading" secondItem="Ak2-gY-xXQ" secondAttribute="leading" id="nkx-OC-VE5"/>
                             <constraint firstAttribute="bottom" secondItem="dSt-vh-10l" secondAttribute="bottom" constant="25" id="r3S-cB-2wc"/>
                             <constraint firstItem="dSt-vh-10l" firstAttribute="top" secondItem="gTU-J4-GDc" secondAttribute="bottom" constant="30" id="thV-cd-UnO"/>
-                            <constraint firstItem="gTU-J4-GDc" firstAttribute="top" secondItem="Ak2-gY-xXQ" secondAttribute="top" constant="70" id="ugy-Qq-ZOX"/>
                             <constraint firstItem="dSt-vh-10l" firstAttribute="top" secondItem="NfQ-S6-4gi" secondAttribute="bottom" constant="1" id="yr8-89-taO"/>
                             <constraint firstItem="Ak2-gY-xXQ" firstAttribute="trailing" secondItem="gTU-J4-GDc" secondAttribute="trailing" id="zpO-px-w88"/>
                         </constraints>

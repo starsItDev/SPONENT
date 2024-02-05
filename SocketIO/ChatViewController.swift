@@ -19,6 +19,7 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var typingLbl: UILabel!
     @IBOutlet weak var imageSenderView: UIImageView!
+    @IBOutlet weak var fixedProfileView: GradientView!
     
     // MARK: - Variable Properties
     let socketManager = SocketIOManager.sharedInstance
@@ -41,7 +42,7 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
         tableView.delegate = self
         socketManager.delegate = self
         messageTextField.delegate = self
-        userNameLbl.text = messageSenderName
+//        userNameLbl.text = messageSenderName
         addTapGestureToDismissKeyboard()
         socketManager.connectSocket()
         joinSocket()
@@ -52,6 +53,43 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
                     self?.imageSenderView.image = image
                 }
             }
+        }
+        if let navigationBar = navigationController?.navigationBar {
+//            navigationBar.barTintColor = UIColor.red
+//            navigationBar.backgroundColor = UIColor.init(named: "LoginPageTwo")
+        }
+        // Create a UILabel for the title
+        let titleLabel = UILabel()
+        titleLabel.text = messageSenderName
+        titleLabel.textColor = UIColor.black // Set your desired color
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        navigationItem.titleView = titleLabel
+
+        let userImage = UIImage(systemName: "person.fill")
+        let userImageView = UIImageView(image: userImage)
+        userImageView.contentMode = .scaleAspectFit
+        userImageView.clipsToBounds = true
+        let rightBarButton = UIBarButtonItem(customView: userImageView)
+        navigationItem.rightBarButtonItem = rightBarButton
+
+        // Add a tap gesture to the user image view
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addButtonTapped))
+        userImageView.isUserInteractionEnabled = true
+        userImageView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func addButtonTapped() {
+        // Handle the button tap action here
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+            vc.delegate = self
+            vc.isProfileBackButtonHidden = false
+            vc.isFollowButtonHidden = false
+            vc.receiverID = receiverID
+            let selectedText = "Profile"
+            vc.labelText = selectedText
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     // MARK: - SocketIOManagerOrAPI Func
