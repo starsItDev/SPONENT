@@ -8,6 +8,10 @@
 import Foundation
 import UIKit
 
+
+
+
+
 class GradientView: UIView {
 
     @IBInspectable var startColor: UIColor = .white {

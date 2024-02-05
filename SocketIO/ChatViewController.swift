@@ -19,6 +19,7 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
     @IBOutlet weak var userNameLbl: UILabel!
     @IBOutlet weak var typingLbl: UILabel!
     @IBOutlet weak var imageSenderView: UIImageView!
+    @IBOutlet weak var fixedProfileView: GradientView!
     
     // MARK: - Variable Properties
     let socketManager = SocketIOManager.sharedInstance
@@ -41,7 +42,7 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
         tableView.delegate = self
         socketManager.delegate = self
         messageTextField.delegate = self
-        userNameLbl.text = messageSenderName
+//        userNameLbl.text = messageSenderName
         addTapGestureToDismissKeyboard()
         socketManager.connectSocket()
         joinSocket()
@@ -52,6 +53,43 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
                     self?.imageSenderView.image = image
                 }
             }
+        }
+        if let navigationBar = navigationController?.navigationBar {
+//            navigationBar.barTintColor = UIColor.red
+//            navigationBar.backgroundColor = UIColor.init(named: "LoginPageTwo")
+        }
+        // Create a UILabel for the title
+        let titleLabel = UILabel()
+        titleLabel.text = messageSenderName
+        titleLabel.textColor = UIColor.black // Set your desired color
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        navigationItem.titleView = titleLabel
+
+        let userImage = UIImage(systemName: "person.fill")
+        let userImageView = UIImageView(image: userImage)
+        userImageView.contentMode = .scaleAspectFit
+        userImageView.clipsToBounds = true
+        let rightBarButton = UIBarButtonItem(customView: userImageView)
+        navigationItem.rightBarButtonItem = rightBarButton
+
+        // Add a tap gesture to the user image view
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addButtonTapped))
+        userImageView.isUserInteractionEnabled = true
+        userImageView.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func addButtonTapped() {
+        // Handle the button tap action here
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+            vc.delegate = self
+            vc.isProfileBackButtonHidden = false
+            vc.isFollowButtonHidden = false
+            vc.receiverID = receiverID
+            let selectedText = "Profile"
+            vc.labelText = selectedText
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     // MARK: - SocketIOManagerOrAPI Func
@@ -388,6 +426,13 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
                 senderCell.messageLabel.textColor = UIColor.white
                 senderCell.timeLabel.textColor = UIColor.white
                 senderCell.messageLabel.textAlignment = .left
+                if let imageUrl = messageSenderImage {
+                    loadImage(from: imageUrl) { [weak self] (image) in
+                        DispatchQueue.main.async {
+                            senderCell.imageSender.image = image
+                        }
+                    }
+                }
                 cell = senderCell
             } else {
                 let otherCell = tableView.dequeueReusableCell(withIdentifier: "MessageCell2", for: indexPath) as! MessageCell2
@@ -412,11 +457,11 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.layer.borderColor = UIColor.white.cgColor
             if chatMessage.senderId == sendMessagetoID {
                 print("left side")
-                imageCell.viewUIView.backgroundColor = #colorLiteral(red: 0.8973758221, green: 0.550804019, blue: 0.2109898329, alpha: 1)
+                imageCell.viewUIView.backgroundColor = #colorLiteral(red: 0.999405086, green: 0.6648295522, blue: 0.3512707949, alpha: 1)
                 imageCell.leadingConstraint.constant = 42
                 imageCell.trailingConstraint.constant = 110
             } else {
-                imageCell.viewUIView.backgroundColor = #colorLiteral(red: 0.4250031412, green: 0.8565806746, blue: 0.8298557401, alpha: 1)
+                imageCell.viewUIView.backgroundColor = #colorLiteral(red: 0.7954370379, green: 0.9536443353, blue: 0.9464041591, alpha: 1)
                 imageCell.leadingConstraint.constant = 80
                 imageCell.trailingConstraint.constant = 5
                 print("Right side")
@@ -428,6 +473,15 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return cell
     }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+           if editingStyle == .delete {
+               // Handle delete action here
+               chatMessages.remove(at: indexPath.row)
+               tableView.deleteRows(at: [indexPath], with: .fade)
+
+               // You may also want to delete the corresponding data from your backend or perform any other necessary actions.
+           }
+       }
 }
 // MARK: - Extension for Image Handling
 extension ChatViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
