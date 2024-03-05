@@ -332,10 +332,11 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         ValidationCode()
     }
     @IBAction func signUpBackButton(_ sender: UIButton) {
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: false)
-        }
+//        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+//            vc.modalPresentationStyle = .fullScreen
+//            self.present(vc, animated: false)
+//        }
+        self.navigationController?.popViewController(animated: true)
     }
     @IBAction func passwdEyeBtn(_ sender: UIButton) {
         if passWordTxtField.isSecureTextEntry {

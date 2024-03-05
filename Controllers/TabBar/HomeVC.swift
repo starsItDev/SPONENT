@@ -84,15 +84,15 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         tabBarController?.delegate = self
         homeMapView.delegate = self
         if traitCollection.userInterfaceStyle == .dark {
-            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: " Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-            sportTypeLabel.textColor = .white
-            ageLabel.textColor = .white
-            genderLabel.textColor = .white
-            participantLabel.textColor = .white
-            skillLabel.textColor = .white
-            addDetailsLocLabel.textColor = .white
+            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            sportTypeLabel.textColor = .lightGray
+            ageLabel.textColor = .lightGray
+            genderLabel.textColor = .lightGray
+            participantLabel.textColor = .lightGray
+            skillLabel.textColor = .lightGray
+            addDetailsLocLabel.textColor = .lightGray
         } else {
-            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: " Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
             sportTypeLabel.textColor = .lightGray
             ageLabel.textColor = .lightGray
             genderLabel.textColor = .lightGray
@@ -113,7 +113,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        userActivityAPiCall(sportCategoryID: updateCategoryId, range: range)
+        self.tabBarController?.tabBar.isHidden = false
+        userActivityAPiCall(sportCategoryID: "0", range: range)
     }
     
     //MARK: - API Calling
@@ -349,6 +350,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                             UserDefaults.standard.set(activityId, forKey: "activityID")
                             if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
                                 vc.modalPresentationStyle = .fullScreen
+                                vc.comingFromCell = false
                                 if let latitude = self.selectedLocationLatitude, let longitude = self.selectedLocationLongitude {
                                     vc.selectedLocationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
                                 } else {
@@ -359,6 +361,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                         } else {
                             print("Failed to parse JSON or extract activityId")
                         }
+                        self.clearTextFields()
                     } else {
                         self.showAlert(title: "Error", message: "Failed")
                     }
@@ -445,7 +448,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
          presentActionSheet(title: "Select skill", message: nil, actions: actions)
   }
     @objc func refreshHomeTableView(_ sender: UIRefreshControl) {
-        userActivityAPiCall(sportCategoryID: updateCategoryId, range: range)
+        userActivityAPiCall(sportCategoryID: "0", range: range)
     }
     func createMarkerView(imageURL: String) -> UIImageView {
         guard var urlComponents = URLComponents(string: imageURL) else {
@@ -462,7 +465,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     }
     func styleViews() {
         sportTypeView.applyBorder()
-      //datePickerView.applyBorder()
         genderView.applyBorder()
         ageView.applyBorder()
         participantView.applyBorder()
@@ -473,6 +475,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
 }
     func didSelectLocation(_ locationName: String) {
         addDetailsLocLabel.text = locationName
+        addDetailsLocLabel.textColor = .white
         selectedLocation = locationName
         homeSegmentController.selectedSegmentIndex = 2
         let geocoder = CLGeocoder()
@@ -513,13 +516,18 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
     }
     func clearTextFields() {
-        sportTypeLabel.text = ""
+        sportTypeLabel.text = "Select Sport"
+        sportTypeLabel.textColor = .lightGray
         addDetailsActivity.text = ""
         addDetailsTextView.text = ""
         genderLabel.text = "Any"
+        genderLabel.textColor = .lightGray
         ageLabel.text = "Any"
+        ageLabel.textColor = .lightGray
         participantLabel.text = "Any"
+        participantLabel.textColor = .lightGray
         skillLabel.text = "Any"
+        skillLabel.textColor = .lightGray
         addDetailsLocLabel.text = ""
     }
 
@@ -530,7 +538,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
              homeView.isHidden = false
              homeMapView.isHidden = true
              addDetails.isHidden = true
-             userActivityAPiCall(sportCategoryID: updateCategoryId, range: range)
        case 1:
              homeView.isHidden = true
              homeMapView.isHidden = false
@@ -608,7 +615,6 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
       }
     @IBAction func addDetailDoneButton(_ sender: UIButton) {
         CreateActivityAPICall()
-        clearTextFields()
     }
 }
 
@@ -639,29 +645,34 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         return 99
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let activity = activities[indexPath.row]
-        if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
-           let locationName = cell.homeTableLocation.text {
-            //showLoadingView()
-            let geocoder = CLGeocoder()
-            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-                //self?.hideLoadingView()
-                guard let self = self,
-                      let placemark = placemarks?.first,
-                      let locationCoordinate = placemark.location?.coordinate else {
-                    cell.accessoryView = nil
-                    return
-                }
-                if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                    detailController.comingFromCell = false
-                    detailController.activityID = activity.activityID
-                    detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                    detailController.delegate = self
-                    cell.accessoryView = nil
-                    self.navigationController?.pushViewController(detailController, animated: true)
+        DispatchQueue.main.async {
+            let activity = self.activities[indexPath.row]
+            if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
+               let locationName = cell.homeTableLocation.text {
+                //showLoadingView()
+                let geocoder = CLGeocoder()
+                geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+                    //self?.hideLoadingView()
+                    guard let self = self,
+                          let placemark = placemarks?.first,
+                          let locationCoordinate = placemark.location?.coordinate else {
+                        cell.accessoryView = nil
+                        return
+                    }
+                    if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                        self.tabBarController?.tabBar.isHidden = true
+                        detailController.comingFromCell = false
+                        detailController.activityID = activity.activityID
+                        detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
+                        detailController.delegate = self
+                        cell.accessoryView = nil
+                        DispatchQueue.main.async {
+                            self.navigationController?.pushViewController(detailController, animated: true)
+                        }
+                    }
                 }
             }
+            tableView.deselectRow(at: indexPath, animated: true)
         }
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

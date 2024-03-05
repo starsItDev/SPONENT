@@ -71,6 +71,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     //MARK: - Override Functions
     override func viewDidLoad() {
       super.viewDidLoad()
+      self.navigationController?.navigationBar.isHidden = true
       detailSearchBar.isHidden = isSearchBarHidden
       detailViewOne.isHidden = areViewsHidden
       detailViewTwo.isHidden = areViewsHidden
@@ -267,7 +268,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         if let responseData = String(data: data, encoding: .utf8) {
             print("Response Data: \(responseData)")
             DispatchQueue.main.async {
-                self.showAlert(title: "Alert", message: "\(responseData)")
+                self.showAlert(title: "Alert", message: "Successfully requested")
                 self.requestJoinButton.setTitle("Cancel Request", for: .normal)
                 self.isRequestToJoin = false
                 let userid = UserDefaults.standard.string(forKey: "userID")

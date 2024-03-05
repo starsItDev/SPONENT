@@ -23,7 +23,7 @@ class ConnectTableViewCell: UITableViewCell {
         super.awakeFromNib()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(chatImageViewTapped))
         chatImageView.isUserInteractionEnabled = true
-            chatImageView.addGestureRecognizer(tapGesture)
+        chatImageView.addGestureRecognizer(tapGesture)
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

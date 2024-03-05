@@ -30,6 +30,9 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         chatTextField.layer.borderColor = UIColor.black.cgColor
         self.navigationController?.navigationBar.isHidden = true
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
     
     //MARK: - API Call
     func connectionAPICall() {
@@ -123,6 +126,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         let conversation = connections[indexPath.row]
         selectedReceiverID = conversation.userID
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+            self.tabBarController?.tabBar.isHidden = true
             vc.delegate = self
             vc.isProfileBackButtonHidden = false
             vc.isFollowButtonHidden = false

@@ -61,7 +61,11 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
         // Create a UILabel for the title
         let titleLabel = UILabel()
         titleLabel.text = messageSenderName
-        titleLabel.textColor = UIColor.black // Set your desired color
+        if traitCollection.userInterfaceStyle == .dark {
+            titleLabel.textColor = UIColor.white
+        } else {
+            titleLabel.textColor = UIColor.black
+        }
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         
@@ -81,9 +85,9 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
     }
 
     @objc func addButtonTapped() {
-        // Handle the button tap action here
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
             vc.delegate = self
+            vc.showTabBar = false
             vc.isProfileBackButtonHidden = false
             vc.isFollowButtonHidden = false
             vc.receiverID = receiverID
@@ -395,6 +399,8 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
     }
     @IBAction func profileBtn(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ProfileVC") as? ProfileVC {
+//            self.tabBarController?.tabBar.isHidden = true
+            vc.showTabBar = false
             vc.delegate = self
             vc.isProfileBackButtonHidden = false
             vc.isFollowButtonHidden = false
@@ -422,9 +428,13 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
                 senderCell.layer.borderWidth = 2
                 senderCell.layer.cornerRadius = 22
                 senderCell.layer.masksToBounds = true
-                senderCell.layer.borderColor = UIColor.white.cgColor
-                senderCell.messageLabel.textColor = UIColor.white
-                senderCell.timeLabel.textColor = UIColor.white
+                if let borderColor = UIColor(named: "ControllerViews") {
+                    senderCell.layer.borderColor = borderColor.cgColor
+                }
+                if let labelColor = UIColor(named: "Black-White") {
+                    senderCell.messageLabel.textColor = labelColor
+                    senderCell.timeLabel.textColor = labelColor
+                }
                 senderCell.messageLabel.textAlignment = .left
                 if let imageUrl = messageSenderImage {
                     loadImage(from: imageUrl) { [weak self] (image) in
@@ -441,8 +451,13 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
                 otherCell.layer.borderWidth = 4
                 otherCell.layer.cornerRadius = 22
                 otherCell.layer.masksToBounds = true
-                otherCell.layer.borderColor = UIColor.white.cgColor
-                otherCell.massageLabel2.textColor = UIColor.black
+                if let borderColor = UIColor(named: "ControllerViews") {
+                    otherCell.layer.borderColor = borderColor.cgColor
+                }
+                if let labelColor = UIColor(named: "Black-White") {
+                    otherCell.massageLabel2.textColor = labelColor
+                    otherCell.timeLabel2.textColor = labelColor
+                }
                 otherCell.massageLabel2.textAlignment = .right
                 otherCell.massageLabel2.numberOfLines = 0
                 cell = otherCell
@@ -454,7 +469,9 @@ extension ChatViewController: UITableViewDataSource, UITableViewDelegate {
             imageCell.imageBtnTap.tag = indexPath.row
             imageCell.layer.borderWidth = 4
             imageCell.layer.masksToBounds = true
-            imageCell.layer.borderColor = UIColor.white.cgColor
+            if let borderColor = UIColor(named: "ControllerViews") {
+                imageCell.layer.borderColor = borderColor.cgColor
+            }
             if chatMessage.senderId == sendMessagetoID {
                 print("left side")
                 imageCell.viewUIView.backgroundColor = #colorLiteral(red: 0.999405086, green: 0.6648295522, blue: 0.3512707949, alpha: 1)

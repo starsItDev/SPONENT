@@ -37,6 +37,9 @@ class ActivityVC: UIViewController, DetailViewControllerDelegate {
         self.navigationController?.navigationBar.isHidden = true
         activitySegmentController.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .normal)
     }
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+    }
 
     //MARK: - API CAllING
     func activitiesAPiCall(){
@@ -271,6 +274,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 self.tabBarController?.tabBar.isHidden = true
                  detailController.comingFromCell = false
                  detailController.activityID = pending.activityID
                   self.selectedMarker?.map = nil
@@ -298,6 +302,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 self.tabBarController?.tabBar.isHidden = true
                  detailController.comingFromCell = false
                  detailController.activityID = current.activityID
                   self.selectedMarker?.map = nil
@@ -325,6 +330,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 self.tabBarController?.tabBar.isHidden = true
                  detailController.comingFromCell = false
                  detailController.activityID = following.activityID
                   self.selectedMarker?.map = nil
@@ -352,6 +358,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                             return
              }
              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                 self.tabBarController?.tabBar.isHidden = true
                  detailController.comingFromCell = false
                  detailController.activityID = past.activityID
                   self.selectedMarker?.map = nil

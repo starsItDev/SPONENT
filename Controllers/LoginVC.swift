@@ -19,14 +19,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var forgotTextField: UITextField!
     @IBOutlet weak var forgotPasswordView: GradientView!
     @IBOutlet var loginView: UIView!
-    @IBOutlet weak var emailErrorView: UIView!
-    @IBOutlet weak var passwordErrorView: UIView!
-    @IBOutlet weak var emailErrorLblView: UIView!
-    @IBOutlet weak var emailErrorLabel: UILabel!
-    @IBOutlet weak var passwordErrorLblView: UIView!
-    @IBOutlet weak var passwordErrorLbl: UILabel!
-    @IBOutlet weak var passwrodErrorLViewLeading: NSLayoutConstraint!
-    @IBOutlet weak var passwdErrorLViewHeight: NSLayoutConstraint!
     @IBOutlet weak var transparentView: GradientView!
     @IBOutlet weak var loginPasswdEye: UIButton!
     @IBOutlet weak var fbButton: UIButton!
@@ -43,6 +35,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     //MARK: - Override Func
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
         uiSetUp()
         EmailTextField.delegate = self
         passwordTextField.delegate = self
@@ -117,48 +110,20 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     func ValidationCode() {
         if let email = EmailTextField.text, let password = passwordTextField.text {
             if email == "" {
-                emailErrorView.isHidden = false
-                emailErrorLblView.isHidden = false
-                emailErrorLabel.text = "Please enter email"
-                loginPasswdEye.isHidden = true
+                showAlert(title: "Alert", message: "Please enter email")
             }
             else if !email.validateEmailId() {
-                emailErrorView.isHidden = false
-                emailErrorLblView.isHidden = false
-                emailErrorLabel.text = "Please enter correct email"
-                loginPasswdEye.isHidden = true
+                showAlert(title: "Alert", message: "Please enter correct email")
             }
             else if password == "" {
-                passwordErrorView.isHidden = false
-                loginPasswdEye.isHidden = true
-                passwordErrorLblView.isHidden = false
-                passwrodErrorLViewLeading.constant = 185
-                passwdErrorLViewHeight.constant = 29
-                passwordErrorLbl.textAlignment = .center
-                passwordErrorLbl.text = "Please enter password"
+                showAlert(title: "Alert", message: "Please enter password")
             }
             else if password.count < 6 {
-                passwordErrorView.isHidden = false
-                loginPasswdEye.isHidden = true
-                passwordErrorLblView.isHidden = false
-                passwdErrorLViewHeight.constant = 45
-                passwordErrorLbl.textAlignment = .left
-                passwordErrorLbl.text = "Password should be at least 6 characters"
+                showAlert(title: "Alert", message: "Password should be at least 6 characters")
             }
             else {
                 apiCall()
             }
-        }
-    }
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField == EmailTextField {
-             emailErrorView.isHidden = true
-             emailErrorLblView.isHidden = true
-             loginPasswdEye.isHidden = false
-        } else if textField == passwordTextField {
-            passwordErrorView.isHidden = true
-            passwordErrorLblView.isHidden = true
-            loginPasswdEye.isHidden = false
         }
     }
     @objc func appleBtnTapped() {
@@ -392,9 +357,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set("", forKey: "apikey")
     }
     @IBAction func signUpButton(_ sender: UIButton) {
-        if let controller = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
-            controller.modalPresentationStyle = .fullScreen
-            self.present(controller, animated: false)
+        if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
+            //controller.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(controller, animated: false)
         }
     }
     @IBAction func facebookBtn(_ sender: UIButton) {
@@ -445,20 +410,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             let eyeSlashImage = UIImage(systemName: "eye.slash")
             loginPasswdEye.setImage(eyeSlashImage, for: .normal)
             loginPasswdEye.tintColor = .white
-        }
-    }
-    @IBAction func emailErrorBtn(_ sender: UIButton) {
-        if emailErrorLblView.isHidden {
-            emailErrorLblView.isHidden = false
-        } else {
-            emailErrorLblView.isHidden = true
-        }
-    }
-    @IBAction func passwordErrorBtn(_ sender: UIButton) {
-        if passwordErrorLblView.isHidden {
-            passwordErrorLblView.isHidden = false
-        } else {
-            passwordErrorLblView.isHidden = true
         }
     }
 }

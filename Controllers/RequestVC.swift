@@ -84,6 +84,9 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                         self.pendingViewheight.constant = 0
                         self.pendingTableHeight.constant = 0
                     } else {
+                        self.requestTableView.isHidden = false
+                        self.pendingView.isHidden = false
+                        self.pendingViewheight.constant = 45
                         self.requestTableView.reloadData()
                         let contentHeight = self.requestTableView.contentSize.height
                         self.pendingTableHeight.constant = contentHeight
@@ -94,6 +97,9 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                         self.acceptedViewheight.constant = 0
                         self.acceptedTableHeight.constant = 0
                     } else {
+                        self.acceptedTableView.isHidden = false
+                        self.acceptedView.isHidden = false
+                        self.acceptedViewheight.constant = 45
                         self.acceptedTableView.reloadData()
                         let contentHeight = self.acceptedTableView.contentSize.height
                         self.acceptedTableHeight.constant = contentHeight
@@ -104,6 +110,9 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
                         self.rejectedViewHeight.constant = 0
                         self.rejectedTableHeight.constant = 0
                     } else {
+                        self.rejectedTableView.isHidden = false
+                        self.rejectedView.isHidden = false
+                        self.rejectedViewHeight.constant = 45
                         self.rejectedTableView.reloadData()
                         let contentHeight = self.rejectedTableView.contentSize.height
                         self.rejectedTableHeight.constant = contentHeight
@@ -158,7 +167,8 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
           if let responseData = String(data: data, encoding: .utf8) {
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
-                  self.showAlert(title: "Alert", message: "\(responseData)")
+                  self.activityRequestAPI()
+                  self.showToast(message: "Successfully accepted")
                   UserDefaults.standard.set(false, forKey: "\(userID)")
                   //self.currentUserID = userID
            }
@@ -207,7 +217,8 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
           if let responseData = String(data: data, encoding: .utf8) {
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
-                  self.showAlert(title: "Alert", message: "\(responseData)")
+                  self.activityRequestAPI()
+                  self.showToast(message: "Successfully rejected")
            }
          }
       }
@@ -254,7 +265,8 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
           if let responseData = String(data: data, encoding: .utf8) {
               print("Response Data: \(responseData)")
               DispatchQueue.main.async {
-                  self.showAlert(title: "Alert", message: "\(responseData)")
+                  self.activityRequestAPI()
+                  self.showToast(message: "Cancelled successfully")
            }
          }
       }
@@ -305,7 +317,8 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
-                    self.showAlert(title: "Alert", message: responseData)
+                    self.activityRequestAPI()
+                    self.showToast(message: "Activity deleted successfully")
                 }
             }
         }
@@ -368,14 +381,14 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         if let indexPath = indexPath {
             let pendingRequest = pending[indexPath.row]
             let userID = pendingRequest.userID
-            let name = pendingRequest.userName
-            let activityName = pendingRequest.activity
+//            let name = pendingRequest.userName
+//            let activityName = pendingRequest.activity
             acceptRequestApi(userID: userID)
-            let message = "\(name) has accepted your request for \(activityName)"
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            appDelegate.dispatchNotification(message: "\(message)", userID: userID)
+//            let message = "\(name) has accepted your request for \(activityName)"
+//            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//                return
+//            }
+//            appDelegate.dispatchNotification(message: "\(message)", userID: userID)
         }
     }
     func rejectButtonTapped(inCell cell: RequestTableViewCell) {
@@ -383,14 +396,14 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
             if let indexPath = indexPath {
                 let rejectedRequest = pending[indexPath.row]
                 let userID = rejectedRequest.userID
-                let name = rejectedRequest.userName
-                let activityName = rejectedRequest.activity
+//                let name = rejectedRequest.userName
+//                let activityName = rejectedRequest.activity
                 rejectRequestApi(userID: userID)
-                let message = "\(name) has rejected your request for \(activityName)"
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
-                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
+//                let message = "\(name) has rejected your request for \(activityName)"
+//                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//                    return
+//                }
+//                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
             }
     }
     func cancelButtonTapped(inCell cell: AcceptedTableViewCell) {
@@ -398,14 +411,14 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
             if let indexPath = indexPath {
                 let cancelRequest = accepted[indexPath.row]
                 let userID = cancelRequest.userID
-                let name = cancelRequest.userName
-                let activityName = cancelRequest.activity
+//                let name = cancelRequest.userName
+//                let activityName = cancelRequest.activity
                 cancelRequestApi(userID: userID)
-                let message = "\(name) has cancelled your request for \(activityName)"
-                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                    return
-                }
-                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
+//                let message = "\(name) has cancelled your request for \(activityName)"
+//                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+//                    return
+//                }
+//                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
             }
     }
     func deleteButtonTapped(inCell cell: RejectedTableViewCell) {

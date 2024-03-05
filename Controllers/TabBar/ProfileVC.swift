@@ -15,7 +15,7 @@ import FBSDKLoginKit
 protocol ProfileDelegate: AnyObject {
     func didTapUserProfileSettingButton()
 }
-class ProfileVC: UIViewController, UITextFieldDelegate {
+class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableViewCellDelegate, ProfileFollowingTableViewCellDelegate {
 
     //MARK: - Variable
     @IBOutlet weak var profileScrollView: UIScrollView!
@@ -47,6 +47,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var aboutMeLabel: UILabel!
     @IBOutlet weak var myProfileLabel: UILabel!
     @IBOutlet weak var profileImgView: UIView!
+    @IBOutlet weak var chatView: GradientView!
+    @IBOutlet weak var chatTextField: UITextField!
     @IBOutlet weak var transparenView: UIView!
     let textFieldDelegateHelper = TextFieldDelegateHelper<ProfileVC>()
     var delegate: ProfileDelegate?
@@ -68,12 +70,13 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     var labelText: String?
     var dismissViewTap: UITapGestureRecognizer?
     var categoryID: Int?
+    var showTabBar: Bool?
 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        followingAPICall()
         uiSetUp()
+        followingAPICall()
         getActivityAPiCall()
         updateFollowButtonTitle()
         updateBlockButtonTitle()
@@ -81,6 +84,11 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if showTabBar == false {
+            self.tabBarController?.tabBar.isHidden = true
+        } else {
+            self.tabBarController?.tabBar.isHidden = false
+        }
         apiCall()
         settingStackView.isHidden = true
         tabsApiCall()
@@ -174,10 +182,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         }
     }
     func updateCounters(with responseData: Data) {
-        do {
-            if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
-               let body = jsonObject["body"] as? [String: Any] {
-                DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            do {
+                if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
+                   let body = jsonObject["body"] as? [String: Any] {
                     let activitiesCount = body["activities"] as? Int ?? 0
                     let followersCount = body["followers"] as? Int ?? 0
                     let followingCount = body["followings"] as? Int ?? 0
@@ -185,11 +193,10 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                     self.profileSegmentController.setTitle("Activities(\(activitiesCount))", forSegmentAt: 1)
                     self.profileSegmentController.setTitle("Followers(\(followersCount))", forSegmentAt: 2)
                     self.profileSegmentController.setTitle("Following(\(followingCount))", forSegmentAt: 3)
-
                 }
+            } catch {
+                print("Error parsing JSON: \(error)")
             }
-        } catch {
-            print("Error parsing JSON: \(error)")
         }
     }
     func blockapiCall() {
@@ -236,7 +243,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
                     //self.blockButton.setTitle("Unblock", for: .normal)
-                    self.showAlert(title: "Blocked User", message: responseData)
+                    self.showToast(message: "User Blocked")
                 }
             }
         }
@@ -285,7 +292,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
-                    self.showAlert(title: "Unblocked User", message: responseData)
+                    self.showToast(message: "Unblocked User")
+//                    self.showAlert(title: "Unblocked User", message: responseData)
                 }
             }
         }
@@ -387,9 +395,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
 
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
-                DispatchQueue.main.async {
-                    self.showAlert(title: "Friend Add", message: responseData)
-                }
+//                DispatchQueue.main.async {
+//                    self.showAlert(title: "Friend Add", message: responseData)
+//                }
             }
         }
         task.resume()
@@ -434,9 +442,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
 
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
-                DispatchQueue.main.async {
-                    self.showAlert(title: "Leave Frined", message: responseData)
-                }
+//                DispatchQueue.main.async {
+//                    self.showAlert(title: "Leave Frined", message: responseData)
+//                }
             }
         }
         task.resume()
@@ -619,7 +627,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
                 DispatchQueue.main.async {
                     self.changePasswordView.isHidden = true
                     self.transparenView.isHidden = true
-                    self.showAlert(title: "Alert", message: "Password changed successfully")
+                    self.showToast(message: "Password changed successfully")
                 }
             }
         }
@@ -643,6 +651,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
         }
     }
     @IBAction func ProfileBackButton(_ sender: UIButton) {
+        self.tabBarController?.tabBar.isHidden = true
         navigationController?.popViewController(animated: true)
     }
     @IBAction func blockButton(_ sender: UIButton) {
@@ -664,9 +673,15 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
     @IBAction func reportButton(_ sender: UIButton) {
         reportApiCall()
     }
+    @IBAction func chatCancelButton(_ sender: UIButton) {
+        chatView.isHidden = true
+        transparenView.isHidden = true
+        chatTextField.text = ""
+    }
     
     //MARK: - Helper Functions
     func uiSetUp(){
+        self.navigationItem.setHidesBackButton(true, animated: false)
         profileSegmentView.isHidden = false
         profileActivityView.isHidden = true
         profileFollowerView.isHidden = true
@@ -732,6 +747,14 @@ class ProfileVC: UIViewController, UITextFieldDelegate {
             }
         }
     }
+    func chatImageViewTapped(in cell: ProfileFollowerCell) {
+        chatView.isHidden = false
+        transparenView.isHidden = false
+    }
+    func followingChatImageViewTapped(in cell: ProfileFollowingCell) {
+        chatView.isHidden = false
+        transparenView.isHidden = false
+    }
 //    func didSelectLocation(_ locationName: String) {
 //        let geocoder = CLGeocoder()
 //           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
@@ -782,7 +805,10 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
              return cell
         } else if tableView == profileFollowerTableView {
+            chatView.isHidden = true
+            transparenView.isHidden = true
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowerCell
+            cell.delegate = self
             let follower = followers[indexPath.row]
             cell.followerNameLabel?.text = follower.title
             loadImage(from: follower.photoURL, into: cell.followerImageView)
@@ -792,7 +818,10 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
             return cell
         } else if tableView == profileFollowingTableView {
+            chatView.isHidden = true
+            transparenView.isHidden = true
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! ProfileFollowingCell
+            cell.delegate = self
             let following = followings[indexPath.row]
             cell.followingNameLabel?.text = following.title
             loadImage(from: following.photoURL, into: cell.followingImageView)
@@ -847,6 +876,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                              return
               }
               if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                  self.tabBarController?.tabBar.isHidden = true
                    detailController.comingFromCell = false
                    detailController.activityID = activity.activityID
                    self.selectedMarker?.map = nil

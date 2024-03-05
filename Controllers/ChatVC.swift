@@ -205,11 +205,12 @@ class ChatVC: UIViewController {
           }
       }
     @IBAction func chatBackButton(_ sender: UIButton) {
-        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-            tabBarController.modalPresentationStyle = .fullScreen
-            tabBarController.selectedIndex = 3
-            self.present(tabBarController, animated: false)
-         }
+//        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+//            tabBarController.modalPresentationStyle = .fullScreen
+//            tabBarController.selectedIndex = 3
+//            self.present(tabBarController, animated: false)
+//         }
+        self.navigationController?.popViewController(animated: true)
     }
 }
   //MARK: - Extension ProfileDelegate
