@@ -98,7 +98,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             genderLabel.textColor = .lightGray
             participantLabel.textColor = .lightGray
             skillLabel.textColor = .lightGray
-            addDetailsLocLabel.textColor = .black
+            addDetailsLocLabel.textColor = .lightGray
         }
         self.navigationController?.navigationBar.isHidden = true
         setupTapGesture(for: sportTypeView, action: #selector(showSportActionSheet))
@@ -473,20 +473,32 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         addDetailsActivity.applyBorder()
         addDetailsTextView.applyBorder()
 }
-    func didSelectLocation(_ locationName: String) {
-        addDetailsLocLabel.text = locationName
-        addDetailsLocLabel.textColor = .white
-        selectedLocation = locationName
-        homeSegmentController.selectedSegmentIndex = 2
-        let geocoder = CLGeocoder()
-        geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-            if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-                self?.selectedLocationLatitude = locationCoordinate.latitude
-                self?.selectedLocationLongitude = locationCoordinate.longitude
-            }
+    func didSelectLocation(_ locationName: String, _ longitude: Double, _ latitude: Double) {
+        DispatchQueue.main.async {
+            self.addDetailsLocLabel.text = locationName
+            self.addDetailsLocLabel.textColor = UIColor(named: "Black-White")
+            self.selectedLocation = locationName
+            self.homeSegmentController.selectedSegmentIndex = 2
+            self.selectedLocationLatitude = latitude
+            self.selectedLocationLongitude = longitude
         }
+    }
+//    func didSelectLocation(_ locationName: String) {
+//        DispatchQueue.main.async {
+//            self.addDetailsLocLabel.text = locationName
+//            self.addDetailsLocLabel.textColor = UIColor(named: "Black-White")
+//            self.selectedLocation = locationName
+//            self.homeSegmentController.selectedSegmentIndex = 2
+//            let geocoder = CLGeocoder()
+//            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+//                if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
+//                    self?.selectedLocationLatitude = locationCoordinate.latitude
+//                    self?.selectedLocationLongitude = locationCoordinate.longitude
+//                }
+//            }
+//        }
             // dismiss(animated: true, completion: nil)
-   }
+//   }
 //  func createLoadingView() {
 //    loadingView = UIView(frame: UIScreen.main.bounds)
 //    loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
@@ -528,7 +540,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         participantLabel.textColor = .lightGray
         skillLabel.text = "Any"
         skillLabel.textColor = .lightGray
-        addDetailsLocLabel.text = ""
+        addDetailsLocLabel.text = "Location"
+        addDetailsLocLabel.textColor = .lightGray
     }
 
     //MARK: - Actions

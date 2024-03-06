@@ -9,7 +9,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-class ActivityVC: UIViewController, DetailViewControllerDelegate {
+class ActivityVC: UIViewController {
     
     //MARK: - Variables
     @IBOutlet weak var activitySegmentController: UISegmentedControl!
@@ -33,11 +33,11 @@ class ActivityVC: UIViewController, DetailViewControllerDelegate {
     //MARK: - Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        activitiesAPiCall()
         self.navigationController?.navigationBar.isHidden = true
         activitySegmentController.setTitleTextAttributes([.foregroundColor: UIColor.orange], for: .normal)
     }
     override func viewWillAppear(_ animated: Bool) {
+        activitiesAPiCall()
         self.tabBarController?.tabBar.isHidden = false
     }
 
@@ -120,15 +120,15 @@ class ActivityVC: UIViewController, DetailViewControllerDelegate {
      }
     
     //MARK: - Helper Functions
-    func didSelectLocation(_ locationName: String) {
-        let geocoder = CLGeocoder()
-           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-               if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-                   self?.selectedLocationLatitude = locationCoordinate.latitude
-                   self?.selectedLocationLongitude = locationCoordinate.longitude
-            }
-        }
-    }
+//    func didSelectLocation(_ locationName: String) {
+//        let geocoder = CLGeocoder()
+//           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+//               if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
+//                   self?.selectedLocationLatitude = locationCoordinate.latitude
+//                   self?.selectedLocationLongitude = locationCoordinate.longitude
+//            }
+//        }
+//    }
     func updateSegmentTitles() {
         DispatchQueue.main.async {
             self.activitySegmentController.setTitle("Pending(\(self.pending.count))", forSegmentAt: 0)
@@ -280,7 +280,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil
                   detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                  detailController.delegate = self
+                  //detailController.delegate = self
                   cell.accessoryView = nil
                   let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
                   detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
@@ -308,7 +308,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil
                   detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                  detailController.delegate = self
+                  //detailController.delegate = self
                   cell.accessoryView = nil
                   let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
                   detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
@@ -336,7 +336,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil
                   detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                  detailController.delegate = self
+                  //detailController.delegate = self
                   cell.accessoryView = nil
                   let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
                   detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
@@ -364,7 +364,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                   self.selectedMarker?.map = nil
                   self.selectedMarker = nil
                   detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                  detailController.delegate = self
+                  //detailController.delegate = self
                   cell.accessoryView = nil
                   let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
                   detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))

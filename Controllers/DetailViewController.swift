@@ -11,11 +11,11 @@ import CoreLocation
 import SwiftUI
 
 protocol DetailViewControllerDelegate: AnyObject {
-    func didSelectLocation(_ locationName: String)
+    func didSelectLocation(_ locationName: String, _ longitude: Double, _ latitude: Double)
  }
-protocol DetailDelegate: AnyObject {
-    func didTapAddDetailDoneButton()
-}
+//protocol DetailDelegate: AnyObject {
+//    func didTapAddDetailDoneButton()
+//}
 
 class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
 
@@ -45,7 +45,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBOutlet weak var detailBackBtn: UIButton!
     var locationSelectedHandler: ((String) -> Void)?
     weak var delegate: DetailViewControllerDelegate?
-    weak var delegatetwo: DetailDelegate?
+//    weak var delegatetwo: DetailDelegate?
     weak var homeVC: HomeVC?
     var locationManager = CLLocationManager()
     var isSearchBarHidden = true
@@ -338,11 +338,11 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     }
     @IBAction func detailDoneBtnClicked(_ sender: UIButton) {
         let searchedLocation = detailSearchBar.text ?? ""
-        if !searchedLocation.isEmpty {
-            delegate?.didSelectLocation(searchedLocation)
-          } else {
-            delegate?.didSelectLocation("")
-       }
+//        if !searchedLocation.isEmpty {
+//            delegate?.didSelectLocation(searchedLocation)
+//          } else {
+//            delegate?.didSelectLocation("", 0, 0)
+//       }
         self.dismiss(animated: true, completion: nil)
     }
     @IBAction func requestToJoinBtn(_ sender: UIButton) {
@@ -382,7 +382,8 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             if let jsonObject = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any],
                let body = jsonObject["body"] as? [String: Any],
                let latitude = Double(body["latitude"] as? String ?? "0"),
-               let longitude = Double(body["longitude"] as? String ?? "0") {
+               let longitude = Double(body["longitude"] as? String ?? "0"),
+               let locationName = body["location"] as? String {
                 DispatchQueue.main.async {
                     self.detailTitleLbl.text = body["owner_title"] as? String
                     self.detailActivityLbl.text = body["activity"] as? String
@@ -393,8 +394,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     self.detailSkillLbl.text = body["skill"] as? String
                     self.detailGenderLbl.text = body["gender"] as? String
                     self.detailParticipantLbl.text = body["number"] as? String
-                    self.detailLocationLbl.text = body["location"] as? String
+                    self.detailLocationLbl.text = locationName
                     self.selectedLocationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                    self.selectedLocationInfo = (name: locationName, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
                     self.activityID = body["activity_id"] as? String
                     self.userID = body["owner_id"] as? String
                     if let avatarURLString = body["avatar"] as? String {
@@ -487,7 +489,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                    return
             }
                let locationName = result.lines?.joined(separator: ", ") ?? ""
-               self.delegate?.didSelectLocation(locationName)
+               self.delegate?.didSelectLocation(locationName, coordinate.longitude, coordinate.latitude)
                if self.comingFromCell {
                     self.dismiss(animated: true, completion: nil)
               } else {

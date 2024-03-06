@@ -681,6 +681,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
     
     //MARK: - Helper Functions
     func uiSetUp(){
+        self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.setHidesBackButton(true, animated: false)
         profileSegmentView.isHidden = false
         profileActivityView.isHidden = true
@@ -863,33 +864,31 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                  vc.labelText = selectedText
                  self.navigationController?.pushViewController(vc, animated: true)
              }
-         } else if tableView == profileActivityTableView {
-             let activity = activity[indexPath.row]
-             if let cell = tableView.cellForRow(at: indexPath) as? ProfileActivityCell,
-                 let locationName = cell.activityTableLocation.text {
-                 let geocoder = CLGeocoder()
-                 geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-                     guard let self = self,
-                         let placemark = placemarks?.first,
-                         let locationCoordinate = placemark.location?.coordinate else {
-                             cell.accessoryView = nil
-                             return
-              }
-              if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                  self.tabBarController?.tabBar.isHidden = true
-                   detailController.comingFromCell = false
-                   detailController.activityID = activity.activityID
-                   self.selectedMarker?.map = nil
-                   self.selectedMarker = nil
-                   detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                   //detailController.delegate = self
-                   cell.accessoryView = nil
-                   self.navigationController?.pushViewController(detailController, animated: false)
-                     }
-                 }
-             }
-             tableView.deselectRow(at: indexPath, animated: true)
-         }
+        } else if tableView == profileActivityTableView {
+            let activity = activity[indexPath.row]
+            let cell = tableView.cellForRow(at: indexPath) as? ProfileActivityCell
+            //                 let locationName = cell.activityTableLocation.text {
+            //                 let geocoder = CLGeocoder()
+            //                 geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+            //                     guard let self = self,
+            //                         let placemark = placemarks?.first,
+            //                         let locationCoordinate = placemark.location?.coordinate else {
+            //                             cell.accessoryView = nil
+            //                             return
+            //              }
+            if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                self.tabBarController?.tabBar.isHidden = true
+                detailController.comingFromCell = false
+                detailController.activityID = activity.activityID
+                self.selectedMarker?.map = nil
+                self.selectedMarker = nil
+                //                   detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
+                //detailController.delegate = self
+                cell?.accessoryView = nil
+                self.navigationController?.pushViewController(detailController, animated: false)
+            }
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
 
