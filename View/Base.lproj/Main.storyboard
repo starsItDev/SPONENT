@@ -3700,7 +3700,7 @@
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title="Cancel"/>
                                                         <connections>
-                                                            <action selector="chatCancelButton:" destination="Cra-Ab-cqc" eventType="touchUpInside" id="jkH-uV-ktL"/>
+                                                            <action selector="chatCancelButton:" destination="Cra-Ab-cqc" eventType="touchUpInside" id="LHa-xG-dOP"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RcX-dW-BV2">
@@ -3717,6 +3717,9 @@
                                                                 <real key="value" value="15"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sendMessageBtn:" destination="Cra-Ab-cqc" eventType="touchUpInside" id="9tU-Hn-KVg"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>
@@ -5028,7 +5031,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xXV-Ql-pF9" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NFx-da-8Ps">
                                         <rect key="frame" x="155.5" y="45" width="103" height="26.5"/>
@@ -5041,7 +5044,7 @@
                                 <constraints>
                                     <constraint firstItem="NFx-da-8Ps" firstAttribute="top" secondItem="xXV-Ql-pF9" secondAttribute="top" constant="45" id="5WL-C8-swq"/>
                                     <constraint firstItem="NFx-da-8Ps" firstAttribute="centerX" secondItem="xXV-Ql-pF9" secondAttribute="centerX" id="elf-7z-3LM"/>
-                                    <constraint firstAttribute="height" constant="80" id="u3e-64-QXS"/>
+                                    <constraint firstAttribute="height" constant="100" id="u3e-64-QXS"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -5053,7 +5056,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VL9-X5-sGp">
-                                <rect key="frame" x="0.0" y="80" width="414" height="733"/>
+                                <rect key="frame" x="0.0" y="100" width="414" height="713"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Us8-eQ-lM2">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="762"/>
@@ -5966,6 +5969,9 @@
                                                                 <real key="value" value="15"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="sendMessageBtn:" destination="rDg-wl-3Nf" eventType="touchUpInside" id="gn5-uw-UO4"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                             </stackView>

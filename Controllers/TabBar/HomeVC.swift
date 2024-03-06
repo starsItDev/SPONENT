@@ -342,6 +342,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             if let httpResponse = response as? HTTPURLResponse {
                 DispatchQueue.main.async {
                     if httpResponse.statusCode == 200 {
+                        UserInfo.shared.isUserLoggedIn = true
                         print("OKKKKK")
                         if let data = data,
                            let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],

@@ -71,6 +71,12 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
     var dismissViewTap: UITapGestureRecognizer?
     var categoryID: Int?
     var showTabBar: Bool?
+    
+    let socketManager = SocketIOManager.sharedInstance
+    var chatMessages: [ChatMessage] = []
+    var accessToken = "2a5b7d1b0f6a4ff9341d60d1eb2cef12c7be12d00e9be368a6afb6f9a044c9cd83f58619323925141ce4fe042832e6bd7d06697a43055373"
+    var userName = "raoahmad"
+    var sendMessagetoID = "31136"
 
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
@@ -509,18 +515,23 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
             settingStackView.isHidden = true
         }
     }
+    
     @IBAction func signOutButton(_ sender: UIButton) {
         UserDefaults.standard.set("", forKey: "userID")
         UserDefaults.standard.set("", forKey: "apikey")
         UserDefaults.standard.set("", forKey: "password")
         let loginManager = LoginManager()
         loginManager.logOut()
+        UserInfo.shared.isUserLoggedIn = false
         GIDSignIn.sharedInstance.signOut()
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+        
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+           let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
             vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: false)
+            sceneDelegate.window?.rootViewController = vc
         }
     }
+    
     @IBAction func updateCancelButton(_ sender: UIButton) {
         if !changePasswordView.isHidden {
             changePasswordView.isHidden = true
@@ -678,7 +689,57 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
         transparenView.isHidden = true
         chatTextField.text = ""
     }
-    
+    func joinSocket() {
+        let recipientID = ""
+        let userID = accessToken
+        let messageID = ""
+        socketManager.joinSocket(recipientID: recipientID, userID: userID, messageID: messageID) { success in
+            if success {
+                print("Join event sent successfully!")
+            } else {
+                print("Failed to send join event.")
+            }
+        }
+    }
+    @IBAction func sendMessageBtn(_ sender: UIButton) {
+        joinSocket()
+        if socketManager.isSocketConnected {
+            if let messageText = chatTextField.text, !messageText.isEmpty {
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "h:mm a"
+                let currentTimeString = dateFormatter.string(from: currentDate)
+                socketManager.sendPrivateMessage(
+                    toID: sendMessagetoID,
+                    fromID: accessToken,
+                    username: userName,
+                    message: messageText,
+                    color: "#056bba",
+                    isSticker: false,
+                    messageReplyID: ""
+                ){ success in
+                    if success {
+                        print("Private message sent successfully!")
+                    } else {
+                        print("Failed to send private message.")
+                    }
+                }
+                socketManager.sendTypingDoneEvent(recipientID: sendMessagetoID, userID: accessToken)
+                let chatMessage = ChatMessage(message: messageText, time: currentTimeString, senderId: "")
+                chatMessages.append(chatMessage)
+                chatTextField.resignFirstResponder()
+                chatTextField.text = ""
+                chatView.isHidden = true
+                transparenView.isHidden = true
+                showToast(message: "Message Send")
+            } else {
+                print("Message text is empty.")
+            }
+        } else {
+            print("Socket is not connected.")
+        }
+    }
+
     //MARK: - Helper Functions
     func uiSetUp(){
 //        self.navigationController?.navigationBar.isHidden = true

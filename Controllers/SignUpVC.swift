@@ -309,11 +309,12 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                                     UserDefaults.standard.set(userId, forKey: "userID")
                                     UserDefaults.standard.set(apikey, forKey: "apikey")
                                     print(apikey)
-                                    
-                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-                                        tabBarController.modalPresentationStyle = .fullScreen
-                                        self.present(tabBarController, animated: false, completion: nil)
-                                    }
+                                    UserInfo.shared.isUserLoggedIn = true
+                                    self.signUpSuccessful()
+//                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+//                                        tabBarController.modalPresentationStyle = .fullScreen
+//                                        self.present(tabBarController, animated: false, completion: nil)
+//                                    }
                                 }
                             }
                         } else {
@@ -326,7 +327,14 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             }
         }.resume()
     }
-    
+    func signUpSuccessful() {
+        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+            tabBarController.modalPresentationStyle = .fullScreen
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                sceneDelegate.window?.rootViewController = tabBarController
+            }
+        }
+    }
     //MARK: - Actions
     @IBAction func signUpForwardButton(_ sender: UIButton) {
         ValidationCode()

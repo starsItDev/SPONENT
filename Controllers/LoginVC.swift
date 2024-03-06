@@ -31,7 +31,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     let textFieldDelegateHelper = TextFieldDelegateHelper<LoginVC>()
     var socialEmail: String?
     var socialName: String?
-    
+
     //MARK: - Override Func
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -188,11 +188,12 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                     UserDefaults.standard.set(apikey, forKey: "apikey")
                                     UserDefaults.standard.set(password, forKey: "password")
                                     print(apikey)
-                                    
-                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-                                        tabBarController.modalPresentationStyle = .fullScreen
-                                        self.present(tabBarController, animated: false, completion: nil)
-                                    }
+                                    self.signInSuccessful()
+                                   UserInfo.shared.isUserLoggedIn = true
+//                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+//                                        tabBarController.modalPresentationStyle = .fullScreen
+//                                        self.present(tabBarController, animated: false, completion: nil)
+//                                    }
                                 }
                             }
                         } else {
@@ -205,6 +206,15 @@ class LoginVC: UIViewController, UITextFieldDelegate {
             }
         }.resume()
     }
+    func signInSuccessful() {
+        if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+            tabBarController.modalPresentationStyle = .fullScreen
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                sceneDelegate.window?.rootViewController = tabBarController
+            }
+        }
+    }
+
     func SocialapiCall(parameters: [String: Any]) {
         let boundary = "Boundary-\(UUID().uuidString)"
         var body = ""
