@@ -70,28 +70,16 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         confirmPasswdText.delegate = self
         aboutMeTxtField.delegate = self
         setupKeyboardDismiss()
-        if traitCollection.userInterfaceStyle == .dark {
-            nameTxtField.attributedPlaceholder = NSAttributedString(string: "Your Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-            emailTxtField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-            passWordTxtField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-            confirmPasswdText.attributedPlaceholder = NSAttributedString(string: "Confirm Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-            aboutMeTxtField.attributedPlaceholder = NSAttributedString(string: "Please write about yourself", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-            favCategoryLabel.textColor = .white
-            ageLabel.textColor = .white
-            genderLabel.textColor = .white
-            locationLabel.textColor = .white
-        } else {
-            nameTxtField.attributedPlaceholder = NSAttributedString(string: "Your Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            emailTxtField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            passWordTxtField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            confirmPasswdText.attributedPlaceholder = NSAttributedString(string: "Confirm Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            aboutMeTxtField.attributedPlaceholder = NSAttributedString(string: "Please write about yourself", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            let colour = UIColor(red: 196/255.0, green: 196/255.0, blue: 198/255.0, alpha: 1.0)
-            favCategoryLabel.textColor = colour
-            ageLabel.textColor = colour
-            genderLabel.textColor = colour
-            locationLabel.textColor = colour
-        }
+        nameTxtField.attributedPlaceholder = NSAttributedString(string: "Your Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        emailTxtField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        passWordTxtField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        confirmPasswdText.attributedPlaceholder = NSAttributedString(string: "Confirm Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        aboutMeTxtField.attributedPlaceholder = NSAttributedString(string: "Please write about yourself", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        let colour = UIColor(red: 196/255.0, green: 196/255.0, blue: 198/255.0, alpha: 1.0)
+        favCategoryLabel.textColor = colour
+        ageLabel.textColor = colour
+        genderLabel.textColor = colour
+        locationLabel.textColor = colour
         setupTapGesture(for: ageView, action: #selector(showAgeActionSheet))
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
         setupTapGesture(for: favCategoryView, action: #selector(showSportActionSheet))
@@ -470,7 +458,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 if aboutMeTxtField.text == "" {
                 aboutView.layer.borderColor = UIColor.red.cgColor
             }
-            showToast(message: "Please fill in all required fields")
+               showAlert(title: "Alert", message: "Please fill in all required fields")
         } else {
             emailView.layer.borderColor = UIColor.lightGray.cgColor
             
@@ -510,7 +498,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 if aboutMeTxtField.text == "" {
                     aboutView.layer.borderColor = UIColor.red.cgColor
                 }
-             showToast(message: "Please fill in all required fields")
+            showAlert(title: "Alert", message: "Please fill in all required fields")
             } else {
                 emailView.layer.borderColor = UIColor.lightGray.cgColor
                 passwdView.layer.borderColor = UIColor.lightGray.cgColor

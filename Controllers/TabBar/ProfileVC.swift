@@ -879,7 +879,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 99
+        if tableView == profileFollowerTableView && tableView == profileFollowingTableView {
+            return 99
+        } else {
+            return 105
+        }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == profileFollowerTableView {

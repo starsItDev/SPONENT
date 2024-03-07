@@ -83,23 +83,13 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         styleViews()
         tabBarController?.delegate = self
         homeMapView.delegate = self
-        if traitCollection.userInterfaceStyle == .dark {
-            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            sportTypeLabel.textColor = .lightGray
-            ageLabel.textColor = .lightGray
-            genderLabel.textColor = .lightGray
-            participantLabel.textColor = .lightGray
-            skillLabel.textColor = .lightGray
-            addDetailsLocLabel.textColor = .lightGray
-        } else {
-            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-            sportTypeLabel.textColor = .lightGray
-            ageLabel.textColor = .lightGray
-            genderLabel.textColor = .lightGray
-            participantLabel.textColor = .lightGray
-            skillLabel.textColor = .lightGray
-            addDetailsLocLabel.textColor = .lightGray
-        }
+        addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        sportTypeLabel.textColor = .lightGray
+        ageLabel.textColor = .lightGray
+        genderLabel.textColor = .lightGray
+        participantLabel.textColor = .lightGray
+        skillLabel.textColor = .lightGray
+        addDetailsLocLabel.textColor = .lightGray
         self.navigationController?.navigationBar.isHidden = true
         setupTapGesture(for: sportTypeView, action: #selector(showSportActionSheet))
         setupTapGesture(for: genderView, action: #selector(showGenderActionSheet))
@@ -484,25 +474,25 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             self.selectedLocationLongitude = longitude
         }
     }
-    func createLoadingView() {
-        loadingView = UIView(frame: UIScreen.main.bounds)
-        loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = loadingView!.center
-        loadingView?.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-    }
-    func showLoadingView() {
-        if loadingView == nil {
-            createLoadingView()
-        }
-        loadingView?.isHidden = false
-        view.addSubview(loadingView!)
-    }
-    func hideLoadingView() {
-        loadingView?.removeFromSuperview()
-        loadingView = nil
-    }
+//    func createLoadingView() {
+//        loadingView = UIView(frame: UIScreen.main.bounds)
+//        loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+//        let activityIndicator = UIActivityIndicatorView(style: .large)
+//        activityIndicator.center = loadingView!.center
+//        loadingView?.addSubview(activityIndicator)
+//        activityIndicator.startAnimating()
+//    }
+//    func showLoadingView() {
+//        if loadingView == nil {
+//            createLoadingView()
+//        }
+//        loadingView?.isHidden = false
+//        view.addSubview(loadingView!)
+//    }
+//    func hideLoadingView() {
+//        loadingView?.removeFromSuperview()
+//        loadingView = nil
+//    }
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
@@ -641,7 +631,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 99
+        return 105
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DispatchQueue.main.async {
@@ -651,9 +641,7 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
                 detailController.comingFromCell = false
                 detailController.activityID = activity.activityID
                 detailController.delegate = self
-                DispatchQueue.main.async {
-                    self.navigationController?.pushViewController(detailController, animated: true)
-                }
+                self.navigationController?.pushViewController(detailController, animated: true)
             }
             tableView.deselectRow(at: indexPath, animated: true)
         }

@@ -329,13 +329,24 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         self.navigationController?.popViewController(animated: true)
     }
     @IBAction func detailDoneBtnClicked(_ sender: UIButton) {
-        let searchedLocation = detailSearchBar.text ?? ""
-//        if !searchedLocation.isEmpty {
-//            delegate?.didSelectLocation(searchedLocation)
-//          } else {
-//            delegate?.didSelectLocation("", 0, 0)
-//       }
-        self.dismiss(animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let searchedLocation = self.detailSearchBar.text ?? ""
+            let locationName = searchedLocation
+            let geocoder = CLGeocoder()
+            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+                guard let self = self,
+                      let placemark = placemarks?.first,
+                      let locationCoordinate = placemark.location?.coordinate else {
+                    return
+                }
+                if !searchedLocation.isEmpty {
+                    self.delegate?.didSelectLocation(searchedLocation, locationCoordinate.longitude, locationCoordinate.latitude)
+                } else {
+                    self.delegate?.didSelectLocation("", 0, 0)
+                }
+            }
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     @IBAction func requestToJoinBtn(_ sender: UIButton) {
         if self.isOwner {

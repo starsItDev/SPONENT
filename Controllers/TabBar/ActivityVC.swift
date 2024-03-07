@@ -209,7 +209,7 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
         return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 99
+        return 105
     }
 //  let defaultHeight: CGFloat = 99.0
 //        if tableView == pendingtableView {
