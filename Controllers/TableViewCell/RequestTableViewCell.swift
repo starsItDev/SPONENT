@@ -10,6 +10,7 @@ import UIKit
 protocol RequestTableViewCellDelegate: AnyObject {
     func acceptButtonTapped(inCell cell: RequestTableViewCell)
     func rejectButtonTapped(inCell cell: RequestTableViewCell)
+    func chatButtonTapped(inCell cell: RequestTableViewCell)
 }
 
 class RequestTableViewCell: UITableViewCell {
@@ -41,6 +42,7 @@ class RequestTableViewCell: UITableViewCell {
     }
     
     @IBAction func chatButton(_ sender: UIButton) {
+        delegate?.chatButtonTapped(inCell: self)
     }
     
 }

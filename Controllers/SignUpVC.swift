@@ -344,7 +344,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
 //            vc.modalPresentationStyle = .fullScreen
 //            self.present(vc, animated: false)
 //        }
-        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: true)
+        //self.navigationController?.popViewController(animated: true)
     }
     @IBAction func passwdEyeBtn(_ sender: UIButton) {
         if passWordTxtField.isSecureTextEntry {

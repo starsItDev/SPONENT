@@ -25,6 +25,10 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     @IBOutlet weak var pendingViewheight: NSLayoutConstraint!
     @IBOutlet weak var acceptedViewheight: NSLayoutConstraint!
     @IBOutlet weak var rejectedViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var transparentView: UIView!
+    @IBOutlet weak var chatView: GradientView!
+
+    @IBOutlet weak var chatTextField: UITextField!
     var isImageRotated = false
     var rejectedTableRowCount = 3
     var activityID: String?
@@ -393,41 +397,39 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     }
     func rejectButtonTapped(inCell cell: RequestTableViewCell) {
         let indexPath = self.requestTableView.indexPath(for: cell)
-            if let indexPath = indexPath {
-                let rejectedRequest = pending[indexPath.row]
-                let userID = rejectedRequest.userID
-//                let name = rejectedRequest.userName
-//                let activityName = rejectedRequest.activity
-                rejectRequestApi(userID: userID)
-//                let message = "\(name) has rejected your request for \(activityName)"
-//                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-//                    return
-//                }
-//                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
-            }
+        if let indexPath = indexPath {
+            let rejectedRequest = pending[indexPath.row]
+            let userID = rejectedRequest.userID
+            rejectRequestApi(userID: userID)
+        }
+    }
+    func chatButtonTapped(inCell cell: RequestTableViewCell) {
+        chatView.isHidden = false
+        transparentView.isHidden = false
+    }
+    @IBAction func chatCancelButton(_ sender: UIButton) {
+        chatView.isHidden = true
+        transparentView.isHidden = true
+        chatTextField.text = ""
+    }
+    
+    @IBAction func chatSendButton(_ sender: UIButton) {
     }
     func cancelButtonTapped(inCell cell: AcceptedTableViewCell) {
         let indexPath = self.acceptedTableView.indexPath(for: cell)
-            if let indexPath = indexPath {
-                let cancelRequest = accepted[indexPath.row]
-                let userID = cancelRequest.userID
-//                let name = cancelRequest.userName
-//                let activityName = cancelRequest.activity
-                cancelRequestApi(userID: userID)
-//                let message = "\(name) has cancelled your request for \(activityName)"
-//                guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-//                    return
-//                }
-//                appDelegate.dispatchNotification(message: "\(message)", userID: userID)
-            }
+        if let indexPath = indexPath {
+            let cancelRequest = accepted[indexPath.row]
+            let userID = cancelRequest.userID
+            cancelRequestApi(userID: userID)
+        }
     }
     func deleteButtonTapped(inCell cell: RejectedTableViewCell) {
         let indexPath = self.rejectedTableView.indexPath(for: cell)
-            if let indexPath = indexPath {
-                let deleteRequest = rejected[indexPath.row]
-                let userID = deleteRequest.userID
-                    deleteRequestApi(userID: userID)
-            }
+        if let indexPath = indexPath {
+            let deleteRequest = rejected[indexPath.row]
+            let userID = deleteRequest.userID
+            deleteRequestApi(userID: userID)
+        }
     }
 }
 

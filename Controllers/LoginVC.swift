@@ -367,9 +367,9 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         UserDefaults.standard.set("", forKey: "apikey")
     }
     @IBAction func signUpButton(_ sender: UIButton) {
-        if let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
-            //controller.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(controller, animated: false)
+        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: false)
         }
     }
     @IBAction func facebookBtn(_ sender: UIButton) {

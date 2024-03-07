@@ -66,7 +66,9 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var selectedRegion: GMSCoordinateBounds?
     var selectedLocationCoordinate: CLLocationCoordinate2D?
     var userLocationCoordinate: CLLocationCoordinate2D?
-    var selectedLocationInfo: (name: String, coordinate: CLLocationCoordinate2D)?
+    var userCurrentLocationCoordinate: CLLocationCoordinate2D?
+
+//    var selectedLocationInfo: (name: String, coordinate: CLLocationCoordinate2D)?
     
     //MARK: - Override Functions
     override func viewDidLoad() {
@@ -93,20 +95,24 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
           detailMapHeight.constant = screenHeight
       }
         detailMapView.isMyLocationEnabled = true
-        if let locationInfo = selectedLocationInfo {
-            let coordinate = locationInfo.coordinate
-            let marker = GMSMarker(position: coordinate)
-            marker.title = locationInfo.name
-            marker.map = detailMapView
-            let cameraUpdate = GMSCameraPosition.camera(withTarget: coordinate, zoom: 15)
-            detailMapView.camera = cameraUpdate
-        }
+//        if let locationInfo = selectedLocationInfo {
+//            let coordinate = locationInfo.coordinate
+//            let marker = GMSMarker(position: coordinate)
+//            marker.title = locationInfo.name
+//            marker.map = detailMapView
+//            let cameraUpdate = GMSCameraPosition.camera(withTarget: coordinate, zoom: 15)
+//            detailMapView.camera = cameraUpdate
+//        }
         if let userLocationCoordinate = userLocationCoordinate {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { 
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 18)
                 self.detailMapView.camera = camera
             }
         }
+        if let userLocationCoordinate = userCurrentLocationCoordinate {
+                let camera = GMSCameraPosition.camera(withTarget: userLocationCoordinate, zoom: 15)
+                detailMapView.camera = camera
+            }
         if let selectedLocationCoordinate = selectedLocationCoordinate {
             let camera = GMSCameraPosition.camera(withTarget: selectedLocationCoordinate, zoom: 15)
                 detailMapView.camera = camera

@@ -26,7 +26,6 @@
 		76D5C5F52AB06B8500C6E4DC /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F42AB06B8500C6E4DC /* Constant.swift */; };
 		76D5C5F72AB06BA500C6E4DC /* APIManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F62AB06BA500C6E4DC /* APIManger.swift */; };
 		76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */; };
-		76FA7D2B2B6A511A00D4EB4D /* nagtiveCV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76FA7D2A2B6A511A00D4EB4D /* nagtiveCV.swift */; };
 		E003374F2AD916A4001E55A6 /* FollowersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E003374E2AD916A4001E55A6 /* FollowersModel.swift */; };
 		E00337512AD948B5001E55A6 /* FollowingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00337502AD948B5001E55A6 /* FollowingModel.swift */; };
 		E00B8BD12AA99F23001422CE /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00B8BD02AA99F23001422CE /* SignUpVC.swift */; };
@@ -105,7 +104,6 @@
 		76D5C5F42AB06B8500C6E4DC /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		76D5C5F62AB06BA500C6E4DC /* APIManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManger.swift; sourceTree = "<group>"; };
 		76D5C5F82AB0720C00C6E4DC /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
-		76FA7D2A2B6A511A00D4EB4D /* nagtiveCV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = nagtiveCV.swift; sourceTree = "<group>"; };
 		E003374E2AD916A4001E55A6 /* FollowersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersModel.swift; sourceTree = "<group>"; };
 		E00337502AD948B5001E55A6 /* FollowingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingModel.swift; sourceTree = "<group>"; };
 		E00B8BD02AA99F23001422CE /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
@@ -203,7 +201,6 @@
 				767EB86C2B68CC4800425758 /* SocketIOManager.swift */,
 				767EB86E2B68CC7400425758 /* DecryptionHandler.swift */,
 				767EB8722B68CD2300425758 /* ChatViewController.swift */,
-				76FA7D2A2B6A511A00D4EB4D /* nagtiveCV.swift */,
 				767DCDA62B68D6D20005D0E8 /* ChatVCTableViewCell */,
 			);
 			path = SocketIO;
@@ -521,7 +518,6 @@
 				76D5C5F92AB0720C00C6E4DC /* UserInfo.swift in Sources */,
 				E003374F2AD916A4001E55A6 /* FollowersModel.swift in Sources */,
 				E0E544312ADD38C400B7D2F0 /* ActivityCurrentCell.swift in Sources */,
-				76FA7D2B2B6A511A00D4EB4D /* nagtiveCV.swift in Sources */,
 				E00B8BD32AA9D9DD001422CE /* SignUpAgeTableViewCell.swift in Sources */,
 				767DCDB02B68DACD0005D0E8 /* TypingBubbleView.swift in Sources */,
 				767EB86D2B68CC4800425758 /* SocketIOManager.swift in Sources */,
