@@ -396,7 +396,14 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     self.detailParticipantLbl.text = body["number"] as? String
                     self.detailLocationLbl.text = locationName
                     self.selectedLocationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                    self.selectedLocationInfo = (name: locationName, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+//                    self.selectedLocationInfo = (name: locationName, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
+                    if let selectedLocationCoordinate = self.selectedLocationCoordinate {
+                        let camera = GMSCameraPosition.camera(withTarget: selectedLocationCoordinate, zoom: 15)
+                        self.detailMapView.camera = camera
+                            let marker = GMSMarker(position: selectedLocationCoordinate)
+                            marker.title = "Selected Location"
+                        marker.map = self.detailMapView
+                    }
                     self.activityID = body["activity_id"] as? String
                     self.userID = body["owner_id"] as? String
                     if let avatarURLString = body["avatar"] as? String {

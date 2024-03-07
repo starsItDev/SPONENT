@@ -84,7 +84,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         tabBarController?.delegate = self
         homeMapView.delegate = self
         if traitCollection.userInterfaceStyle == .dark {
-            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
             sportTypeLabel.textColor = .lightGray
             ageLabel.textColor = .lightGray
             genderLabel.textColor = .lightGray
@@ -661,31 +661,17 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DispatchQueue.main.async {
             let activity = self.activities[indexPath.row]
-            if let cell = tableView.cellForRow(at: indexPath) as? HomeTableViewCell,
-               let locationName = cell.homeTableLocation.text {
-                //showLoadingView()
-                let geocoder = CLGeocoder()
-                geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-                    //self?.hideLoadingView()
-                    guard let self = self,
-                          let placemark = placemarks?.first,
-                          let locationCoordinate = placemark.location?.coordinate else {
-                        cell.accessoryView = nil
-                        return
-                    }
                     if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
                         self.tabBarController?.tabBar.isHidden = true
                         detailController.comingFromCell = false
                         detailController.activityID = activity.activityID
-                        detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
+//                        detailController.selectedLocationInfo = (name: locName, coordinate: locationCoordinate)
                         detailController.delegate = self
-                        cell.accessoryView = nil
+                        //cell.accessoryView = nil
                         DispatchQueue.main.async {
                             self.navigationController?.pushViewController(detailController, animated: true)
                         }
                     }
-                }
-            }
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

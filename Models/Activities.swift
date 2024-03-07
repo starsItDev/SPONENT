@@ -13,8 +13,8 @@ struct Model: Codable {
 }
 
 struct ActivityBody: Codable {
-    let current, pending, rejected, followed: [Current]
-    let past, extra: [Current]
+    let current, pending, past, followed: [Current]
+    //let past, extra: [Current]
 }
 
 struct Current: Codable {
