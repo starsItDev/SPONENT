@@ -25,10 +25,6 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
     @IBOutlet weak var pendingViewheight: NSLayoutConstraint!
     @IBOutlet weak var acceptedViewheight: NSLayoutConstraint!
     @IBOutlet weak var rejectedViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var transparentView: UIView!
-    @IBOutlet weak var chatView: GradientView!
-
-    @IBOutlet weak var chatTextField: UITextField!
     var isImageRotated = false
     var rejectedTableRowCount = 3
     var activityID: String?
@@ -404,16 +400,6 @@ class RequestVC: UIViewController, RequestTableViewCellDelegate, RejectedTableVi
         }
     }
     func chatButtonTapped(inCell cell: RequestTableViewCell) {
-        chatView.isHidden = false
-        transparentView.isHidden = false
-    }
-    @IBAction func chatCancelButton(_ sender: UIButton) {
-        chatView.isHidden = true
-        transparentView.isHidden = true
-        chatTextField.text = ""
-    }
-    
-    @IBAction func chatSendButton(_ sender: UIButton) {
     }
     func cancelButtonTapped(inCell cell: AcceptedTableViewCell) {
         let indexPath = self.acceptedTableView.indexPath(for: cell)

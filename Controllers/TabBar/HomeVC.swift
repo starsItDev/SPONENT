@@ -484,49 +484,33 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             self.selectedLocationLongitude = longitude
         }
     }
-//    func didSelectLocation(_ locationName: String) {
-//        DispatchQueue.main.async {
-//            self.addDetailsLocLabel.text = locationName
-//            self.addDetailsLocLabel.textColor = UIColor(named: "Black-White")
-//            self.selectedLocation = locationName
-//            self.homeSegmentController.selectedSegmentIndex = 2
-//            let geocoder = CLGeocoder()
-//            geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-//                if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-//                    self?.selectedLocationLatitude = locationCoordinate.latitude
-//                    self?.selectedLocationLongitude = locationCoordinate.longitude
-//                }
-//            }
-//        }
-            // dismiss(animated: true, completion: nil)
-//   }
-//  func createLoadingView() {
-//    loadingView = UIView(frame: UIScreen.main.bounds)
-//    loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
-//    let activityIndicator = UIActivityIndicatorView(style: .large)
-//    activityIndicator.center = loadingView!.center
-//    loadingView?.addSubview(activityIndicator)
-//    activityIndicator.startAnimating()
-//}
-//  func showLoadingView() {
-//        if loadingView == nil {
-//            createLoadingView()
-//        }
-//        loadingView?.isHidden = false
-//        view.addSubview(loadingView!)
-//    }
-//    func hideLoadingView() {
-//        loadingView?.removeFromSuperview()
-//        loadingView = nil
-//    }
+    func createLoadingView() {
+        loadingView = UIView(frame: UIScreen.main.bounds)
+        loadingView?.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.center = loadingView!.center
+        loadingView?.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+    func showLoadingView() {
+        if loadingView == nil {
+            createLoadingView()
+        }
+        loadingView?.isHidden = false
+        view.addSubview(loadingView!)
+    }
+    func hideLoadingView() {
+        loadingView?.removeFromSuperview()
+        loadingView = nil
+    }
     func setupKeyboardDismiss() {
-           textFieldDelegateHelper.configureTapGesture(for: view, in: self)
+        textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-            if tabBarController.selectedIndex == 0 {
-                homeSegmentController.selectedSegmentIndex = 0
-                homeSegmentControl(homeSegmentController)
-            }
+        if tabBarController.selectedIndex == 0 {
+            homeSegmentController.selectedSegmentIndex = 0
+            homeSegmentControl(homeSegmentController)
+        }
     }
     func clearTextFields() {
         sportTypeLabel.text = "Select Sport"
@@ -662,17 +646,15 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         DispatchQueue.main.async {
             let activity = self.activities[indexPath.row]
-                    if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                        self.tabBarController?.tabBar.isHidden = true
-                        detailController.comingFromCell = false
-                        detailController.activityID = activity.activityID
-//                        detailController.selectedLocationInfo = (name: locName, coordinate: locationCoordinate)
-                        detailController.delegate = self
-                        //cell.accessoryView = nil
-                        DispatchQueue.main.async {
-                            self.navigationController?.pushViewController(detailController, animated: true)
-                        }
-                    }
+            if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                self.tabBarController?.tabBar.isHidden = true
+                detailController.comingFromCell = false
+                detailController.activityID = activity.activityID
+                detailController.delegate = self
+                DispatchQueue.main.async {
+                    self.navigationController?.pushViewController(detailController, animated: true)
+                }
+            }
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

@@ -120,15 +120,6 @@ class ActivityVC: UIViewController {
      }
     
     //MARK: - Helper Functions
-//    func didSelectLocation(_ locationName: String) {
-//        let geocoder = CLGeocoder()
-//           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-//               if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-//                   self?.selectedLocationLatitude = locationCoordinate.latitude
-//                   self?.selectedLocationLongitude = locationCoordinate.longitude
-//            }
-//        }
-//    }
     func updateSegmentTitles() {
         DispatchQueue.main.async {
             self.activitySegmentController.setTitle("Pending(\(self.pending.count))", forSegmentAt: 0)
@@ -263,19 +254,14 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView == pendingtableView {
             let pending = pending[indexPath.row]
-             if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
-                 self.tabBarController?.tabBar.isHidden = true
-                 detailController.comingFromCell = false
-                 detailController.activityID = pending.activityID
-                  self.selectedMarker?.map = nil
-                  self.selectedMarker = nil
-//                  detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                  //detailController.delegate = self
-//                  cell.accessoryView = nil
-//                  let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
-//                  detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
-                 self.navigationController?.pushViewController(detailController, animated: false)
-                    }
+            if let detailController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController {
+                self.tabBarController?.tabBar.isHidden = true
+                detailController.comingFromCell = false
+                detailController.activityID = pending.activityID
+                self.selectedMarker?.map = nil
+                self.selectedMarker = nil
+                self.navigationController?.pushViewController(detailController, animated: false)
+            }
             tableView.deselectRow(at: indexPath, animated: true)
         } else if tableView == currentTableView {
             let current = activity[indexPath.row]
@@ -285,11 +271,6 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                 detailController.activityID = current.activityID
                 self.selectedMarker?.map = nil
                 self.selectedMarker = nil
-//                detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                //detailController.delegate = self
-//                cell.accessoryView = nil
-//                let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
-//                detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
                 self.navigationController?.pushViewController(detailController, animated: false)
             }
             tableView.deselectRow(at: indexPath, animated: true)
@@ -301,11 +282,6 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                 detailController.activityID = following.activityID
                 self.selectedMarker?.map = nil
                 self.selectedMarker = nil
-                //                  detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                //detailController.delegate = self
-                //                  cell.accessoryView = nil
-                //                  let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
-                //                  detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
                 self.navigationController?.pushViewController(detailController, animated: false)
             }
             tableView.deselectRow(at: indexPath, animated: true)
@@ -317,11 +293,6 @@ extension ActivityVC: UITableViewDelegate, UITableViewDataSource{
                 detailController.activityID = past.activityID
                 self.selectedMarker?.map = nil
                 self.selectedMarker = nil
-                //                  detailController.selectedLocationInfo = (name: locationName, coordinate: locationCoordinate)
-                //detailController.delegate = self
-                //                  cell.accessoryView = nil
-                //                  let camera = GMSCameraPosition.camera(withLatitude:    locationCoordinate.latitude, longitude:                                          locationCoordinate.longitude, zoom: 15)
-                //                  detailController.detailMapView?.moveCamera(GMSCameraUpdate.setCamera(camera))
                 self.navigationController?.pushViewController(detailController, animated: false)
             }
             tableView.deselectRow(at: indexPath, animated: true)

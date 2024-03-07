@@ -13,9 +13,6 @@ import SwiftUI
 protocol DetailViewControllerDelegate: AnyObject {
     func didSelectLocation(_ locationName: String, _ longitude: Double, _ latitude: Double)
  }
-//protocol DetailDelegate: AnyObject {
-//    func didTapAddDetailDoneButton()
-//}
 
 class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationManagerDelegate, GMSMapViewDelegate {
 
@@ -45,7 +42,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBOutlet weak var detailBackBtn: UIButton!
     var locationSelectedHandler: ((String) -> Void)?
     weak var delegate: DetailViewControllerDelegate?
-//    weak var delegatetwo: DetailDelegate?
     weak var homeVC: HomeVC?
     var locationManager = CLLocationManager()
     var isSearchBarHidden = true
@@ -67,8 +63,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     var selectedLocationCoordinate: CLLocationCoordinate2D?
     var userLocationCoordinate: CLLocationCoordinate2D?
     var userCurrentLocationCoordinate: CLLocationCoordinate2D?
-
-//    var selectedLocationInfo: (name: String, coordinate: CLLocationCoordinate2D)?
     
     //MARK: - Override Functions
     override func viewDidLoad() {
@@ -95,14 +89,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
           detailMapHeight.constant = screenHeight
       }
         detailMapView.isMyLocationEnabled = true
-//        if let locationInfo = selectedLocationInfo {
-//            let coordinate = locationInfo.coordinate
-//            let marker = GMSMarker(position: coordinate)
-//            marker.title = locationInfo.name
-//            marker.map = detailMapView
-//            let cameraUpdate = GMSCameraPosition.camera(withTarget: coordinate, zoom: 15)
-//            detailMapView.camera = cameraUpdate
-//        }
         if let userLocationCoordinate = userLocationCoordinate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 let camera = GMSCameraPosition.camera(withLatitude: userLocationCoordinate.latitude, longitude: userLocationCoordinate.longitude, zoom: 18)
@@ -402,7 +388,6 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                     self.detailParticipantLbl.text = body["number"] as? String
                     self.detailLocationLbl.text = locationName
                     self.selectedLocationCoordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-//                    self.selectedLocationInfo = (name: locationName, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude))
                     if let selectedLocationCoordinate = self.selectedLocationCoordinate {
                         let camera = GMSCameraPosition.camera(withTarget: selectedLocationCoordinate, zoom: 15)
                         self.detailMapView.camera = camera

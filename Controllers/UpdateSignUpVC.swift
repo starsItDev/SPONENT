@@ -115,9 +115,9 @@ struct UserProfileData {
               let userlocation = appDelegate.userLocation,
               let location = updateLocationLabel.text, !location.isEmpty
         else {
-                showAlert(title: "Alert", message: "Please fill in all required fields")
-                return
-            }
+            showToast(message: "Please fill in all required fields")
+            return
+        }
         let latitude = userlocation.coordinate.latitude
         let longitude = userlocation.coordinate.longitude
 
@@ -125,7 +125,7 @@ struct UserProfileData {
         let urlString = APIConstants.baseURL + endpoint
 
         guard let url = URL(string: urlString) else {
-            showAlert(title: "Alert", message: "Invalid URL")
+            showToast(message: "Invalid URL")
             return
         }
         var request = URLRequest(url: url)
@@ -165,9 +165,9 @@ struct UserProfileData {
         request.httpBody = body
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
-                  DispatchQueue.main.async {
-                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
-                    }
+                DispatchQueue.main.async {
+                    self.showToast(message: "Failed to fetch data from the server")
+                }
                 return
             }
         if let httpResponse = response as? HTTPURLResponse {
@@ -175,8 +175,8 @@ struct UserProfileData {
                     if httpResponse.statusCode == 200 {
                         print("Update Successful")
                         self.dismiss(animated: false, completion: nil)
-                            } else {
-                        self.showAlert(title: "Error", message: "Failed to update profile")
+                    } else {
+                        self.showToast(message: "Failed to update profile")
                     }
                 }
             }
@@ -240,11 +240,11 @@ struct UserProfileData {
     func ValidationCode() {
         if updateNameField.text == "" {
             updateNameView.layer.borderColor = UIColor.red.cgColor
-            showAlert(title: "Alert", message: "Please write your name")
+            showToast(message: "Please write your name")
         }
         else if updateAboutField.text == "" {
             updateAboutView.layer.borderColor = UIColor.red.cgColor
-            showAlert(title: "Alert", message: "Please write something about yourself")
+            showToast(message: "Please write something about yourself")
         }
         else {
             apiCall()

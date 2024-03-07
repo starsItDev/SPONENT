@@ -311,14 +311,10 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                                     print(apikey)
                                     UserInfo.shared.isUserLoggedIn = true
                                     self.signUpSuccessful()
-//                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-//                                        tabBarController.modalPresentationStyle = .fullScreen
-//                                        self.present(tabBarController, animated: false, completion: nil)
-//                                    }
                                 }
                             }
                         } else {
-                            self.showAlert(title: "Error", message: "Invalid Email or Password")
+                            self.showToast(message: "Invalid Details")
                         }
                     }
                 } catch {
@@ -340,12 +336,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         ValidationCode()
     }
     @IBAction func signUpBackButton(_ sender: UIButton) {
-//        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
-//            vc.modalPresentationStyle = .fullScreen
-//            self.present(vc, animated: false)
-//        }
         self.dismiss(animated: true)
-        //self.navigationController?.popViewController(animated: true)
     }
     @IBAction func passwdEyeBtn(_ sender: UIButton) {
         if passWordTxtField.isSecureTextEntry {
@@ -479,13 +470,13 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 if aboutMeTxtField.text == "" {
                 aboutView.layer.borderColor = UIColor.red.cgColor
             }
-            showAlert(title: "Alert", message: "Please fill in all required fields")
+            showToast(message: "Please fill in all required fields")
         } else {
             emailView.layer.borderColor = UIColor.lightGray.cgColor
             
             if !email.validateEmailId() {
                 emailView.layer.borderColor = UIColor.red.cgColor
-                showAlert(title: "Alert", message: "Please enter a correct email")
+                showToast(message: "Please enter a correct email")
                 return
             } else {
                 emailView.layer.borderColor = UIColor.lightGray.cgColor
@@ -519,7 +510,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 if aboutMeTxtField.text == "" {
                     aboutView.layer.borderColor = UIColor.red.cgColor
                 }
-            showAlert(title: "Alert", message: "Please fill in all required fields")
+             showToast(message: "Please fill in all required fields")
             } else {
                 emailView.layer.borderColor = UIColor.lightGray.cgColor
                 passwdView.layer.borderColor = UIColor.lightGray.cgColor
@@ -527,21 +518,21 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 
                 if !email.validateEmailId() {
                     emailView.layer.borderColor = UIColor.red.cgColor
-                    showAlert(title: "Alert", message: "Please enter a correct email")
+                    showToast(message: "Please enter a correct email")
                     return
                 } else {
                     emailView.layer.borderColor = UIColor.lightGray.cgColor
                 }
                 if password.count < 6 {
                     passwdView.layer.borderColor = UIColor.red.cgColor
-                    showAlert(title: "Alert", message: "Password should be at least 6 characters")
+                    showToast(message: "Password should be at least 6 characters")
                     return
                 } else {
                     passwdView.layer.borderColor = UIColor.lightGray.cgColor
                 }
                 if confirm.count < 6 {
                     confirmPasswdView.layer.borderColor = UIColor.red.cgColor
-                    showAlert(title: "Alert", message: "Confirm password should be at least 6 characters")
+                    showToast(message: "Confirm password should be at least 6 characters")
                     return
                 } else {
                     confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
@@ -549,7 +540,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 if password != confirm {
                     passwdView.layer.borderColor = UIColor.red.cgColor
                     confirmPasswdView.layer.borderColor = UIColor.red.cgColor
-                    showAlert(title: "Alert", message: "Both passwords should be the same")
+                    showToast(message: "Both passwords should be the same")
                     return
                 }
             apiCall()

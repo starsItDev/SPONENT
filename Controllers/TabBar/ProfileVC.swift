@@ -110,7 +110,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
             } else if let userID = UserDefaults.standard.string(forKey: "userID") {
                 urlString += "?id=" + userID
             } else {
-                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                showToast(message: "Both receiverID and userID are missing")
                 return
             }
         guard let url = URL(string: urlString) else {
@@ -143,7 +143,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
             } else if let userID = UserDefaults.standard.string(forKey: "userID") {
                 urlString += "?id=" + userID
             } else {
-                showAlert(title: "Alert", message: "Both receiverID and userID are missing")
+                showToast(message: "Both receiverID and userID are missing")
                 return
             }
         guard let url = URL(string: urlString) else {
@@ -299,7 +299,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
                 print("Response Data: \(responseData)")
                 DispatchQueue.main.async {
                     self.showToast(message: "Unblocked User")
-//                    self.showAlert(title: "Unblocked User", message: responseData)
                 }
             }
         }
@@ -401,9 +400,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
 
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
-//                DispatchQueue.main.async {
-//                    self.showAlert(title: "Friend Add", message: responseData)
-//                }
             }
         }
         task.resume()
@@ -448,9 +444,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
 
             if let responseData = String(data: data, encoding: .utf8) {
                 print("Response Data: \(responseData)")
-//                DispatchQueue.main.async {
-//                    self.showAlert(title: "Leave Frined", message: responseData)
-//                }
             }
         }
         task.resume()
@@ -770,7 +763,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
             myProfileLabel.text = labelText
         }
         setupKeyboardDismiss()
-//        self.navigationController?.navigationBar.isHidden = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         profileSegmentView.addGestureRecognizer(tap)
         let tapTwo = UITapGestureRecognizer(target: self, action: #selector(self.handleTapTwo(_:)))
@@ -817,15 +809,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
         chatView.isHidden = false
         transparenView.isHidden = false
     }
-//    func didSelectLocation(_ locationName: String) {
-//        let geocoder = CLGeocoder()
-//           geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
-//               if let placemark = placemarks?.first, let locationCoordinate = placemark.location?.coordinate {
-//                   self?.selectedLocationLatitude = locationCoordinate.latitude
-//                   self?.selectedLocationLongitude = locationCoordinate.longitude
-//            }
-//        }
-//    }
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == oldPasswordField {
             oldPasswordField.layer.borderColor = UIColor.lightGray.cgColor

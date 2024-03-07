@@ -110,16 +110,16 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     func ValidationCode() {
         if let email = EmailTextField.text, let password = passwordTextField.text {
             if email == "" {
-                showAlert(title: "Alert", message: "Please enter email")
+                showToast(message: "Please enter email")
             }
             else if !email.validateEmailId() {
-                showAlert(title: "Alert", message: "Please enter correct email")
+                showToast(message: "Please enter correct email")
             }
             else if password == "" {
-                showAlert(title: "Alert", message: "Please enter password")
+                showToast(message: "Please enter password")
             }
             else if password.count < 6 {
-                showAlert(title: "Alert", message: "Password should be at least 6 characters")
+                showToast(message: "Password should be at least 6 characters")
             }
             else {
                 apiCall()
@@ -139,7 +139,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     func apiCall() {
         guard let username = EmailTextField.text, !username.isEmpty,
               let password = passwordTextField.text, !password.isEmpty else {
-            showAlert(title: "Alert", message: "Please enter both Email and Password")
+            showToast(message: "Please enter both Email and Password")
             return
         }
         let parameters = [
@@ -159,7 +159,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         let urlString = APIConstants.baseURL + endpoint
         
         guard let url = URL(string: urlString) else {
-            showAlert(title: "Alert", message: "Invalid URL")
+            showToast(message: "Invalid URL")
             return
         }
         var request = URLRequest(url: url)
@@ -170,7 +170,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard error == nil else {
-                    self.showAlert(title: "Error", message: "Please check your internet connection")
+                    self.showToast(message: "Please check your internet connection")
                     return
                 }
                 guard let data = data else {
@@ -197,7 +197,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                 }
                             }
                         } else {
-                            self.showAlert(title: "Error", message: "Invalid Email or Password")
+                            self.showToast(message: "Invalid Email or Password")
                         }
                     }
                 } catch {
@@ -229,7 +229,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         let urlString = APIConstants.baseURL + endpoint
         
         guard let url = URL(string: urlString) else {
-            showAlert(title: "Alert", message: "Invalid URL")
+            showToast(message: "Invalid URL")
             return
         }
         
@@ -241,7 +241,7 @@ class LoginVC: UIViewController, UITextFieldDelegate {
         URLSession.shared.dataTask(with: request) { data, response, error in
             DispatchQueue.main.async {
                 guard error == nil else {
-                    self.showAlert(title: "Error", message: "Failed to fetch data from the server.")
+                    self.showToast(message: "Failed to fetch data from the server")
                     return
                 }
                 guard let data = data else {
@@ -287,8 +287,8 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                 }
                             }
                         }
-                          else {
-                            self.showAlert(title: "Error", message: "SignIn Failed")
+                        else {
+                            self.showToast(message: "SignIn Failed")
                         }
                     }
                 } catch {
