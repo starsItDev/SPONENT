@@ -135,8 +135,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func HomeBackButton(_ sender: UIButton) {
         self.dismiss(animated: false)
-        self.tabBarController?.selectedIndex = 0
-
     }
 
     // MARK: - API Calling

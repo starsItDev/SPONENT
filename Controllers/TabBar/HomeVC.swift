@@ -123,6 +123,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         if UserInfo.shared.isUserLoggedIn == false {
             if let loginNavController = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
                 loginNavController.modalPresentationStyle = .fullScreen
+                self.tabBarController?.selectedIndex = 0
                 self.present(loginNavController, animated: false, completion: nil)
             }
         }
@@ -560,6 +561,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
           if UserInfo.shared.isUserLoggedIn == false {
               if let loginNavController = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
                   loginNavController.modalPresentationStyle = .fullScreen
+                  homeSegmentController.selectedSegmentIndex = 0
+                  homeSegmentControl(homeSegmentController)
                   self.present(loginNavController, animated: false, completion: nil)
               }
           }
