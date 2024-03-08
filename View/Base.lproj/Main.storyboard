@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Wsl-Zh-IAO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Pt9-rI-XaW">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -200,7 +200,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hWw-Cx-y8e">
-                                <rect key="frame" x="35" y="692" width="344" height="50"/>
+                                <rect key="frame" x="35" y="682" width="344" height="50"/>
                                 <color key="backgroundColor" name="LoginBtn"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="VLs-0s-aOo"/>
@@ -220,11 +220,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcf-JK-Yj2">
-                                <rect key="frame" x="35" y="772" width="140" height="40"/>
+                                <rect key="frame" x="35" y="762" width="344" height="50"/>
                                 <color key="backgroundColor" name="LoginBtn"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="140" id="4cJ-nH-RVH"/>
-                                    <constraint firstAttribute="height" constant="40" id="s42-NL-3bW"/>
+                                    <constraint firstAttribute="height" constant="50" id="s42-NL-3bW"/>
                                 </constraints>
                                 <color key="tintColor" red="0.94138020280000001" green="0.53473788499999997" blue="0.15640699860000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
@@ -238,27 +237,6 @@
                                 </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="signUpButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8aJ-vf-XHL"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bxe-oi-4a5">
-                                <rect key="frame" x="239" y="772" width="140" height="40"/>
-                                <color key="backgroundColor" name="LoginBtn"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="IAr-6P-ley"/>
-                                    <constraint firstAttribute="width" constant="140" id="uww-M4-Y8R"/>
-                                </constraints>
-                                <color key="tintColor" red="0.94138020280000001" green="0.53473788499999997" blue="0.15640699860000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Login as Guest">
-                                    <fontDescription key="titleFontDescription" type="boldSystem" pointSize="16"/>
-                                </buttonConfiguration>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                        <real key="value" value="20"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="loginAsGuestButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qD4-U9-zCk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cZp-GM-adK">
@@ -391,6 +369,18 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJ4-i2-ZyU">
+                                <rect key="frame" x="10" y="50" width="50" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="4zt-sU-lSY"/>
+                                    <constraint firstAttribute="height" constant="40" id="uTf-eZ-CkY"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="arrow.backward" catalog="system" title=" "/>
+                                <connections>
+                                    <action selector="HomeBackButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Kc-Bt-hzL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
@@ -403,6 +393,7 @@
                             <constraint firstItem="MGK-wj-TWu" firstAttribute="top" secondItem="cbo-DK-bWG" secondAttribute="bottom" constant="12" id="CmB-CG-gMI"/>
                             <constraint firstItem="pZJ-8n-5Ur" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FpC-rf-RU2"/>
                             <constraint firstItem="NzN-63-TWh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Gqk-89-K9g"/>
+                            <constraint firstItem="oJ4-i2-ZyU" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="50" id="GxO-CU-eZi"/>
                             <constraint firstItem="uXz-Sl-Adr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Hv7-wW-n6r"/>
                             <constraint firstItem="caH-32-JbY" firstAttribute="top" secondItem="NzN-63-TWh" secondAttribute="bottom" constant="30" id="Lzh-wH-3kK"/>
                             <constraint firstItem="cbo-DK-bWG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="RcD-Oe-3r2"/>
@@ -415,6 +406,7 @@
                             <constraint firstItem="HpS-oj-p49" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="bJc-H4-Llp"/>
                             <constraint firstItem="rcf-JK-Yj2" firstAttribute="top" secondItem="hWw-Cx-y8e" secondAttribute="bottom" constant="30" id="bO7-up-Zee"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cbo-DK-bWG" secondAttribute="trailing" constant="20" id="bfa-7b-DGW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rcf-JK-Yj2" secondAttribute="trailing" constant="35" id="boT-kg-X8H"/>
                             <constraint firstItem="HpS-oj-p49" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dOq-D1-rf6"/>
                             <constraint firstItem="uXz-Sl-Adr" firstAttribute="top" secondItem="iaq-Rs-p9T" secondAttribute="bottom" constant="12" id="eRm-Q6-fdN"/>
                             <constraint firstItem="HpS-oj-p49" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="f8h-xI-aiz"/>
@@ -422,12 +414,11 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="HpS-oj-p49" secondAttribute="trailing" constant="20" id="hRF-GA-OzC"/>
                             <constraint firstAttribute="trailing" secondItem="ElJ-je-pqX" secondAttribute="trailing" id="hgx-rR-2Ag"/>
                             <constraint firstItem="iaq-Rs-p9T" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="pkh-mC-PW4"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Bxe-oi-4a5" secondAttribute="trailing" constant="35" id="qVN-UW-xIY"/>
                             <constraint firstItem="cZp-GM-adK" firstAttribute="top" secondItem="MGK-wj-TWu" secondAttribute="bottom" constant="12" id="rOY-fx-JWn"/>
                             <constraint firstItem="ElJ-je-pqX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="w1z-z5-yW2"/>
                             <constraint firstItem="rcf-JK-Yj2" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="35" id="wG7-6E-Y8u"/>
+                            <constraint firstItem="oJ4-i2-ZyU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="xLy-zm-pko"/>
                             <constraint firstItem="NzN-63-TWh" firstAttribute="top" secondItem="pZJ-8n-5Ur" secondAttribute="bottom" constant="25" id="xTS-yx-yme"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Bxe-oi-4a5" secondAttribute="bottom" constant="50" id="xoV-pg-AqR"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -437,6 +428,11 @@
                                 <color key="value" name="LoginPageTwo"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="ElJ-je-pqX"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="lLT-3q-TNg"/>
                     <connections>
@@ -447,7 +443,6 @@
                         <outlet property="forgotTextField" destination="TTE-hU-fmM" id="o9f-mb-jW9"/>
                         <outlet property="googleSignIn" destination="Agk-Tl-9bX" id="RCf-91-VhC"/>
                         <outlet property="loginBtn" destination="hWw-Cx-y8e" id="KoD-75-unu"/>
-                        <outlet property="loginGuest" destination="Bxe-oi-4a5" id="AgG-Iv-GNv"/>
                         <outlet property="loginPasswdEye" destination="HFI-CF-0iy" id="arE-Xs-LQp"/>
                         <outlet property="loginView" destination="8bC-Xf-vdC" id="1gQ-9b-s4N"/>
                         <outlet property="passwordTextField" destination="7Xf-bX-EHc" id="uX9-ll-ttv"/>
@@ -2759,7 +2754,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xgt-Ux-ZXL" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sponent" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6xg-Ti-wXh">
                                         <rect key="frame" x="163.5" y="45" width="87" height="26.5"/>
@@ -2772,7 +2767,7 @@
                                 <constraints>
                                     <constraint firstItem="6xg-Ti-wXh" firstAttribute="centerX" secondItem="Xgt-Ux-ZXL" secondAttribute="centerX" id="Jus-oc-Nee"/>
                                     <constraint firstItem="6xg-Ti-wXh" firstAttribute="top" secondItem="Xgt-Ux-ZXL" secondAttribute="top" constant="45" id="bQ8-Ou-rJm"/>
-                                    <constraint firstAttribute="height" constant="80" id="xam-e7-tYm"/>
+                                    <constraint firstAttribute="height" constant="90" id="xam-e7-tYm"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -2784,7 +2779,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="y8J-j8-8uk">
-                                <rect key="frame" x="0.0" y="80" width="414" height="46"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="46"/>
                                 <color key="backgroundColor" name="LoginFieldsView"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="qdK-KG-RBG"/>
@@ -2801,11 +2796,11 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vwB-Ul-6aE" customClass="GMSMapView">
-                                <rect key="frame" x="0.0" y="125" width="414" height="688"/>
+                                <rect key="frame" x="0.0" y="135" width="414" height="678"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ErP-5t-ndy">
-                                <rect key="frame" x="0.0" y="125" width="414" height="688"/>
+                                <rect key="frame" x="0.0" y="135" width="414" height="678"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vvn-Bs-oiP">
                                         <rect key="frame" x="8" y="2" width="276" height="47"/>
@@ -2859,7 +2854,7 @@
                                         </constraints>
                                     </view>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="W7N-0A-Xka">
-                                        <rect key="frame" x="5" y="49" width="404" height="639"/>
+                                        <rect key="frame" x="5" y="49" width="404" height="629"/>
                                         <color key="backgroundColor" name="ControllerViews"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="100" id="Qfo-S8-vxs" customClass="HomeTableViewCell" customModule="SPONENT" customModuleProvider="target">
@@ -3016,10 +3011,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pUQ-NE-BMp">
-                                <rect key="frame" x="0.0" y="125" width="414" height="688"/>
+                                <rect key="frame" x="0.0" y="135" width="414" height="678"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F5p-CR-v6Z">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="688"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="678"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MDa-gm-CrK">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="660"/>
@@ -3542,7 +3537,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gRr-me-WDz" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Connect" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vwm-Oo-ZQv">
                                         <rect key="frame" x="163.5" y="45" width="87.5" height="26.5"/>
@@ -3555,7 +3550,7 @@
                                 <constraints>
                                     <constraint firstItem="vwm-Oo-ZQv" firstAttribute="top" secondItem="gRr-me-WDz" secondAttribute="top" constant="45" id="2CC-hi-UJr"/>
                                     <constraint firstItem="vwm-Oo-ZQv" firstAttribute="centerX" secondItem="gRr-me-WDz" secondAttribute="centerX" id="7So-11-esb"/>
-                                    <constraint firstAttribute="height" constant="80" id="keu-Nh-Rdg"/>
+                                    <constraint firstAttribute="height" constant="90" id="keu-Nh-Rdg"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -3567,7 +3562,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Lux-cB-rio">
-                                <rect key="frame" x="5" y="85" width="404" height="728"/>
+                                <rect key="frame" x="5" y="95" width="404" height="718"/>
                                 <color key="backgroundColor" name="ControllerViews"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="76" id="ulg-E4-rUS" customClass="ConnectTableViewCell" customModule="SPONENT" customModuleProvider="target">
@@ -3862,7 +3857,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="70R-Ki-IrO" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Activity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDG-vD-G78">
                                         <rect key="frame" x="167.5" y="45" width="79" height="26.5"/>
@@ -3873,7 +3868,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="IB1-cF-Kw3"/>
+                                    <constraint firstAttribute="height" constant="90" id="IB1-cF-Kw3"/>
                                     <constraint firstItem="HDG-vD-G78" firstAttribute="top" secondItem="70R-Ki-IrO" secondAttribute="top" constant="45" id="gUP-t5-U6n"/>
                                     <constraint firstItem="HDG-vD-G78" firstAttribute="centerX" secondItem="70R-Ki-IrO" secondAttribute="centerX" id="wnI-Wu-Wbb"/>
                                 </constraints>
@@ -3887,7 +3882,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <segmentedControl opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="eC8-TB-YBA">
-                                <rect key="frame" x="0.0" y="80" width="414" height="46"/>
+                                <rect key="frame" x="0.0" y="90" width="414" height="46"/>
                                 <color key="backgroundColor" name="LoginFieldsView"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="45" id="61P-GA-yUk"/>
@@ -3904,10 +3899,10 @@
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Asq-dE-pre">
-                                <rect key="frame" x="5" y="133" width="404" height="680"/>
+                                <rect key="frame" x="5" y="143" width="404" height="670"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="UHr-o9-P1K">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="680"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="670"/>
                                         <color key="backgroundColor" name="ControllerViews"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="99" id="jXg-zP-PkM" customClass="ActivityPendingCell" customModule="SPONENT" customModuleProvider="target">
@@ -4054,10 +4049,10 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dur-ua-YLT">
-                                <rect key="frame" x="5" y="133" width="404" height="680"/>
+                                <rect key="frame" x="5" y="143" width="404" height="670"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="fjk-zn-Rnz">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="680"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="670"/>
                                         <color key="backgroundColor" name="ControllerViews"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="100" id="64Z-u2-jhb" customClass="ActivityCurrentCell" customModule="SPONENT" customModuleProvider="target">
@@ -4211,10 +4206,10 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6pz-7F-tkG">
-                                <rect key="frame" x="5" y="133" width="404" height="680"/>
+                                <rect key="frame" x="5" y="143" width="404" height="670"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="2Kn-BG-QTF">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="680"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="670"/>
                                         <color key="backgroundColor" name="ControllerViews"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="100" id="k7f-Sf-UCH" customClass="ActivityFollowingCell" customModule="SPONENT" customModuleProvider="target">
@@ -4368,10 +4363,10 @@
                                 </constraints>
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LhV-Vn-gMe">
-                                <rect key="frame" x="5" y="133" width="404" height="680"/>
+                                <rect key="frame" x="5" y="143" width="404" height="670"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="utP-AL-CbE">
-                                        <rect key="frame" x="0.0" y="0.0" width="404" height="680"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="404" height="670"/>
                                         <color key="backgroundColor" name="ControllerViews"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="100" id="VqY-oy-Rgd" customClass="ActivityPastCell" customModule="SPONENT" customModuleProvider="target">
@@ -4597,7 +4592,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JU0-oo-K7l" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messages" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s3M-58-HXa">
                                         <rect key="frame" x="155" y="45" width="104.5" height="26.5"/>
@@ -4609,7 +4604,7 @@
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="s3M-58-HXa" firstAttribute="centerX" secondItem="JU0-oo-K7l" secondAttribute="centerX" id="2ua-3O-sw9"/>
-                                    <constraint firstAttribute="height" constant="80" id="EnZ-Rw-CBC"/>
+                                    <constraint firstAttribute="height" constant="90" id="EnZ-Rw-CBC"/>
                                     <constraint firstItem="s3M-58-HXa" firstAttribute="top" secondItem="JU0-oo-K7l" secondAttribute="top" constant="45" id="zh8-H9-chM"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
@@ -4622,7 +4617,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Tzi-8n-MPn">
-                                <rect key="frame" x="5" y="82" width="404" height="731"/>
+                                <rect key="frame" x="5" y="92" width="404" height="721"/>
                                 <color key="backgroundColor" name="ControllerViews"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="99" id="CPr-PX-iaA" customClass="MessagesTableViewCell" customModule="SPONENT" customModuleProvider="target">
@@ -4769,10 +4764,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xXV-Ql-pF9" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NFx-da-8Ps">
-                                        <rect key="frame" x="155.5" y="45" width="103" height="26.5"/>
+                                        <rect key="frame" x="155.5" y="53.5" width="103" height="26.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -4780,9 +4775,9 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="NFx-da-8Ps" firstAttribute="top" secondItem="xXV-Ql-pF9" secondAttribute="top" constant="45" id="5WL-C8-swq"/>
                                     <constraint firstItem="NFx-da-8Ps" firstAttribute="centerX" secondItem="xXV-Ql-pF9" secondAttribute="centerX" id="elf-7z-3LM"/>
-                                    <constraint firstAttribute="height" constant="80" id="u3e-64-QXS"/>
+                                    <constraint firstAttribute="bottom" secondItem="NFx-da-8Ps" secondAttribute="bottom" constant="20" id="n9L-wb-inR"/>
+                                    <constraint firstAttribute="height" constant="100" id="u3e-64-QXS"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="startColor">
@@ -4794,7 +4789,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VL9-X5-sGp">
-                                <rect key="frame" x="0.0" y="80" width="414" height="733"/>
+                                <rect key="frame" x="0.0" y="100" width="414" height="713"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Us8-eQ-lM2">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="762"/>
@@ -6245,7 +6240,7 @@
         <!--Navigation Controller-->
         <scene sceneID="4dL-cq-Bbe">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Wsl-Zh-IAO" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="LoginNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Wsl-Zh-IAO" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8aH-gA-5xY">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>

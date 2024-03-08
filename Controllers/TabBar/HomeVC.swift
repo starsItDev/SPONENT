@@ -63,6 +63,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBarController?.delegate = self
         apiCall { [weak self] result in
                switch result {
                case .success(let categoriesModel):
@@ -72,6 +73,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
                    print("API call error: \(error)")
                }
            }
+        hideRangeBtn()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.requestWhenInUseAuthorization()
@@ -101,6 +103,31 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         refreshControl.addTarget(self, action: #selector(refreshHomeTableView(_:)), for: .valueChanged)
         homeTableView.refreshControl = refreshControl
     }
+    func hideRangeBtn() {
+        if UserInfo.shared.isUserLoggedIn == false {
+            homeRangeBtn.isHidden = true
+        }
+    }
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        switch tabBarController.selectedIndex {
+        case 0:
+            homeSegmentController.selectedSegmentIndex = 0
+            homeSegmentControl(homeSegmentController)
+        case 1, 2, 3, 4:
+            handleLoginIfNotLoggedIn()
+        default:
+            break
+        }
+    }
+    private func handleLoginIfNotLoggedIn() {
+        if UserInfo.shared.isUserLoggedIn == false {
+            if let loginNavController = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+                loginNavController.modalPresentationStyle = .fullScreen
+                self.present(loginNavController, animated: false, completion: nil)
+            }
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
@@ -496,12 +523,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
     }
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if tabBarController.selectedIndex == 0 {
-            homeSegmentController.selectedSegmentIndex = 0
-            homeSegmentControl(homeSegmentController)
-        }
-    }
+ 
     func clearTextFields() {
         sportTypeLabel.text = "Select Sport"
         sportTypeLabel.textColor = .lightGray
@@ -535,6 +557,13 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
              homeView.isHidden = true
              homeMapView.isHidden = true
              addDetails.isHidden = false
+          if UserInfo.shared.isUserLoggedIn == false {
+              if let loginNavController = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+                  loginNavController.modalPresentationStyle = .fullScreen
+                  self.present(loginNavController, animated: false, completion: nil)
+              }
+          }
+
        default:
             break
       }

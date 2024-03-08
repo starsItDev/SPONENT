@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		761825072AB435D70018073E /* Categories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761825062AB435D70018073E /* Categories.swift */; };
+		766895972B9AE34F00E8B5AB /* TabBarController in Resources */ = {isa = PBXBuildFile; fileRef = 766895962B9AE34E00E8B5AB /* TabBarController */; };
 		767DCDA82B68D7160005D0E8 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDA72B68D7160005D0E8 /* MessageCell.swift */; };
 		767DCDAA2B68D72B0005D0E8 /* MessageCell2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDA92B68D72B0005D0E8 /* MessageCell2.swift */; };
 		767DCDAC2B68D7410005D0E8 /* ImageCellTV.swift in Sources */ = {isa = PBXBuildFile; fileRef = 767DCDAB2B68D7410005D0E8 /* ImageCellTV.swift */; };
@@ -89,6 +90,7 @@
 
 /* Begin PBXFileReference section */
 		761825062AB435D70018073E /* Categories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Categories.swift; sourceTree = "<group>"; };
+		766895962B9AE34E00E8B5AB /* TabBarController */ = {isa = PBXFileReference; lastKnownFileType = folder; path = TabBarController; sourceTree = "<group>"; };
 		767DCDA72B68D7160005D0E8 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		767DCDA92B68D72B0005D0E8 /* MessageCell2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell2.swift; sourceTree = "<group>"; };
 		767DCDAB2B68D7410005D0E8 /* ImageCellTV.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCellTV.swift; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 		E0B664E42A84FF6300537CAE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				766895962B9AE34E00E8B5AB /* TabBarController */,
 				E0B664E72A85001000537CAE /* LoginVC.swift */,
 				E00B8BD02AA99F23001422CE /* SignUpVC.swift */,
 				E0B381352AB8370B00015401 /* UpdateSignUpVC.swift */,
@@ -492,6 +495,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				766895972B9AE34F00E8B5AB /* TabBarController in Resources */,
 				E08986B32AC568DD005A102D /* Main.storyboard in Resources */,
 				E0B664DA2A84FEEB00537CAE /* LaunchScreen.storyboard in Resources */,
 				E0B664D72A84FEEB00537CAE /* Assets.xcassets in Resources */,

@@ -12,20 +12,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     internal func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let scene = (scene as? UIWindowScene) else { return }
-        self.window = UIWindow(windowScene: scene)
+//        guard let scene = (scene as? UIWindowScene) else { return }
+//        self.window = UIWindow(windowScene: scene)
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let initialViewController: UIViewController
-
-        if UserInfo.shared.isUserLoggedIn {
-            initialViewController = storyboard.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-        } else {
-            initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
-        }
-
-        self.window?.rootViewController = initialViewController
-        self.window?.makeKeyAndVisible()
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let initialViewController: UIViewController
+//
+//        if UserInfo.shared.isUserLoggedIn {
+//            initialViewController = storyboard.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+//        } else {
+//            initialViewController = storyboard.instantiateViewController(withIdentifier: "LoginVC") as! LoginVC
+//        }
+//
+//        self.window?.rootViewController = initialViewController
+//        self.window?.makeKeyAndVisible()
     }
 
 

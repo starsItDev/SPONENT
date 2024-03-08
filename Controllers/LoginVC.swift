@@ -27,7 +27,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var appleSignIn: ASAuthorizationAppleIDButton!
     @IBOutlet weak var loginBtn: UIButton!
     @IBOutlet weak var signUpBtn: UIButton!
-    @IBOutlet weak var loginGuest: UIButton!
     let textFieldDelegateHelper = TextFieldDelegateHelper<LoginVC>()
     var socialEmail: String?
     var socialName: String?
@@ -134,6 +133,11 @@ class LoginVC: UIViewController, UITextFieldDelegate {
       authorizationController.delegate = self
       authorizationController.performRequests()
     }
+    @IBAction func HomeBackButton(_ sender: UIButton) {
+        self.dismiss(animated: false)
+        self.tabBarController?.selectedIndex = 0
+
+    }
 
     // MARK: - API Calling
     func apiCall() {
@@ -190,10 +194,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
                                     print(apikey)
                                     self.signInSuccessful()
                                    UserInfo.shared.isUserLoggedIn = true
-//                                    if let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
-//                                        tabBarController.modalPresentationStyle = .fullScreen
-//                                        self.present(tabBarController, animated: false, completion: nil)
-//                                    }
                                 }
                             }
                         } else {
@@ -358,13 +358,6 @@ class LoginVC: UIViewController, UITextFieldDelegate {
     }
     @IBAction func loginButton(_ sender: UIButton) {
         ValidationCode()
-    }
-    @IBAction func loginAsGuestButton(_ sender: Any) {
-        EmailTextField.text = "guest@starsfun.com"
-        passwordTextField.text = "123786un"
-        apiCall()
-        UserDefaults.standard.set("", forKey: "userID")
-        UserDefaults.standard.set("", forKey: "apikey")
     }
     @IBAction func signUpButton(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpVC {

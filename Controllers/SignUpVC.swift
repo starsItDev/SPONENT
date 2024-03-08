@@ -324,7 +324,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         ValidationCode()
     }
     @IBAction func signUpBackButton(_ sender: UIButton) {
-        self.dismiss(animated: true)
+        self.dismiss(animated: false)
     }
     @IBAction func passwdEyeBtn(_ sender: UIButton) {
         if passWordTxtField.isSecureTextEntry {
