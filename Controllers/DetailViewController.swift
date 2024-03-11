@@ -349,6 +349,15 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
         }
     }
     @IBAction func requestToJoinBtn(_ sender: UIButton) {
+        if UserInfo.shared.isUserLoggedIn == false {
+               // User is not logged in, present the login view controller
+               if let loginNavController = storyboard?.instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
+                   loginNavController.modalPresentationStyle = .fullScreen
+                   self.present(loginNavController, animated: false, completion: nil)
+               }
+               return
+           }
+        print("user no yet")
         if self.isOwner {
             if self.requestStatus == 0 {
                 self.isRequestToJoin = false
