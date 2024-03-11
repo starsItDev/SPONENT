@@ -519,9 +519,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
         GIDSignIn.sharedInstance.signOut()
         
         if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
-           let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "LoginVC") as? LoginVC {
-            vc.modalPresentationStyle = .fullScreen
-            sceneDelegate.window?.rootViewController = vc
+           let tabBarController = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "TabBarController") as? UITabBarController {
+            tabBarController.modalPresentationStyle = .fullScreen
+            sceneDelegate.window?.rootViewController = tabBarController
         }
     }
     
