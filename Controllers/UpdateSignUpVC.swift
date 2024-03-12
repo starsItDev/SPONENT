@@ -134,7 +134,7 @@ struct UserProfileData {
                  }
                  self.apiCalltwo()
              } else {
-                 print("No placemarks found or error in geocoding.")
+                 self.showToast(message: "Location not found")
              }
          }
      }

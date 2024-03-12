@@ -428,11 +428,6 @@
                                 <color key="value" name="LoginPageTwo"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="ElJ-je-pqX"/>
-                            </mask>
-                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="lLT-3q-TNg"/>
                     <connections>
@@ -459,27 +454,27 @@
         <scene sceneID="I2n-M4-6qO">
             <objects>
                 <viewController storyboardIdentifier="SignUpVC" id="rMT-JM-wzi" customClass="SignUpVC" customModule="SPONENT" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="MtF-wZ-gQM">
+                    <view key="view" contentMode="scaleToFill" id="MtF-wZ-gQM" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P5B-b1-38T">
                                 <rect key="frame" x="0.0" y="48" width="414" height="848"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Km8-i4-idJ">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Km8-i4-idJ" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="855"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LaC-Cf-93s">
-                                                <rect key="frame" x="152.5" y="10" width="109" height="26"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create Account" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LaC-Cf-93s">
+                                                <rect key="frame" x="129.5" y="10" width="155.5" height="26"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qvj-kK-ugz">
-                                                <rect key="frame" x="110" y="36" width="194" height="175"/>
+                                                <rect key="frame" x="110" y="41" width="194" height="155"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click to Upload" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0RA-1w-PoE">
-                                                        <rect key="frame" x="39" y="144" width="116" height="21"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0RA-1w-PoE">
+                                                        <rect key="frame" x="97" y="145" width="0.0" height="0.0"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -499,14 +494,14 @@
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="1Ic-ce-05b" firstAttribute="centerX" secondItem="qvj-kK-ugz" secondAttribute="centerX" id="0wA-wc-iq5"/>
-                                                    <constraint firstAttribute="height" constant="175" id="4lV-nN-nbC"/>
+                                                    <constraint firstAttribute="height" constant="155" id="4lV-nN-nbC"/>
                                                     <constraint firstItem="1Ic-ce-05b" firstAttribute="top" secondItem="qvj-kK-ugz" secondAttribute="top" constant="12" id="Cjd-NN-7u8"/>
                                                     <constraint firstItem="0RA-1w-PoE" firstAttribute="centerX" secondItem="qvj-kK-ugz" secondAttribute="centerX" id="fMX-D3-9sK"/>
                                                     <constraint firstAttribute="bottom" secondItem="0RA-1w-PoE" secondAttribute="bottom" constant="10" id="hTi-ol-5ew"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2wJ-cG-Hag">
-                                                <rect key="frame" x="30" y="214" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="199" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wbl-bm-oOm">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -527,12 +522,22 @@
                                                             <constraint firstItem="40K-g6-vsg" firstAttribute="top" secondItem="Wbl-bm-oOm" secondAttribute="top" constant="7.5" id="dYZ-Qc-Fo8"/>
                                                             <constraint firstAttribute="width" constant="50" id="s2U-6q-pM1"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="l6D-L8-tDX">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -548,12 +553,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ndw-PI-fdy">
-                                                <rect key="frame" x="30" y="276" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="261" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ri9-cg-ljv">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -574,12 +579,22 @@
                                                             <constraint firstAttribute="width" constant="50" id="hnv-9y-4NI"/>
                                                             <constraint firstItem="zwB-Mf-GOW" firstAttribute="top" secondItem="ri9-cg-ljv" secondAttribute="top" constant="7.5" id="qAN-SM-BOF"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S5o-yN-6ho">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -595,12 +610,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LCd-Hs-kUp">
-                                                <rect key="frame" x="30" y="338" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="323" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gfY-j9-FG3">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -621,12 +636,22 @@
                                                             <constraint firstAttribute="width" constant="50" id="rqw-ue-tnu"/>
                                                             <constraint firstItem="Unp-xg-8Ed" firstAttribute="leading" secondItem="gfY-j9-FG3" secondAttribute="leading" constant="6" id="zjo-Zq-58T"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hET-sN-vwg">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PUc-Nr-V0U">
                                                         <rect key="frame" x="292.5" y="9" width="61.5" height="30"/>
@@ -656,12 +681,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="twZ-70-Zt2">
-                                                <rect key="frame" x="30" y="400" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="385" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wux-rI-41Z">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -680,12 +705,22 @@
                                                             <constraint firstAttribute="width" constant="50" id="ZHY-jp-3eO"/>
                                                             <constraint firstItem="aDP-wJ-jyw" firstAttribute="top" secondItem="Wux-rI-41Z" secondAttribute="top" constant="7.5" id="vB7-IA-b4Q"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="BTr-kN-2JI">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pn4-JM-1dU">
                                                         <rect key="frame" x="292.5" y="9" width="61.5" height="30"/>
@@ -715,12 +750,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OHg-Sx-jS9">
-                                                <rect key="frame" x="30" y="524" width="170" height="40"/>
+                                                <rect key="frame" x="30" y="509" width="170" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PPo-Tm-YeV">
                                                         <rect key="frame" x="8" y="11.5" width="25.5" height="17"/>
@@ -749,12 +784,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gxv-kB-x3C">
-                                                <rect key="frame" x="214" y="524" width="170" height="40"/>
+                                                <rect key="frame" x="214" y="509" width="170" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fj1-QJ-e1v">
                                                         <rect key="frame" x="8" y="11.5" width="48" height="17"/>
@@ -783,12 +818,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zE-Zz-3Wg">
-                                                <rect key="frame" x="30" y="576" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="561" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U7Y-NZ-rcq">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -809,12 +844,22 @@
                                                             <constraint firstItem="4H0-a4-Glz" firstAttribute="top" secondItem="U7Y-NZ-rcq" secondAttribute="top" constant="7.5" id="RQJ-tC-L9i"/>
                                                             <constraint firstAttribute="width" constant="50" id="Tu9-2Z-1GJ"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please write about yourself" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3VZ-m9-nOu">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -881,19 +926,19 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="urG-6c-Ryn">
-                                                <rect key="frame" x="30" y="718" width="354" height="40"/>
-                                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                <rect key="frame" x="30" y="703" width="354" height="50"/>
+                                                <color key="backgroundColor" name="LoginBtn"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="YEu-7Z-pFq"/>
+                                                    <constraint firstAttribute="height" constant="50" id="YEu-7Z-pFq"/>
                                                 </constraints>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" red="0.94117647058823528" green="0.53333333333333333" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="SignUp">
                                                     <fontDescription key="titleFontDescription" type="boldSystem" pointSize="18"/>
                                                 </buttonConfiguration>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="25"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
@@ -914,7 +959,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ort-CS-UFo">
-                                                <rect key="frame" x="30" y="462" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="447" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="enP-1P-cXz">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -935,12 +980,22 @@
                                                             <constraint firstItem="kMX-Fq-yzb" firstAttribute="top" secondItem="enP-1P-cXz" secondAttribute="top" constant="7.5" id="oe4-sE-arb"/>
                                                             <constraint firstAttribute="width" constant="50" id="zo5-tf-zp3"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Your Favourite Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nnz-Nc-EEu">
                                                         <rect key="frame" x="50" y="16.5" width="200" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.76860284810000001" green="0.76848059889999998" blue="0.7767910361" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hKP-Vb-0rA">
                                                         <rect key="frame" x="321" y="10" width="28" height="28"/>
@@ -965,12 +1020,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RtO-6U-I39">
-                                                <rect key="frame" x="30" y="638" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="623" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Dq-VT-oRm">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -991,12 +1046,22 @@
                                                             <constraint firstItem="5Bf-JF-EP2" firstAttribute="leading" secondItem="5Dq-VT-oRm" secondAttribute="leading" constant="6" id="Rs3-xL-cRH"/>
                                                             <constraint firstAttribute="width" constant="50" id="jVh-kA-wjg"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IIO-JZ-i0r">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1012,7 +1077,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -1044,7 +1109,7 @@
                                             <constraint firstAttribute="trailing" secondItem="RtO-6U-I39" secondAttribute="trailing" constant="30" id="bXk-aP-40v"/>
                                             <constraint firstItem="qvj-kK-ugz" firstAttribute="leading" secondItem="Km8-i4-idJ" secondAttribute="leading" constant="110" id="csG-B1-mx0"/>
                                             <constraint firstItem="Vft-I0-PPm" firstAttribute="top" secondItem="2zE-Zz-3Wg" secondAttribute="bottom" constant="12" id="fFE-D8-PBl"/>
-                                            <constraint firstItem="qvj-kK-ugz" firstAttribute="top" secondItem="LaC-Cf-93s" secondAttribute="bottom" id="hJl-bU-xr6"/>
+                                            <constraint firstItem="qvj-kK-ugz" firstAttribute="top" secondItem="LaC-Cf-93s" secondAttribute="bottom" constant="5" id="hJl-bU-xr6"/>
                                             <constraint firstAttribute="trailing" secondItem="twZ-70-Zt2" secondAttribute="trailing" constant="30" id="hwJ-pc-sTX"/>
                                             <constraint firstItem="RtO-6U-I39" firstAttribute="top" secondItem="2zE-Zz-3Wg" secondAttribute="bottom" constant="12" id="iFN-Pn-ZUx"/>
                                             <constraint firstItem="LaC-Cf-93s" firstAttribute="centerX" secondItem="Km8-i4-idJ" secondAttribute="centerX" id="jBZ-um-EPd"/>
@@ -1062,6 +1127,14 @@
                                             <constraint firstItem="2wJ-cG-Hag" firstAttribute="top" secondItem="qvj-kK-ugz" secondAttribute="bottom" constant="3" id="vUw-Mb-d5t"/>
                                             <constraint firstItem="2zE-Zz-3Wg" firstAttribute="leading" secondItem="Km8-i4-idJ" secondAttribute="leading" constant="30" id="wxe-DF-KiI"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" name="LoginPage"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" name="LoginPageTwo"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="subviews">
                                                 <exclude reference="Vft-I0-PPm"/>
@@ -1069,7 +1142,6 @@
                                         </variation>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="ControllerViews"/>
                                 <constraints>
                                     <constraint firstItem="Km8-i4-idJ" firstAttribute="leading" secondItem="P5B-b1-38T" secondAttribute="leading" id="5nW-mJ-bcV"/>
                                     <constraint firstAttribute="bottom" secondItem="Km8-i4-idJ" secondAttribute="bottom" id="7HK-62-ZTd"/>
@@ -1087,6 +1159,14 @@
                             <constraint firstAttribute="trailing" secondItem="P5B-b1-38T" secondAttribute="trailing" id="y8T-E2-2Do"/>
                             <constraint firstItem="P5B-b1-38T" firstAttribute="top" secondItem="YBG-lo-krT" secondAttribute="top" id="zjN-d0-Pf8"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" name="LoginPage"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" name="LoginPageTwo"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
                         <outlet property="aboutMeTxtField" destination="3VZ-m9-nOu" id="mdy-jU-Vmc"/>
@@ -1125,24 +1205,24 @@
         <scene sceneID="5sW-GE-M9f">
             <objects>
                 <viewController storyboardIdentifier="UpdateSignUpVC" id="gTU-6W-GSD" customClass="UpdateSignUpVC" customModule="SPONENT" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="oVn-HM-ll6">
+                    <view key="view" contentMode="scaleToFill" id="oVn-HM-ll6" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8v8-R5-y6F">
                                 <rect key="frame" x="0.0" y="48" width="414" height="848"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQ9-sg-PaG">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EQ9-sg-PaG" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="860"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zms-zi-2Ee">
-                                                <rect key="frame" x="152.5" y="10" width="109" height="26.5"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Update Profile" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zms-zi-2Ee">
+                                                <rect key="frame" x="136" y="10" width="142.5" height="26.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5rG-kO-Eiu">
-                                                <rect key="frame" x="110" y="36.5" width="194" height="175"/>
+                                                <rect key="frame" x="110" y="41.5" width="194" height="155"/>
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_profile" translatesAutoresizingMaskIntoConstraints="NO" id="Bcr-we-vBW">
                                                         <rect key="frame" x="34.5" y="12" width="125" height="125"/>
@@ -1156,8 +1236,8 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Click to Upload" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kih-8U-yqB">
-                                                        <rect key="frame" x="39" y="144" width="116" height="21"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kih-8U-yqB">
+                                                        <rect key="frame" x="97" y="145" width="0.0" height="0.0"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -1167,12 +1247,12 @@
                                                     <constraint firstItem="Kih-8U-yqB" firstAttribute="centerX" secondItem="5rG-kO-Eiu" secondAttribute="centerX" id="Dmm-y6-emd"/>
                                                     <constraint firstAttribute="bottom" secondItem="Kih-8U-yqB" secondAttribute="bottom" constant="10" id="QE7-dE-Don"/>
                                                     <constraint firstItem="Bcr-we-vBW" firstAttribute="top" secondItem="5rG-kO-Eiu" secondAttribute="top" constant="12" id="bfT-el-4DQ"/>
-                                                    <constraint firstAttribute="height" constant="175" id="eIr-Cd-hIz"/>
+                                                    <constraint firstAttribute="height" constant="155" id="eIr-Cd-hIz"/>
                                                     <constraint firstItem="Bcr-we-vBW" firstAttribute="centerX" secondItem="5rG-kO-Eiu" secondAttribute="centerX" id="sh4-gx-t7j"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="88K-NP-ISr">
-                                                <rect key="frame" x="30" y="226.5" width="170" height="40"/>
+                                                <rect key="frame" x="30" y="211.5" width="170" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Age" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUU-rT-y2Q">
                                                         <rect key="frame" x="8" y="11" width="27" height="18"/>
@@ -1201,12 +1281,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zUK-d7-CwY">
-                                                <rect key="frame" x="214" y="226.5" width="170" height="40"/>
+                                                <rect key="frame" x="214" y="211.5" width="170" height="40"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gender" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1EJ-0h-fJb">
                                                         <rect key="frame" x="8" y="11" width="48" height="17"/>
@@ -1235,12 +1315,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bf5-bH-1sA">
-                                                <rect key="frame" x="30" y="278.5" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="263.5" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="86V-q3-YMU">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -1261,12 +1341,22 @@
                                                             <constraint firstAttribute="width" constant="50" id="Imf-WC-K1K"/>
                                                             <constraint firstItem="ood-O1-3EE" firstAttribute="top" secondItem="86V-q3-YMU" secondAttribute="top" constant="7.5" id="ZQc-cl-sWV"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Your Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yLE-RS-2qf">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1282,12 +1372,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1gd-66-00F">
-                                                <rect key="frame" x="30" y="340.5" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="325.5" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1Zd-ca-MZq">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -1308,12 +1398,22 @@
                                                             <constraint firstAttribute="width" constant="50" id="bwx-w5-bsi"/>
                                                             <constraint firstItem="wC9-3c-wdF" firstAttribute="top" secondItem="1Zd-ca-MZq" secondAttribute="top" constant="7.5" id="eCF-cj-uIK"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Your Favourite Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OqD-Df-zkX">
                                                         <rect key="frame" x="50" y="16.5" width="200" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="0.72394959345369858" green="0.72649423561885074" blue="0.7341281621143072" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </label>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aiT-Dq-dfq">
                                                         <rect key="frame" x="321" y="10" width="28" height="28"/>
@@ -1338,12 +1438,12 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nqz-cz-41k">
-                                                <rect key="frame" x="30" y="402.5" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="387.5" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jZP-ru-TiE">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -1364,12 +1464,22 @@
                                                             <constraint firstAttribute="width" constant="50" id="IBg-NH-hvJ"/>
                                                             <constraint firstItem="w2U-ZY-iLS" firstAttribute="leading" secondItem="jZP-ru-TiE" secondAttribute="leading" constant="6" id="WtG-HN-4nm"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Please write about yourself" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gsX-Re-zMz">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1385,7 +1495,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -1437,19 +1547,19 @@
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LHf-6p-Ekb">
-                                                <rect key="frame" x="30" y="544.5" width="354" height="40"/>
-                                                <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                                                <rect key="frame" x="30" y="529.5" width="354" height="50"/>
+                                                <color key="backgroundColor" name="LoginBtn"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="40" id="68r-7r-hdJ"/>
+                                                    <constraint firstAttribute="height" constant="50" id="68r-7r-hdJ"/>
                                                 </constraints>
-                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" red="0.94117647058823528" green="0.53333333333333333" blue="0.15686274509803921" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <state key="normal" title="Button"/>
                                                 <buttonConfiguration key="configuration" style="plain" title="Update">
                                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="19"/>
                                                 </buttonConfiguration>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="25"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
@@ -1470,7 +1580,7 @@
                                                 </connections>
                                             </button>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VWK-JZ-xoq">
-                                                <rect key="frame" x="30" y="464.5" width="354" height="50"/>
+                                                <rect key="frame" x="30" y="449.5" width="354" height="50"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dhg-N8-n6V">
                                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -1491,12 +1601,22 @@
                                                             <constraint firstItem="N4u-2l-dnV" firstAttribute="leading" secondItem="dhg-N8-n6V" secondAttribute="leading" constant="6" id="GrL-Sa-Ooh"/>
                                                             <constraint firstItem="N4u-2l-dnV" firstAttribute="top" secondItem="dhg-N8-n6V" secondAttribute="top" constant="7.5" id="PGm-pg-VZB"/>
                                                         </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Location" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RpD-I0-LHg">
                                                         <rect key="frame" x="50" y="0.0" width="304" height="50"/>
                                                         <color key="backgroundColor" name="LoginFieldsView"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="8"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
                                                     </textField>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -1512,7 +1632,7 @@
                                                 </constraints>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="5"/>
+                                                        <real key="value" value="8"/>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -1546,13 +1666,21 @@
                                             <constraint firstItem="LHf-6p-Ekb" firstAttribute="top" secondItem="RIA-K3-Baw" secondAttribute="bottom" constant="30" id="eNl-LP-sEd"/>
                                             <constraint firstItem="VWK-JZ-xoq" firstAttribute="top" secondItem="nqz-cz-41k" secondAttribute="bottom" constant="12" id="elD-GC-gmb"/>
                                             <constraint firstItem="88K-NP-ISr" firstAttribute="leading" secondItem="EQ9-sg-PaG" secondAttribute="leading" constant="30" id="hG5-1T-nlg"/>
-                                            <constraint firstItem="5rG-kO-Eiu" firstAttribute="top" secondItem="Zms-zi-2Ee" secondAttribute="bottom" id="lFK-T3-hWh"/>
+                                            <constraint firstItem="5rG-kO-Eiu" firstAttribute="top" secondItem="Zms-zi-2Ee" secondAttribute="bottom" constant="5" id="lFK-T3-hWh"/>
                                             <constraint firstItem="bf5-bH-1sA" firstAttribute="leading" secondItem="EQ9-sg-PaG" secondAttribute="leading" constant="30" id="pf9-06-SPp"/>
                                             <constraint firstItem="RIA-K3-Baw" firstAttribute="top" secondItem="nqz-cz-41k" secondAttribute="bottom" constant="12" id="qBL-I3-SoS"/>
                                             <constraint firstItem="RIA-K3-Baw" firstAttribute="leading" secondItem="EQ9-sg-PaG" secondAttribute="leading" constant="30" id="vz4-HS-MYY"/>
                                             <constraint firstAttribute="trailing" secondItem="zUK-d7-CwY" secondAttribute="trailing" constant="30" id="wrE-wr-ld6"/>
                                             <constraint firstItem="koq-BC-x6u" firstAttribute="leading" secondItem="EQ9-sg-PaG" secondAttribute="leading" constant="20" id="zi5-Tv-7Ik"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                                <color key="value" name="LoginPage"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                                <color key="value" name="LoginPageTwo"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <variation key="default">
                                             <mask key="subviews">
                                                 <exclude reference="RIA-K3-Baw"/>
@@ -1577,6 +1705,14 @@
                             <constraint firstAttribute="trailing" secondItem="8v8-R5-y6F" secondAttribute="trailing" id="Gx0-5R-cpb"/>
                             <constraint firstItem="8v8-R5-y6F" firstAttribute="leading" secondItem="oVn-HM-ll6" secondAttribute="leading" id="zw2-8f-w6X"/>
                         </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="startColor">
+                                <color key="value" name="LoginPage"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="endColor">
+                                <color key="value" name="LoginPageTwo"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
                         <outlet property="signUpImageView" destination="5rG-kO-Eiu" id="iCL-mo-0mt"/>
@@ -2871,8 +3007,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xgt-Ux-ZXL" customClass="GradientView" customModule="SPONENT" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="90"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PlayWithMe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6xg-Ti-wXh">
-                                        <rect key="frame" x="145.5" y="45" width="123.5" height="26.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play With Me App" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6xg-Ti-wXh">
+                                        <rect key="frame" x="117" y="45" width="180" height="26.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -4207,19 +4343,19 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="pJj-Ch-0du">
                                                                     <rect key="frame" x="83" y="14" width="162.5" height="18"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="sddev 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6l7-4h-lNn">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sddev 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6l7-4h-lNn">
                                                                             <rect key="frame" x="0.0" y="0.0" width="52.5" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="looking for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yQ-7V-KXM">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="looking for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yQ-7V-KXM">
                                                                             <rect key="frame" x="56.5" y="0.0" width="73" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <color key="textColor" red="0.90534418819999996" green="0.55077189209999999" blue="0.20543777939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="he's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncP-na-rR0">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="he's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ncP-na-rR0">
                                                                             <rect key="frame" x="133.5" y="0.0" width="29" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
@@ -4364,19 +4500,19 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="VKK-ms-UJq">
                                                                     <rect key="frame" x="79" y="14" width="162.5" height="18"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="sddev 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHV-4P-V1y">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sddev 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XHV-4P-V1y">
                                                                             <rect key="frame" x="0.0" y="0.0" width="52.5" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="looking for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fbs-Wf-Wkp">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="looking for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fbs-Wf-Wkp">
                                                                             <rect key="frame" x="56.5" y="0.0" width="73" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <color key="textColor" red="0.90534418819999996" green="0.55077189209999999" blue="0.20543777939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="he's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iH4-Uv-xJZ">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="he's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iH4-Uv-xJZ">
                                                                             <rect key="frame" x="133.5" y="0.0" width="29" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
@@ -4521,19 +4657,19 @@
                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="Evx-Jd-Ifn">
                                                                     <rect key="frame" x="79" y="14" width="162.5" height="18"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="sddev 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCa-tQ-gD6">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="sddev 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gCa-tQ-gD6">
                                                                             <rect key="frame" x="0.0" y="0.0" width="52.5" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="looking for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiI-WR-rWw">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="looking for" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jiI-WR-rWw">
                                                                             <rect key="frame" x="56.5" y="0.0" width="73" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <color key="textColor" red="0.90534418819999996" green="0.55077189209999999" blue="0.20543777939999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="he's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cjd-HQ-Hd6">
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="he's" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cjd-HQ-Hd6">
                                                                             <rect key="frame" x="133.5" y="0.0" width="29" height="18"/>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                                             <nil key="textColor"/>
@@ -6457,9 +6593,6 @@
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
