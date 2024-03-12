@@ -18,7 +18,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var passwdView: UIView!
     @IBOutlet weak var favCategoryView: UIView!
     @IBOutlet weak var aboutView: UIView!
-    @IBOutlet weak var locationView: UIView!
+//    @IBOutlet weak var locationView: UIView!
     @IBOutlet weak var signUpView: UIView!
     @IBOutlet weak var signUpIMageView: UIView!
     @IBOutlet weak var imageView: UIImageView!
@@ -36,6 +36,8 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     @IBOutlet weak var confirmPasswdText: UITextField!
     @IBOutlet weak var confirmPasswdEye: UIButton!
     @IBOutlet weak var categoryTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var locationTxtField: UITextField!
+    @IBOutlet weak var locationView: UIView!
     var actions: [UIAlertAction] = []
     var activeTextField: UITextField?
     var tapGestureRecognizer: UITapGestureRecognizer?
@@ -44,7 +46,9 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
     let genders = ["Male", "Female"]
     var categories: [Category] = []
     var updateCategoryId: String?
-    var locationManager:CLLocationManager!
+    var locationLatitude: Double?
+    var locationLongitude: Double?
+    //var locationManager:CLLocationManager!
     var name: String?
     var email: String?
     var isSocialLogin: Bool?
@@ -69,12 +73,14 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         passWordTxtField.delegate = self
         confirmPasswdText.delegate = self
         aboutMeTxtField.delegate = self
+        locationTxtField.delegate = self
         setupKeyboardDismiss()
         nameTxtField.attributedPlaceholder = NSAttributedString(string: "Your Name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         emailTxtField.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         passWordTxtField.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         confirmPasswdText.attributedPlaceholder = NSAttributedString(string: "Confirm Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         aboutMeTxtField.attributedPlaceholder = NSAttributedString(string: "Please write about yourself", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        locationTxtField.attributedPlaceholder = NSAttributedString(string: "Location", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         let colour = UIColor(red: 196/255.0, green: 196/255.0, blue: 198/255.0, alpha: 1.0)
         favCategoryLabel.textColor = colour
         ageLabel.textColor = colour
@@ -92,34 +98,34 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                    print("API call error: \(error)")
                }
            }
-        locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        if CLLocationManager.locationServicesEnabled(){
-            locationManager.startUpdatingLocation()
-        }
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
-                    let geocoder = CLGeocoder()
-                    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-                        if let placemark = placemarks?.first {
-                            if let locationName = placemark.name {
-                                self.locationLabel.text = locationName
-                                if self.traitCollection.userInterfaceStyle == .dark {
-                                    self.locationLabel.textColor = .white
-                                } else {
-                                    self.locationLabel.textColor = .black
-                                }
-                            } else {
-                                self.locationLabel.text = "Location Name Not Found"
-                            }
-
-                            if let country = placemark.country {
-                                self.locationLabel.text! += ", \(country)"
-                            }
-                        }
-                    }
-                }
+//        locationManager = CLLocationManager()
+//        locationManager.delegate = self
+//        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//        locationManager.requestAlwaysAuthorization()
+//        if CLLocationManager.locationServicesEnabled(){
+//            locationManager.startUpdatingLocation()
+//        }
+//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
+//                    let geocoder = CLGeocoder()
+//                    geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+//                        if let placemark = placemarks?.first {
+//                            if let locationName = placemark.name {
+//                                self.locationLabel.text = locationName
+//                                if self.traitCollection.userInterfaceStyle == .dark {
+//                                    self.locationLabel.textColor = .white
+//                                } else {
+//                                    self.locationLabel.textColor = .black
+//                                }
+//                            } else {
+//                                self.locationLabel.text = "Location Name Not Found"
+//                            }
+//
+//                            if let country = placemark.country {
+//                                self.locationLabel.text! += ", \(country)"
+//                            }
+//                        }
+//                    }
+//                }
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -211,17 +217,36 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
         task.resume()
     }
     func apiCall() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-              let userLocation = appDelegate.userLocation,
-              let location = locationLabel.text, !location.isEmpty
-        else {
-            showAlert(title: "Alert", message: "Please enable location for Signup")
-            return
+        let locationName = locationTxtField.text ?? ""
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+            guard let self = self else { return }
+            if let placemark = placemarks?.first {
+                let locationCoordinate = placemark.location?.coordinate
+                if !locationName.isEmpty {
+                    self.locationLatitude = locationCoordinate?.latitude
+                    self.locationLongitude = locationCoordinate?.longitude
+                } else {
+                    print("No coordinates Found")
+                }
+                self.apiCalltwo()
+            } else {
+                print("No placemarks found or error in geocoding.")
+            }
         }
+    }
+    func apiCalltwo() {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+//              let userLocation = appDelegate.userLocation,
+              //let location = locationLabel.text, !location.isEmpty
+//        else {
+//            showAlert(title: "Alert", message: "Please enable location for Signup")
+//            return
+//        }
 
-        let latitude = userLocation.coordinate.latitude
-        let longitude = userLocation.coordinate.longitude
-
+//        let latitude = userLocation.coordinate.latitude
+//        let longitude = userLocation.coordinate.longitude
+    
         let endpoint = APIConstants.Endpoints.signup
         let urlString = APIConstants.baseURL + endpoint
 
@@ -246,9 +271,9 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             "gender": genderLabel.text ?? "",
             "aboutMe": aboutMeTxtField.text ?? "",
             "category_id": self.updateCategoryId ?? "",
-            "location[latitude]": String(latitude),
-            "location[longitude]": String(longitude),
-            "location[location]": location
+            "location[latitude]": self.locationLatitude ?? "",
+            "location[longitude]": self.locationLongitude ?? "",
+            "location[location]": locationTxtField.text ?? ""
         ] as [String : Any]
 
         if isSocialLogin ?? false {
@@ -435,11 +460,11 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             picker.dismiss(animated: true, completion: nil)
     }
     func ValidationCode() {
-        guard  let email = emailTxtField.text, let password = passWordTxtField.text, let confirm = confirmPasswdText.text else {
+        guard  let email = emailTxtField.text, let password = passWordTxtField.text, let confirm = confirmPasswdText.text, let location = locationTxtField.text else {
             return
         }
         if isSocialLogin == true {
-           if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == "" || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
+            if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == "" || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" || locationTxtField.text == "" {
                 if ageLabel.text == "Age" {
                 ageView.layer.borderColor = UIColor.red.cgColor
                 }
@@ -457,7 +482,10 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 }
                 if aboutMeTxtField.text == "" {
                 aboutView.layer.borderColor = UIColor.red.cgColor
-            }
+                }
+                if locationTxtField.text == "" {
+                locationView.layer.borderColor = UIColor.red.cgColor
+                }
                showAlert(title: "Alert", message: "Please fill in all required fields")
         } else {
             emailView.layer.borderColor = UIColor.lightGray.cgColor
@@ -473,7 +501,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
          }
     } else {
         if ageLabel.text == "Age" || genderLabel.text == "Gender" || nameTxtField.text == "" || emailTxtField.text == "" || passWordTxtField.text == "" || confirmPasswdText.text == ""
-            || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" {
+            || favCategoryLabel.text == "Select Your Favorite Category" || aboutMeTxtField.text == "" || locationTxtField.text == "" {
                 if ageLabel.text == "Age" {
                     ageView.layer.borderColor = UIColor.red.cgColor
                 }
@@ -498,6 +526,9 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
                 if aboutMeTxtField.text == "" {
                     aboutView.layer.borderColor = UIColor.red.cgColor
                 }
+               if locationTxtField.text == "" {
+                locationView.layer.borderColor = UIColor.red.cgColor
+               }
             showAlert(title: "Alert", message: "Please fill in all required fields")
             } else {
                 emailView.layer.borderColor = UIColor.lightGray.cgColor
@@ -565,7 +596,9 @@ extension SignUpVC: UITextFieldDelegate {
                 confirmPasswdView.layer.borderColor = UIColor.lightGray.cgColor
             } else if textField == aboutMeTxtField {
                aboutView.layer.borderColor = UIColor.lightGray.cgColor
-            }
+            } else if textField == locationTxtField {
+                locationView.layer.borderColor = UIColor.lightGray.cgColor
+             }
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         activeTextField = nil

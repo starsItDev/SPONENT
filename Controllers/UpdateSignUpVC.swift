@@ -15,6 +15,7 @@ struct UserProfileData {
     var gender: String?
     var category: String?
     var aboutMe: String?
+    var location: String?
     var categoryID: Int?
 }
 
@@ -36,7 +37,9 @@ struct UserProfileData {
     @IBOutlet weak var updateNameField: UITextField!
     @IBOutlet weak var updateAboutField: UITextField!
     @IBOutlet weak var updateScrollView: UIScrollView!
-    var actions: [UIAlertAction] = []
+    @IBOutlet weak var updateLocTxtField: UITextField!
+    @IBOutlet weak var updateLocView: UIView!
+     var actions: [UIAlertAction] = []
     var activeTextField: UITextField?
     var tapGestureRecognizer: UITapGestureRecognizer?
     let textFieldDelegateHelper = TextFieldDelegateHelper<UpdateSignUpVC>()
@@ -45,6 +48,8 @@ struct UserProfileData {
     var Updatecategories: [Category] = []
     var userProfileData: UserProfileData?
     var categoryID: Int?
+    var locationLatitude: Double?
+    var locationLongitude: Double?
        
     //MARK: - Override Fuction
     override func viewDidLoad() {
@@ -52,6 +57,7 @@ struct UserProfileData {
         styleViews()
         updateNameField.delegate = self
         updateAboutField.delegate = self
+        updateLocTxtField.delegate = self
         setupKeyboardDismiss()
         setupTapGesture(for: updateAgeView, action: #selector(showAgeActionSheet))
         setupTapGesture(for: updateGenderView, action: #selector(showGenderActionSheet))
@@ -68,23 +74,23 @@ struct UserProfileData {
                    print("API call error: \(error)")
                }
            }
-        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
-                let geocoder = CLGeocoder()
-                geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
-                  if let placemark = placemarks?.first {
-                     if let locality = placemark.name {
-                        self.updateLocationLabel.text = locality
-                         if self.traitCollection.userInterfaceStyle == .dark {
-                             self.updateLocationLabel.textColor = .white
-                         } else {
-                             self.updateLocationLabel.textColor = .black
-                         }
-                     } else {
-                        self.updateLocationLabel.text = "\(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)"
-                    }
-                }
-            }
-        }
+//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate, let userLocation = appDelegate.userLocation {
+//                let geocoder = CLGeocoder()
+//                geocoder.reverseGeocodeLocation(userLocation) { (placemarks, error) in
+//                  if let placemark = placemarks?.first {
+//                     if let locality = placemark.name {
+//                        self.updateLocationLabel.text = locality
+//                         if self.traitCollection.userInterfaceStyle == .dark {
+//                             self.updateLocationLabel.textColor = .white
+//                         } else {
+//                             self.updateLocationLabel.textColor = .black
+//                         }
+//                     } else {
+//                        self.updateLocationLabel.text = "\(userLocation.coordinate.latitude), \(userLocation.coordinate.longitude)"
+//                    }
+//                }
+//            }
+//        }
         if let userProfileData = userProfileData {
             updateImage.image = userProfileData.profileImage
             updateNameField.text = userProfileData.name
@@ -93,33 +99,55 @@ struct UserProfileData {
             updateCategoryLabel.text = userProfileData.category
             self.categoryID = userProfileData.categoryID
             updateAboutField.text = userProfileData.aboutMe
+            updateLocTxtField.text = userProfileData.location
             if self.traitCollection.userInterfaceStyle == .dark {
                 updateAgeLabel.textColor = .white
                 updateGenderLabel.textColor = .white
                 updateNameField.textColor = .white
                 updateAboutField.textColor = .white
                 updateCategoryLabel.textColor = .white
+                updateLocTxtField.textColor = .white
             } else {
                 updateAgeLabel.textColor = .black
                 updateGenderLabel.textColor = .black
                 updateNameField.textColor = .black
                 updateAboutField.textColor = .black
                 updateCategoryLabel.textColor = .black
+                updateLocTxtField.textColor = .black
             }
         }
     }
        
     //MARK: - API Calling
-    func apiCall(){
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-              let userlocation = appDelegate.userLocation,
-              let location = updateLocationLabel.text, !location.isEmpty
-        else {
-            showToast(message: "Please fill in all required fields")
-            return
-        }
-        let latitude = userlocation.coordinate.latitude
-        let longitude = userlocation.coordinate.longitude
+     func apiCall() {
+         let locationName = updateLocTxtField.text ?? ""
+         let geocoder = CLGeocoder()
+         geocoder.geocodeAddressString(locationName) { [weak self] (placemarks, error) in
+             guard let self = self else { return }
+             if let placemark = placemarks?.first {
+                 let locationCoordinate = placemark.location?.coordinate
+                 if !locationName.isEmpty {
+                     self.locationLatitude = locationCoordinate?.latitude
+                     self.locationLongitude = locationCoordinate?.longitude
+                 } else {
+                     print("No coordinates Found")
+                 }
+                 self.apiCalltwo()
+             } else {
+                 print("No placemarks found or error in geocoding.")
+             }
+         }
+     }
+    func apiCalltwo(){
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+//              let userlocation = appDelegate.userLocation,
+//              let location = updateLocationLabel.text, !location.isEmpty
+//        else {
+//            showToast(message: "Please fill in all required fields")
+//            return
+//        }
+//        let latitude = userlocation.coordinate.latitude
+//        let longitude = userlocation.coordinate.longitude
 
         let endpoint = APIConstants.Endpoints.userUpdateProfile
         let urlString = APIConstants.baseURL + endpoint
@@ -144,9 +172,9 @@ struct UserProfileData {
             "gender": updateGenderLabel.text ?? "",
             "aboutMe": updateAboutField.text ?? "",
             "category_id": self.categoryID ?? "",
-            "location[latitude]": String(latitude),
-            "location[longitude]": String(longitude),
-            "location[location]": location
+            "location[latitude]": self.locationLatitude ?? "",
+            "location[longitude]": self.locationLongitude ?? "",
+            "location[location]": updateLocTxtField.text ?? ""
         ] as [String : Any]
         for (key, value) in textFields {
                 body.append("--\(boundary)\r\n".data(using: .utf8)!)
@@ -223,7 +251,7 @@ struct UserProfileData {
         updateNameView.applyBorder()
         updateCategoryView.applyBorder()
         updateAboutView.applyBorder()
-        updateLocactionView.applyBorder()
+        updateLocView.applyBorder()
     }
     func setupKeyboardDismiss() {
         textFieldDelegateHelper.configureTapGesture(for: view, in: self)
@@ -245,6 +273,10 @@ struct UserProfileData {
         else if updateAboutField.text == "" {
             updateAboutView.layer.borderColor = UIColor.red.cgColor
             showToast(message: "Please write something about yourself")
+        }
+        else if updateLocTxtField.text == "" {
+            updateLocView.layer.borderColor = UIColor.red.cgColor
+            showToast(message: "Please write your location")
         }
         else {
             apiCall()
@@ -334,14 +366,16 @@ struct UserProfileData {
 
  //MARK: - Extension TextField
  extension UpdateSignUpVC: UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        activeTextField = textField
-            if textField == updateNameField {
-                updateNameView.layer.borderColor = UIColor.lightGray.cgColor
-            } else if textField == updateAboutField {
-                updateAboutView.layer.borderColor = UIColor.lightGray.cgColor
-            }
-    }
+     func textFieldDidBeginEditing(_ textField: UITextField) {
+         activeTextField = textField
+         if textField == updateNameField {
+             updateNameView.layer.borderColor = UIColor.lightGray.cgColor
+         } else if textField == updateAboutField {
+             updateAboutView.layer.borderColor = UIColor.lightGray.cgColor
+         } else if textField == updateLocTxtField {
+             updateLocView.layer.borderColor = UIColor.lightGray.cgColor
+         }
+     }
    func textFieldDidEndEditing(_ textField: UITextField) {
         activeTextField = nil
    }

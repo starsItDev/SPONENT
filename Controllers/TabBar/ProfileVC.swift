@@ -497,6 +497,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
             userProfileData.category = sportNameLabel.text
             userProfileData.aboutMe = aboutMeLabel.text
             userProfileData.categoryID = self.categoryID
+            userProfileData.location = loctionLabel.text
             controller.userProfileData = userProfileData
             self.present(controller, animated: false)
         }

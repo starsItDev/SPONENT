@@ -592,7 +592,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     }
     @IBAction func homeRangeButton(_ sender: UIButton) {
         actions.removeAll()
-        let range = ["10 miles", "20 miles", "30 miles", "40 miles", "50 miles", "100 miles"]
+        let range = ["10 miles", "30 miles", "50 miles", "100 miles", "300 miles"]
         for range in range {
             let action = UIAlertAction(title: range, style: .default) { _ in
                 let attributedTitle = NSAttributedString(string: "   With in: \(range)   ", attributes: [.font: UIFont.systemFont(ofSize: 14, weight: .semibold)])
