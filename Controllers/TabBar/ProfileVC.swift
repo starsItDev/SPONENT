@@ -82,11 +82,8 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
     override func viewDidLoad() {
         super.viewDidLoad()
         uiSetUp()
-        followingAPICall()
-        getActivityAPiCall()
         updateFollowButtonTitle()
         updateBlockButtonTitle()
-        followerAPICall()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -98,6 +95,9 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
         apiCall()
         settingStackView.isHidden = true
         tabsApiCall()
+        followerAPICall()
+        followingAPICall()
+        getActivityAPiCall()
     }
     
     //MARK: - API CAllING

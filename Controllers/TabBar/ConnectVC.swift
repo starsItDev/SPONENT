@@ -30,7 +30,6 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     //MARK: - Override func
     override func viewDidLoad() {
         super.viewDidLoad()
-        connectionAPICall()
         chatView.isHidden = true
         chatTextField.layer.cornerRadius = 5
         chatTextField.layer.borderWidth = 1.0
@@ -38,6 +37,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
         self.navigationController?.navigationBar.isHidden = true
     }
     override func viewWillAppear(_ animated: Bool) {
+        connectionAPICall()
         self.tabBarController?.tabBar.isHidden = false
     }
     
