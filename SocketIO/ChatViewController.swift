@@ -55,17 +55,14 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
             }
         }
         if let navigationBar = navigationController?.navigationBar {
+            navigationBar.tintColor = UIColor.white
 //            navigationBar.barTintColor = UIColor.red
 //            navigationBar.backgroundColor = UIColor.init(named: "LoginPageTwo")
         }
         // Create a UILabel for the title
         let titleLabel = UILabel()
         titleLabel.text = messageSenderName
-        if traitCollection.userInterfaceStyle == .dark {
-            titleLabel.textColor = UIColor.white
-        } else {
-            titleLabel.textColor = UIColor.black
-        }
+        titleLabel.textColor = UIColor.white
         titleLabel.textAlignment = .center
         titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
         
@@ -73,6 +70,8 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
 
         let userImage = UIImage(systemName: "person.fill")
         let userImageView = UIImageView(image: userImage)
+        userImageView.tintColor = UIColor.white
+
         userImageView.contentMode = .scaleAspectFit
         userImageView.clipsToBounds = true
         let rightBarButton = UIBarButtonItem(customView: userImageView)
