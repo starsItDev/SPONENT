@@ -8,9 +8,17 @@
 import UIKit
 
 extension UIViewController {
-        
-    func presentActionSheet(title: String?, message: String?, actions: [UIAlertAction]) {
+    
+    func presentActionSheet(title: String?, message: String?, actions: [UIAlertAction], sourceView: UIView?, sourceRect: CGRect?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        
+        // Check if running on iPad
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.sourceView = sourceView ?? view
+            popoverController.sourceRect = sourceRect ?? CGRect(x: 0, y: 0, width: 0, height: 0)
+            popoverController.permittedArrowDirections = []
+        }
+        
         for action in actions {
             alertController.addAction(action)
         }

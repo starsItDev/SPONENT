@@ -296,7 +296,7 @@ struct UserProfileData {
             }
         actions.append(action)
      }
-        presentActionSheet(title: "Select age", message: nil, actions: actions)
+        presentActionSheet(title: "Select age", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
   }
     @objc func showGenderActionSheet() {
         view.endEditing(true)
@@ -312,7 +312,7 @@ struct UserProfileData {
             }
             actions.append(actionTwo)
         }
-            presentActionSheet(title: "Select Gender", message: nil, actions: actions)
+            presentActionSheet(title: "Select Gender", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
     }
     @objc func showSportActionSheet() {
         view.endEditing(true)
@@ -329,7 +329,7 @@ struct UserProfileData {
             }
             actions.append(actionOne)
         }
-            presentActionSheet(title: "Select Category", message: nil, actions: actions)
+            presentActionSheet(title: "Select Category", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
     }
     @objc func showImagePicker() {
         view.endEditing(true)

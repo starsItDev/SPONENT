@@ -408,7 +408,8 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
             actions.append(actionOne)
         }
-        presentActionSheet(title: "Select Sport Type", message: nil, actions: actions)
+        presentActionSheet(title: "Select Sport Type", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
+        
     }
     @objc func showGenderActionSheet() {
          actions.removeAll()
@@ -423,7 +424,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
              }
          actions.append(actionTwo)
      }
-         presentActionSheet(title: "Select Gender", message: nil, actions: actions)
+         presentActionSheet(title: "Select Gender", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
   }
     @objc func showAgeActionSheet() {
         actions.removeAll()
@@ -438,7 +439,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
             actions.append(action)
         }
-        presentActionSheet(title: "Select age", message: nil, actions: actions)
+        presentActionSheet(title: "Select age", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
     }
     @objc func showParticipantActionSheet() {
          actions.removeAll()
@@ -453,7 +454,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
          actions.append(action)
      }
-         presentActionSheet(title: "Select player", message: nil, actions: actions)
+         presentActionSheet(title: "Select player", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
   }
     @objc func showSkillActionSheet() {
          actions.removeAll()
@@ -468,7 +469,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
          actions.append(action)
      }
-         presentActionSheet(title: "Select skill", message: nil, actions: actions)
+         presentActionSheet(title: "Select skill", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
   }
     @objc func refreshHomeTableView(_ sender: UIRefreshControl) {
         userActivityAPiCall(sportCategoryID: "0", range: range)
@@ -592,7 +593,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             }
             actions.append(action)
         }
-        presentActionSheet(title: "Select Sport", message: nil, actions: actions)
+        presentActionSheet(title: "Select Sport", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
     }
     @IBAction func homeRangeButton(_ sender: UIButton) {
         actions.removeAll()
@@ -608,7 +609,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
            }
             actions.append(action)
         }
-        presentActionSheet(title: "Select Range", message: nil, actions: actions)
+        presentActionSheet(title: "Select Range", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
     }
     @IBAction func addDetailsLocBtn(_ sender: UIButton) {
         if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController,

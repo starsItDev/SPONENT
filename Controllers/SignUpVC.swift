@@ -393,7 +393,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
             }
          actions.append(action)
       }
-         presentActionSheet(title: "Select age", message: nil, actions: actions)
+         presentActionSheet(title: "Select age", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
    }
     @objc func showGenderActionSheet() {
          actions.removeAll()
@@ -409,7 +409,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
          }
          actions.append(actionTwo)
       }
-         presentActionSheet(title: "Select Gender", message: nil, actions: actions)
+         presentActionSheet(title: "Select Gender", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
    }
     @objc func showSportActionSheet() {
          actions.removeAll()
@@ -426,7 +426,7 @@ class SignUpVC: UIViewController, UIImagePickerControllerDelegate, UINavigationC
          }
          actions.append(actionOne)
       }
-        presentActionSheet(title: "Select Category", message: nil, actions: actions)
+        presentActionSheet(title: "Select Category", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
     }
     @objc func showImagePicker() {
         let imagePicker = UIImagePickerController()
