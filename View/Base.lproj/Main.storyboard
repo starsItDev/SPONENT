@@ -376,7 +376,7 @@
                                     <constraint firstAttribute="height" constant="40" id="uTf-eZ-CkY"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="arrow.backward" catalog="system" title=" "/>
+                                <buttonConfiguration key="configuration" style="plain" image="icons8-back-96" title=" "/>
                                 <connections>
                                     <action selector="HomeBackButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Kc-Bt-hzL"/>
                                 </connections>
@@ -951,9 +951,9 @@
                                                     <constraint firstAttribute="height" constant="30" id="34n-Cx-Hwq"/>
                                                     <constraint firstAttribute="width" constant="30" id="LMK-of-1TA"/>
                                                 </constraints>
-                                                <color key="tintColor" name="BtnTint"/>
-                                                <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="arrow.backward" catalog="system" title=" "/>
+                                                <color key="tintColor" name="Black-White"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title=" " image="icons8-back-96"/>
                                                 <connections>
                                                     <action selector="signUpBackButton:" destination="rMT-JM-wzi" eventType="touchUpInside" id="BVu-VG-1o1"/>
                                                 </connections>
@@ -1573,9 +1573,9 @@
                                                     <constraint firstAttribute="width" constant="30" id="EM8-Vf-8te"/>
                                                     <constraint firstAttribute="height" constant="30" id="cZW-Lt-z2X"/>
                                                 </constraints>
-                                                <color key="tintColor" name="BtnTint"/>
+                                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="plain" image="arrow.backward" catalog="system" title=" "/>
+                                                <buttonConfiguration key="configuration" style="plain" image="icons8-back-96" title=" "/>
                                                 <connections>
                                                     <action selector="backButton:" destination="gTU-6W-GSD" eventType="touchUpInside" id="czc-TL-kmk"/>
                                                 </connections>
@@ -1759,7 +1759,7 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title=" ">
-                                            <imageReference key="image" image="chevron.backward" catalog="system" symbolScale="large"/>
+                                            <imageReference key="image" image="icons8-back-96" symbolScale="large"/>
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="bold"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -2208,7 +2208,7 @@
                                         </constraints>
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" image="chevron.backward" catalog="system" title=" ">
+                                        <buttonConfiguration key="configuration" style="plain" image="icons8-back-96" title=" ">
                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="bold"/>
                                         </buttonConfiguration>
                                         <connections>
@@ -5163,7 +5163,7 @@
                                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <state key="normal" title="Button"/>
                                                         <buttonConfiguration key="configuration" style="plain" title=" ">
-                                                            <imageReference key="image" image="arrow.backward" catalog="system" symbolScale="large"/>
+                                                            <imageReference key="image" image="icons8-back-96" symbolScale="large"/>
                                                             <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage" scale="large" weight="bold"/>
                                                         </buttonConfiguration>
                                                         <connections>
@@ -5424,17 +5424,17 @@
                                                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="GZI-bK-W5k">
                                                                                     <rect key="frame" x="83" y="34.5" width="177" height="20"/>
                                                                                     <subviews>
-                                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XgQ-sg-pIX">
+                                                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XgQ-sg-pIX">
                                                                                             <rect key="frame" x="0.0" y="2.5" width="14.5" height="14.5"/>
                                                                                             <imageReference key="image" image="person" catalog="system" symbolScale="small"/>
                                                                                         </imageView>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="31 Oct, 2023 at" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X59-av-A7Y">
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31 Oct, 2023 at" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X59-av-A7Y">
                                                                                             <rect key="frame" x="18.5" y="0.0" width="100.5" height="20"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                             <color key="textColor" red="0.4523689315140052" green="0.4539589829039698" blue="0.45872913707386365" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                             <nil key="highlightedColor"/>
                                                                                         </label>
-                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="3:20 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZC-Mj-XE3">
+                                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3:20 pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NZC-Mj-XE3">
                                                                                             <rect key="frame" x="123" y="0.0" width="54" height="20"/>
                                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                                             <color key="textColor" red="0.4523689315140052" green="0.4539589829039698" blue="0.45872913707386365" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -6510,7 +6510,6 @@
     </scenes>
     <color key="tintColor" name="BtnTint"/>
     <resources>
-        <image name="arrow.backward" catalog="system" width="128" height="95"/>
         <image name="arrowshape.turn.up.forward.fill" catalog="system" width="128" height="104"/>
         <image name="camera.on.rectangle.fill" catalog="system" width="128" height="98"/>
         <image name="camera.viewfinder" catalog="system" width="128" height="115"/>
@@ -6533,6 +6532,7 @@
         <image name="ic_map_activities" width="33.333332061767578" height="33.333332061767578"/>
         <image name="ic_skills_new" width="512" height="512"/>
         <image name="icons8-apple-logo-48" width="48" height="48"/>
+        <image name="icons8-back-96" width="32" height="32"/>
         <image name="icons8-facebook-100" width="50" height="50"/>
         <image name="icons8-google-96" width="48" height="48"/>
         <image name="icons8-location-96" width="48" height="48"/>

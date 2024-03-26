@@ -24,7 +24,8 @@ class MessagesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tabBarController?.tabBar.isHidden = false
-        
+        navigationController?.view.backgroundColor = .clear
+
     }
     //MARK: - API Call
     func InboxapiCall() {
