@@ -102,6 +102,10 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshHomeTableView(_:)), for: .valueChanged)
         homeTableView.refreshControl = refreshControl
+        addDetailsTextView.text = "Description"
+        addDetailsTextView.textColor = UIColor.lightGray
+        addDetailsTextView.font = UIFont.systemFont(ofSize: 16)
+        addDetailsTextView.delegate = self
     }
     func hideRangeBtn() {
         if UserInfo.shared.isUserLoggedIn == false {
@@ -676,6 +680,21 @@ extension HomeVC: UITableViewDataSource, UITableViewDelegate{
                 self.navigationController?.pushViewController(detailController, animated: true)
             }
             tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
+}
+
+extension HomeVC: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Description"
+            textView.textColor = UIColor.lightGray
         }
     }
 }

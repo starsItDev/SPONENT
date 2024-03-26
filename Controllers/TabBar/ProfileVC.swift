@@ -725,7 +725,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
                 chatTextField.text = ""
                 chatView.isHidden = true
                 transparenView.isHidden = true
-                showToast(message: "Message Send")
+                showToast(message: "Message Sent")
             } else {
                 print("Message text is empty.")
             }

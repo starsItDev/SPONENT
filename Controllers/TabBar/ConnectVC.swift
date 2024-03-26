@@ -139,7 +139,7 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
                 chatTextField.text = ""
                 chatView.isHidden = true
                 transparentView.isHidden = true
-                showToast(message: "Message Send")
+                showToast(message: "Message Sent")
             } else {
                 print("Message text is empty.")
             }
