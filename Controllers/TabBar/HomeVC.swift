@@ -612,33 +612,45 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         presentActionSheet(title: "Select Range", message: nil, actions: actions, sourceView: self.view, sourceRect: self.view.bounds)
     }
     @IBAction func addDetailsLocBtn(_ sender: UIButton) {
-        if let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController,
-               let userLocation = (UIApplication.shared.delegate as? AppDelegate)?.locationManager.location?.coordinate {
-                   vc.userLocationCoordinate = userLocation
-                   vc.delegate = self
-                   //detailController.setupLocationManager()
-                   //locationManager.requestWhenInUseAuthorization()
-                   vc.modalPresentationStyle = .fullScreen
-                   vc.isSearchBarHidden = false
-                   vc.areViewsHidden = true
-                   vc.expandMapHeight = true
-                   vc.isShareButtonHidden = true
-                   vc.isdelButtonHidden = true
-                   vc.isDoneButtonHidden = false
-                   vc.backBtnHidden = true
-                   let selectedText = "Select Location"
-                   vc.labelText = selectedText
-                   vc.selectedLocationCoordinate = selectedCoordinate
-                   vc.locationSelectedHandler = { [weak self] locationName in
-                       self?.addDetailsLocLabel.text = locationName
-                       self?.selectedLocation = locationName
-                       self?.homeSegmentController.selectedSegmentIndex = 2
-              }
-                 self.detailViewController = vc
-                 vc.userCurrentLocationCoordinate = locationManager.location?.coordinate
-                 self.present(vc, animated: false, completion: nil)
-          }
-      }
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse, .authorizedAlways:
+            presentDetailViewController()
+        case .denied, .restricted:
+            showAlert(title: "Location Access Denied", message: "Please enable location access for this app in Settings.")
+        @unknown default:
+            break
+        }
+    }
+    func presentDetailViewController() {
+        guard let vc = UIStoryboard(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "DetailViewController") as? DetailViewController,
+              let userLocation = (UIApplication.shared.delegate as? AppDelegate)?.locationManager.location?.coordinate else {
+            return
+        }
+        vc.userLocationCoordinate = userLocation
+        vc.delegate = self
+        vc.modalPresentationStyle = .fullScreen
+        vc.isSearchBarHidden = false
+        vc.areViewsHidden = true
+        vc.expandMapHeight = true
+        vc.isShareButtonHidden = true
+        vc.isdelButtonHidden = true
+        vc.isDoneButtonHidden = false
+        vc.backBtnHidden = true
+        let selectedText = "Select Location"
+        vc.labelText = selectedText
+        vc.selectedLocationCoordinate = selectedCoordinate
+        vc.locationSelectedHandler = { [weak self] locationName in
+            self?.addDetailsLocLabel.text = locationName
+            self?.selectedLocation = locationName
+            self?.homeSegmentController.selectedSegmentIndex = 2
+        }
+        
+        self.detailViewController = vc
+        vc.userCurrentLocationCoordinate = locationManager.location?.coordinate
+        self.present(vc, animated: false, completion: nil)
+    }
     @IBAction func addDetailDoneButton(_ sender: UIButton) {
         CreateActivityAPICall()
     }
