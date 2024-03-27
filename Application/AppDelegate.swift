@@ -4,7 +4,6 @@
 //
 //  Created by Rao Ahmad on 10/08/2023.
 //
-
 import UIKit
 import GoogleMaps
 import GooglePlaces
@@ -13,16 +12,19 @@ import GoogleSignIn
 import FacebookCore
 import UserNotifications
 import IQKeyboardManagerSwift
+import SystemConfiguration
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
 
     var window: UIWindow?
     var locationManager = CLLocationManager()
     var userLocation: CLLocation?
+    var networkReachability: SCNetworkReachability?
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         sleep(0)
         IQKeyboardManager.shared.enable = true
-        IQKeyboardManager.shared.enableAutoToolbar = false  
+        IQKeyboardManager.shared.enableAutoToolbar = false
         ApplicationDelegate.shared.application(
                    application,
                    didFinishLaunchingWithOptions: launchOptions
@@ -52,6 +54,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         checkForPermissions()
         return true
     }
+    func setupNetworkReachability() {
+            var zeroAddress = sockaddr_in()
+            zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
+            zeroAddress.sin_family = sa_family_t(AF_INET)
+            
+            networkReachability = withUnsafePointer(to: &zeroAddress) {
+                $0.withMemoryRebound(to: sockaddr.self, capacity: 1) { zeroSockAddress in
+                    SCNetworkReachabilityCreateWithAddress(nil, zeroSockAddress)
+                }
+            }
+        }
+    func isNetworkReachable() -> Bool {
+            var flags = SCNetworkReachabilityFlags()
+            if let networkReachability = networkReachability, SCNetworkReachabilityGetFlags(networkReachability, &flags) {
+                let isReachable = flags.contains(.reachable)
+                let needsConnection = flags.contains(.connectionRequired)
+                return isReachable && !needsConnection
+            }
+            return false
+        }
+
     func application(
       _ app: UIApplication,
       open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]

@@ -38,16 +38,19 @@ extension UIViewController {
                    message: String?,
                    preferredStyle: UIAlertController.Style = .alert,
                    actions: [UIAlertAction] = [],
+                   defaultActionTitle: String? = "OK",
                    completion: (() -> Void)? = nil) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
-        
-        actions.forEach { alertController.addAction($0) }
-        
-        if actions.isEmpty {
-            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-            alertController.addAction(okAction)
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+            
+            actions.forEach { alertController.addAction($0) }
+            
+            if actions.isEmpty, let defaultActionTitle = defaultActionTitle {
+                let okAction = UIAlertAction(title: defaultActionTitle, style: .default, handler: nil)
+                alertController.addAction(okAction)
+            }
+            
+            self.present(alertController, animated: true, completion: completion)
         }
-        
-        present(alertController, animated: true, completion: completion)
     }
 }
