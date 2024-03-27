@@ -84,6 +84,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
         uiSetUp()
         updateFollowButtonTitle()
         updateBlockButtonTitle()
+        self.navigationController?.navigationBar.isHidden = true
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -99,7 +100,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
         followingAPICall()
         getActivityAPiCall()
     }
-    
     //MARK: - API CAllING
     func apiCall() {
         let endpoint = APIConstants.Endpoints.appUser
@@ -131,7 +131,6 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
                 self.updateUI(with: data)
             }
         }
-        
         task.resume()
     }
     func tabsApiCall(){
