@@ -357,7 +357,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                }
                return
            }
-        print("user no yet")
+        print("No request yet")
         if self.isOwner {
             if self.requestStatus == 0 {
                 self.isRequestToJoin = false
@@ -385,6 +385,10 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
     @IBAction func shareButton(_ sender: UIButton) {
         let appStoreLink = URL(string: "https://apps.apple.com")!
         let activityController = UIActivityViewController(activityItems: [appStoreLink], applicationActivities: nil)
+        if let popoverController = activityController.popoverPresentationController {
+            popoverController.sourceView = sender
+            popoverController.sourceRect = sender.bounds
+        }
         present(activityController, animated: true)
     }
     

@@ -19,13 +19,11 @@ class ConnectVC: UIViewController, ConnectTableViewCellDelegate, UITextFieldDele
     let textFieldDelegateHelper = TextFieldDelegateHelper<ConnectVC>()
     var connections: [Connection] = []
     var selectedReceiverID: String?
-    
     let socketManager = SocketIOManager.sharedInstance
     var chatMessages: [ChatMessage] = []
     var accessToken = "2a5b7d1b0f6a4ff9341d60d1eb2cef12c7be12d00e9be368a6afb6f9a044c9cd83f58619323925141ce4fe042832e6bd7d06697a43055373"
     var userName = "raoahmad"
     var sendMessagetoID = "31136"
-
     
     //MARK: - Override func
     override func viewDidLoad() {
