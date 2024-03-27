@@ -651,6 +651,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         vc.userCurrentLocationCoordinate = locationManager.location?.coordinate
         self.present(vc, animated: false, completion: nil)
     }
+    
     @IBAction func addDetailDoneButton(_ sender: UIButton) {
         CreateActivityAPICall()
     }
