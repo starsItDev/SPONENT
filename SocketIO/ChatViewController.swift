@@ -42,7 +42,7 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
         tableView.delegate = self
         socketManager.delegate = self
         messageTextField.delegate = self
-//        userNameLbl.text = messageSenderName
+        userNameLbl.text = messageSenderName
         addTapGestureToDismissKeyboard()
         socketManager.connectSocket()
         joinSocket()

@@ -736,8 +736,7 @@ class ProfileVC: UIViewController, UITextFieldDelegate, ProfileFollowerTableView
 
     //MARK: - Helper Functions
     func uiSetUp(){
-//        self.navigationController?.navigationBar.isHidden = true
-        self.navigationItem.setHidesBackButton(true, animated: false)
+        self.navigationController?.navigationBar.isHidden = true
         profileSegmentView.isHidden = false
         profileActivityView.isHidden = true
         profileFollowerView.isHidden = true

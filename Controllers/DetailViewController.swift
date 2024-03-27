@@ -103,7 +103,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
             let camera = GMSCameraPosition.camera(withTarget: selectedLocationCoordinate, zoom: 15)
                 detailMapView.camera = camera
                 let marker = GMSMarker(position: selectedLocationCoordinate)
-                marker.title = "Selected Location"
+                marker.title = "Last Selected Location"
                 marker.map = detailMapView
         }
         let userid = UserDefaults.standard.string(forKey: "userID")
@@ -416,7 +416,7 @@ class DetailViewController: UIViewController, UISearchBarDelegate, CLLocationMan
                         let camera = GMSCameraPosition.camera(withTarget: selectedLocationCoordinate, zoom: 15)
                         self.detailMapView.camera = camera
                             let marker = GMSMarker(position: selectedLocationCoordinate)
-                            marker.title = "Selected Location"
+                            marker.title = "Last Selected Location"
                         marker.map = self.detailMapView
                     }
                     self.activityID = body["activity_id"] as? String
