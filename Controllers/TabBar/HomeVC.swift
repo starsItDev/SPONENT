@@ -647,6 +647,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
             self?.homeSegmentController.selectedSegmentIndex = 2
         }
         
+        
         self.detailViewController = vc
         vc.userCurrentLocationCoordinate = locationManager.location?.coordinate
         self.present(vc, animated: false, completion: nil)
