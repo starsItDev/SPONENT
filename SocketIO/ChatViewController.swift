@@ -39,6 +39,7 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
     // MARK: - OverRide Func
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isHidden = true
         tableView.delegate = self
         socketManager.delegate = self
         messageTextField.delegate = self
@@ -54,33 +55,27 @@ class ChatViewController: UIViewController,SocketIOManagerDelegate, UITextFieldD
                 }
             }
         }
-        if let navigationBar = navigationController?.navigationBar {
-            navigationBar.tintColor = UIColor.white
-//            navigationBar.barTintColor = UIColor.red
-//            navigationBar.backgroundColor = UIColor.init(named: "LoginPageTwo")
-        }
-        // Create a UILabel for the title
-        let titleLabel = UILabel()
-        titleLabel.text = messageSenderName
-        titleLabel.textColor = UIColor.white
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        
-        navigationItem.titleView = titleLabel
-
-        let userImage = UIImage(systemName: "person.fill")
-        let userImageView = UIImageView(image: userImage)
-        userImageView.tintColor = UIColor.white
-
-        userImageView.contentMode = .scaleAspectFit
-        userImageView.clipsToBounds = true
-        let rightBarButton = UIBarButtonItem(customView: userImageView)
-        navigationItem.rightBarButtonItem = rightBarButton
-
-        // Add a tap gesture to the user image view
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addButtonTapped))
-        userImageView.isUserInteractionEnabled = true
-        userImageView.addGestureRecognizer(tapGesture)
+//        let titleLabel = UILabel()
+//        titleLabel.text = messageSenderName
+//        titleLabel.textColor = UIColor.white
+//        titleLabel.textAlignment = .center
+//        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+//
+//        navigationItem.titleView = titleLabel
+//
+//        let userImage = UIImage(systemName: "person.fill")
+//        let userImageView = UIImageView(image: userImage)
+//        userImageView.tintColor = UIColor.white
+//
+//        userImageView.contentMode = .scaleAspectFit
+//        userImageView.clipsToBounds = true
+//        let rightBarButton = UIBarButtonItem(customView: userImageView)
+//        navigationItem.rightBarButtonItem = rightBarButton
+//
+//        // Add a tap gesture to the user image view
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(addButtonTapped))
+//        userImageView.isUserInteractionEnabled = true
+//        userImageView.addGestureRecognizer(tapGesture)
     }
 
     @objc func addButtonTapped() {
