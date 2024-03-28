@@ -34,6 +34,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
     @IBOutlet weak var skillLabel: UILabel!
     @IBOutlet weak var addDetailsScroll: UIScrollView!
     @IBOutlet weak var addDetailsDoneButton: UIButton!
+    @IBOutlet weak var addDetailActivity: UIView!
     @IBOutlet weak var addDetailsActivity: UITextField!
     @IBOutlet weak var addDetailsTextView: UITextView!
     @IBOutlet weak var addDetailsLocation: UIView!
@@ -85,7 +86,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         styleViews()
         tabBarController?.delegate = self
         homeMapView.delegate = self
-        addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "  Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        addDetailsActivity.attributedPlaceholder = NSAttributedString(string: "Activity Title", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         sportTypeLabel.textColor = .lightGray
         ageLabel.textColor = .lightGray
         genderLabel.textColor = .lightGray
@@ -494,7 +495,7 @@ class HomeVC: UIViewController, GMSMapViewDelegate, DetailViewControllerDelegate
         participantView.applyBorder()
         skillView.applyBorder()
         addDetailsLocation.applyBorder()
-        addDetailsActivity.applyBorder()
+        addDetailActivity.applyBorder()
         addDetailsTextView.applyBorder()
 }
     func didSelectLocation(_ locationName: String, _ longitude: Double, _ latitude: Double) {
@@ -703,7 +704,11 @@ extension HomeVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
-            textView.textColor = UIColor.black
+            if traitCollection.userInterfaceStyle == .light {
+                textView.textColor = UIColor.black
+            } else {
+                textView.textColor = UIColor.white
+            }
         }
     }
     func textViewDidEndEditing(_ textView: UITextView) {

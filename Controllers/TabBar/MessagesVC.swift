@@ -19,10 +19,10 @@ class MessagesVC: UIViewController {
     //MARK: - Override functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        InboxapiCall()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        InboxapiCall()
         self.navigationController?.navigationBar.isHidden = true
         tabBarController?.tabBar.isHidden = false
         navigationController?.view.backgroundColor = .clear
